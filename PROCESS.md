@@ -59,6 +59,18 @@ During visual prototyping, I also changed the interaction from a two-step select
 This decision was intended to reduce unnecessary actions and make the connection between input, response, and feedback more immediate.
 
 
+### From Free Play to Time Attack
+
+The initial concept focused on spatial reasoning, light-path movement, and musical feedback.
+
+I later introduced an optional competitive motivation through time-based performance and personal records.
+
+The purpose was to encourage replayability by allowing players to compare their completion times with previous attempts and other players using the same browser.
+
+I chose a five-second time limit for the introductory level as an initial design hypothesis, not a validated difficulty setting.
+
+The appropriate time limit will be reconsidered after user testing.
+
 
 ## 3. Development Log
 
@@ -266,6 +278,49 @@ This allows me to evaluate the new visual system while preserving the previously
 - Conduct an external user trial and document improvements.
 
 
+### 30 October 2026 — Time Attack and Leaderboard Implementation
+
+**Completed:**
+- Extended ECHO PATH from a free-play musical light puzzle into a timed challenge.
+- Added a welcome dialog requiring players to enter a nickname before starting.
+- Implemented a five-second countdown for Level 01.
+- Connected the timer to the actual gameplay and level completion logic.
+- Added automatic time calculation when all three paths successfully leave the board.
+- Added a TIME UP state for unsuccessful attempts.
+- Created a result screen displaying the player's completion time, best recorded time, and ranking.
+- Implemented a local leaderboard that stores each player's best result using browser localStorage.
+- Added Play Again and New Player options.
+- Preserved directional movement, collision detection, neon path visuals, and restart functionality.
+- Integrated basic musical feedback using Web Audio.
+
+**Design Problems and Decisions:**
+
+The earlier game allowed players to interact with the puzzle immediately after opening the page. This could cause players to solve the puzzle before entering their names or starting the timer.
+
+I introduced a welcome dialog so that each attempt begins with a clear player identity and a defined starting point.
+
+I initially considered a longer time limit but changed Level 01 to five seconds because the introductory puzzle contains only three light paths.
+
+I also connected the timer to the actual completion of the final release animation. This ensures that the completion time reflects the full interaction rather than stopping after the last click.
+
+**Initial Testing:**
+- Tested the updated game in a local browser.
+- Confirmed the new challenge interface and gameplay flow worked during initial testing.
+- Reviewed the completion screen and time-attack experience.
+
+**Current Limitations:**
+- The five-second difficulty has not yet been evaluated through an independent user trial.
+- The leaderboard is stored locally and is not shared between devices.
+- Only Level 01 has been implemented.
+- Further testing is required for edge cases, browser compatibility, and score persistence.
+
+**Next Steps:**
+- Test the game with at least one person who has not received instructions.
+- Observe whether the rules and five-second limit are understandable.
+- Improve the design based on the user trial.
+- Complete README documentation, screenshots, credits, and final submission checks.
+
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -307,6 +362,21 @@ The first prototype used a separate SEND PULSE confirmation button and did not m
 These revisions were based on my evaluation of the prototype against the intended user experience.
 
 The Easel-generated code has not yet been integrated into the main project.
+
+
+### AI Assistance for the Time Attack System
+
+ChatGPT assisted with planning and generating JavaScript and HTML code for the countdown timer, player entry dialog, completion detection, result screen, and local leaderboard.
+
+I reviewed the suggested interaction flow and requested several changes based on my design goals.
+
+For example, I changed the proposed longer countdown to five seconds for Level 01 and required the timer to stop only when the final path had fully exited the board.
+
+I also requested a complete integrated code version instead of applying multiple isolated patches, to reduce integration errors.
+
+The final implementation combines the visual direction explored through Easel Studio with subsequent JavaScript gameplay and time-attack functionality developed with ChatGPT assistance.
+
+The code still requires independent user testing and final verification.
 
 
 ## 6. Credits and Limitations

@@ -156,4 +156,55 @@ startButton.addEventListener("click", function () {
     });
   });
 
+  // Restart the current puzzle without reloading the page
+  const restartButton = document.createElement("button");
+  restartButton.type = "button";
+  restartButton.textContent = "↻ RESTART";
+  restartButton.setAttribute("aria-label", "Restart level 1");
+
+  restartButton.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    background: #000000;
+    color: #D5FF5A;
+    border: 2px solid #D5FF5A;
+    border-radius: 12px;
+    padding: 12px 16px;
+    min-height: 44px;
+    cursor: pointer;
+    font-weight: bold;
+  `;
+
+  restartButton.addEventListener("click", () => {
+    // Restore the logical game state
+    remaining.clear();
+
+    paths.forEach(path => {
+      remaining.add(path.id);
+
+      // Restore the visual appearance of each path
+      path.cells.forEach(([x, y]) => {
+        const tile = board.children[y * 5 + x];
+
+        tile.style.background = path.color;
+        tile.style.color = "#000000";
+        tile.style.cursor = "pointer";
+
+        tile.textContent =
+          path.arrow[0] === x && path.arrow[1] === y
+            ? path.symbol
+            : "";
+      });
+    });
+
+    // Restore the level heading and instructions
+    document.querySelector("h1").textContent = "LEVEL 01";
+    document.querySelector("p").textContent =
+      "Level restarted. Release the paths without collisions.";
+  });
+
+  document.body.appendChild(restartButton);
+
 });

@@ -78,6 +78,33 @@ This approach allows the same interaction logic to support different puzzle layo
 - Conduct an external user trial.
 - Continue documenting development through Git commits.
 
+
+### 30 October 2026 — Restart Functionality
+
+**Completed:**
+- Added a Restart Level button.
+- Implemented game-state reset without reloading the page.
+- Restored all released paths to their original positions.
+- Restored the level title and instructions.
+
+**Design Decision:**
+I added an in-game restart option so players can recover
+from mistakes or replay the puzzle without refreshing the
+browser. The reset restores both the logical game state
+and the visual appearance of the paths.
+
+**Developer Testing:**
+- Restarting after releasing one path restores all paths.
+- Collision detection still works after restarting.
+- Restarting after completing the level allows the
+  puzzle to be played again.
+
+**Next Steps:**
+- Improve the visual feedback for blocked paths.
+- Add animated movement for successful releases.
+- Integrate musical feedback.
+
+
 ## 4. User Testing
 
 Not conducted yet.

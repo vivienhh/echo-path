@@ -136,6 +136,50 @@ startButton.addEventListener("click", function () {
         // Successfully release this path
         remaining.delete(path.id);
 
+
+        // Animate the released path along its movement direction
+        const [dx, dy] = directions[path.symbol];
+
+        path.cells.forEach(([x, y]) => {
+          const tile = board.children[y * 5 + x];
+          const rect = tile.getBoundingClientRect();
+
+          // Create a visual copy so the game board can update immediately
+          const flyingTile = tile.cloneNode(true);
+
+          flyingTile.style.position = "fixed";
+          flyingTile.style.left = `${rect.left}px`;
+          flyingTile.style.top = `${rect.top}px`;
+          flyingTile.style.margin = "0";
+          flyingTile.style.zIndex = "100";
+          flyingTile.style.pointerEvents = "none";
+          flyingTile.style.boxShadow =
+            `0 0 18px ${path.color}, 0 0 35px ${path.color}`;
+
+          document.body.appendChild(flyingTile);
+
+          const animation = flyingTile.animate(
+            [
+              {
+                transform: "translate(0px, 0px)",
+                opacity: 1
+              },
+              {
+                transform: `translate(${dx * 360}px, ${dy * 360}px)`,
+                opacity: 0
+              }
+            ],
+            {
+              duration: 600,
+              easing: "cubic-bezier(0.18, 0.8, 0.2, 1)",
+              fill: "forwards"
+            }
+          );
+
+          animation.onfinish = () => flyingTile.remove();
+        });
+
+
         path.cells.forEach(([px, py]) => {
           const tile = board.children[py * 5 + px];
           tile.style.background = "#19232B";

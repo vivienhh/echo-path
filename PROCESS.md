@@ -79,6 +79,36 @@ This approach allows the same interaction logic to support different puzzle layo
 - Continue documenting development through Git commits.
 
 
+### 30 October 2026 — Path Release Animation
+
+**Completed:**
+- Added directional movement animations for successfully released paths.
+- Used the Web Animations API to move light-path tiles in their assigned directions.
+- Added glowing effects and gradual fading during release.
+- Kept the existing collision detection and restart functionality.
+
+**Design Decision:**
+In the previous prototype, a successful click caused the path to disappear immediately. I added directional animations to make the connection between the player's action and the path's movement clearer.
+
+The animation uses temporary visual copies of the tiles, allowing the puzzle's logical state to update while the release effect is displayed.
+
+**Developer Testing:**
+- Blocked paths do not trigger release animations.
+- Successfully released paths move in their assigned directions.
+- Paths disappear after being released.
+- Restart restores the original puzzle layout.
+
+**Current Limitations:**
+- The animations are still a basic prototype.
+- Rapid repeated clicks and restarting during an animation require further testing.
+- Musical feedback has not yet been implemented.
+
+**Next Steps:**
+- Test and improve animation interruption handling.
+- Add sound feedback for successful and blocked actions.
+- Refine the visual style of the light paths.
+
+
 ### 30 October 2026 — Restart Functionality
 
 **Completed:**

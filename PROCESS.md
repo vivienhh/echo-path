@@ -48,6 +48,18 @@ Successful path releases produce musical notes, linking the player's actions to 
 I also included a Sound ON/OFF control to make audio optional. Important information remains available through text and visual feedback.
 
 
+### Visual Refinement and Direct Interaction
+
+I explored a neon geometric visual style inspired by glowing pathways, Cyberpop graphics, and music visualisation.
+
+I selected a design with continuous luminous paths rather than separate flat squares, making the paths feel more connected and expressive.
+
+During visual prototyping, I also changed the interaction from a two-step selection and confirmation process to direct clicking.
+
+This decision was intended to reduce unnecessary actions and make the connection between input, response, and feedback more immediate.
+
+
+
 ## 3. Development Log
 
 ### 29 October 2026 — Initial Setup
@@ -189,6 +201,44 @@ I also added a sound toggle so players can choose whether to hear audio feedback
 - Conduct an external user trial and improve the experience based on observations.
 
 
+### 30 October 2026 — Visual Prototyping with Easel Studio
+
+**Completed:**
+- Created a separate Easel Studio project for visual and audio exploration.
+- Developed a Canvas 2D visual prototype using four selected visual references.
+- Explored glowing geometric paths, neon lighting, grid details, and experimental typography.
+- Preserved the original 5×5 puzzle layout and three directional paths.
+- Iteratively improved the path release animation and interaction.
+
+**Problems and Revisions:**
+- The first prototype only produced flashing and particle effects when releasing a path. The path did not actually move or disappear.
+- I requested a revision so the entire path moves in its assigned direction and exits the board.
+- The initial interaction required selecting a path and then pressing a separate SEND PULSE button.
+- I changed this to direct-click interaction to make the game more intuitive and consistent with the existing JavaScript prototype.
+
+**Design Decision:**
+I chose to keep the neon geometric visual direction while simplifying the interaction.
+
+Directly clicking a path creates a clearer relationship between the player's input and the program's response.
+
+I also decided to keep the functional game implementation in VS Code and use Easel Studio as a visual prototyping environment.
+
+**Testing:**
+- Confirmed that the revised prototype supports direct path interaction.
+- Confirmed that a released path can visibly move in its assigned direction.
+- Reviewed the visual clarity of the board, arrows, and interface elements.
+
+**Current Limitations:**
+- The Easel visual prototype has not yet been integrated into the main VS Code project.
+- The existing musical feedback has not yet been combined with the new visual design.
+- External user testing has not yet been conducted.
+
+**Next Steps:**
+- Inspect the generated visual prototype source files.
+- Integrate reusable visual elements into the main project.
+- Test the combined visual and gameplay system.
+
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -217,6 +267,19 @@ After testing an alternative suggested by ChatGPT, I replaced the separate sound
 This was a modification of the initial AI-generated solution based on the actual test results.
 
 ChatGPT also assisted with the implementation of the sound toggle. The functions were tested in the browser after integration.
+
+
+**Easel Studio:**
+
+Easel Studio was used to generate and iterate on a Canvas 2D visual prototype based on my selected visual references and design requirements.
+
+I retained the proposed neon geometric art direction but requested changes to the initial interaction design.
+
+The first prototype used a separate SEND PULSE confirmation button and did not move paths out of the board. I requested actual directional movement and replaced the two-step interaction with direct clicking.
+
+These revisions were based on my evaluation of the prototype against the intended user experience.
+
+The Easel-generated code has not yet been integrated into the main project.
 
 
 ## 6. Credits and Limitations

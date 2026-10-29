@@ -321,6 +321,40 @@ I also connected the timer to the actual completion of the final release animati
 - Complete README documentation, screenshots, credits, and final submission checks.
 
 
+### 30 October 2026 — Audio Implementation and Sound Design Iteration
+
+**Development Progress**
+
+- Implemented a browser-based audio system using the Web Audio API.
+- Added an electronic background soundtrack that starts when the player begins a challenge.
+- Connected the soundtrack to the game state so that it stops when the player completes the level or runs out of time.
+- Preserved three distinct interaction notes for the light paths: E4 (Path C), G4 (Path B), and C5 (Path A).
+- Retained a separate sound response for blocked actions.
+- Tested the game through a localhost server after experiencing silent playback when opening the HTML file directly.
+- Fixed an implementation error that incorrectly stopped background audio whenever the player clicked the game board.
+
+**Sound Design Iteration**
+
+The initial background soundtrack consisted of a repeating sequence of electronic notes. During testing, I noticed that this melody competed with the sounds triggered by player interactions.
+
+To address this issue, I replaced the more active background sequence with a quieter, lower-pitched ambient harmony.
+
+The intention was to make the player's actions more musically prominent while retaining an atmospheric sound environment.
+
+**Evaluation**
+
+The updated sound system is functional, but I am not yet satisfied with the overall listening experience. The balance between background ambience and interaction sounds still needs refinement.
+
+This iteration should therefore be considered a working prototype rather than the final sound design.
+
+**Next Steps**
+
+- Refine the background ambience and interaction sound balance.
+- Synchronize each path's musical note with the completion of its release animation.
+- Add a distinct musical response for successful level completion.
+- Test the final audio experience before conducting independent user testing.
+
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -377,6 +411,19 @@ I also requested a complete integrated code version instead of applying multiple
 The final implementation combines the visual direction explored through Easel Studio with subsequent JavaScript gameplay and time-attack functionality developed with ChatGPT assistance.
 
 The code still requires independent user testing and final verification.
+
+
+### AI Assistance — Audio Development
+
+ChatGPT assisted with generating and debugging the Web Audio implementation, including the background soundtrack, interaction sounds, and audio playback controls.
+
+I identified that the first generated background melody competed with the interaction sounds and requested a revision.
+
+The revised approach uses a softer, lower-pitched ambient harmony to leave more space for player-generated notes.
+
+I also tested and debugged audio playback with ChatGPT's guidance, including fixing an incorrect audio-stop call and testing through a local HTTP server.
+
+Although the revised audio is functional, I have not accepted it as the final sound design. Further refinement is planned based on my own listening evaluation.
 
 
 ## 6. Credits and Limitations

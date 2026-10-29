@@ -1,0 +1,70 @@
+{
+  "format": "easel-project-export",
+  "version": 2,
+  "templateInstanceSchemaVersion": 1,
+  "templates": [],
+  "instances": [],
+  "timelines": [],
+  "id": "0b249039011545cd9711760fff979e53",
+  "title": "ECHO PATH — Visual & Audio Lab",
+  "defaultDocument": "index.html",
+  "documents": [
+    {
+      "path": "index.html",
+      "title": "ECHO PATH — Visual & Audio Lab",
+      "sourcePath": ".easel/source/index.html"
+    },
+    {
+      "path": "echo-path-prototype.html",
+      "title": "ECHO PATH — Visual Prototype",
+      "sourcePath": ".easel/source/echo-path-prototype.html"
+    }
+  ],
+  "sourceDirectory": ".easel/source/",
+  "canonicalProject": ".easel/project.json",
+  "media": [
+    {
+      "id": "6c2f5d37b5d34931ac8d04b445917498",
+      "digest": "9548691fd6eaf4ff36fcc641a84370712d1856f187169f21c1186be67797b0db",
+      "mimeType": "image/png",
+      "bytes": 998552,
+      "path": "assets/6c2f5d37b5d34931ac8d04b445917498.png",
+      "width": 1512,
+      "height": 1658
+    },
+    {
+      "id": "2c5d8aa443fc4a9ead61a7bed5ddfca1",
+      "digest": "b76ea24f4813c6673bb81613bbadf9091a437a443b3a8ec92118a32485ad52e6",
+      "mimeType": "image/png",
+      "bytes": 745936,
+      "path": "assets/2c5d8aa443fc4a9ead61a7bed5ddfca1.png",
+      "width": 1140,
+      "height": 1732
+    },
+    {
+      "id": "3b8f68b720dc4e60a5e2dd14dccdef33",
+      "digest": "d35119f254337789b8a8b8c6580ef0fb411f73168adf8783a9a7478d28d4fb09",
+      "mimeType": "image/png",
+      "bytes": 703202,
+      "path": "assets/3b8f68b720dc4e60a5e2dd14dccdef33.png",
+      "width": 1140,
+      "height": 1732
+    }
+  ],
+  "kits": [
+    {
+      "name": "canvas-2d"
+    },
+    {
+      "name": "tone",
+      "digest": "0f76fecaf8c1bc37d6e269cb6a60fe2db2fcf26f00aaa080add2ad64a8a3dee4",
+      "path": ".easel/kits/tone-0f76fecaf8c1bc37.js"
+    }
+  ],
+  "contract": {
+    "documents": "Open any listed HTML document directly in a modern browser. Each is self-contained with its shared project media and offline kits. Network access is not required.",
+    "source": "Authored source is preserved separately in .easel/source/. Edit and rebuild it in Easel; runtime documents are compiled previews.",
+    "devices": "Camera and microphone remain subject to browser device permission. Canvas-to-chat actions require the Easel host.",
+    "state": "All documents start with the saved shared state.json; runtime changes are not persisted to the ZIP."
+  }
+}

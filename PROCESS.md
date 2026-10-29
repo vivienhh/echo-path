@@ -239,6 +239,33 @@ I also decided to keep the functional game implementation in VS Code and use Eas
 - Test the combined visual and gameplay system.
 
 
+### 30 October 2026 — Easel Prototype Export and Local Testing
+
+**Completed:**
+- Exported the visual prototype from Easel Studio.
+- Imported the exported files into a separate `visual-prototype` folder within the existing GitHub project.
+- Preserved the original `index.html` and `game.js` to avoid overwriting the working game.
+- Opened the exported HTML prototype in a local browser.
+- Confirmed that the neon interface and puzzle board rendered correctly.
+
+**Design and Technical Decision:**
+I decided to test the Easel-generated visual prototype independently before integrating it into the main game.
+
+This allows me to evaluate the new visual system while preserving the previously tested gameplay and audio functions.
+
+**Testing and Limitations:**
+- The exported visual prototype opens successfully in the browser.
+- The visual layout and light paths display correctly.
+- The Easel prototype does not yet produce real musical feedback.
+- The original JavaScript game contains working audio functions that still need to be integrated with the new visual system.
+
+**Next Steps:**
+- Integrate the existing musical feedback with the Canvas-based visual prototype.
+- Test successful releases, blocked actions, restart, and sound controls.
+- Develop the planned timed challenge and local multiplayer leaderboard.
+- Conduct an external user trial and document improvements.
+
+
 ## 4. User Testing
 
 Not conducted yet.

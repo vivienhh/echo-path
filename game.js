@@ -78,4 +78,82 @@ startButton.addEventListener("click", function () {
   }
 
   document.body.appendChild(board);
+
+  // Track which paths are still on the board
+  const remaining = new Set(paths.map(p => p.id));
+
+  const directions = {
+    "→": [1, 0],
+    "←": [-1, 0],
+    "↑": [0, -1],
+    "↓": [0, 1]
+  };
+
+  // Check whether another path blocks the exit
+  function findBlocker(path) {
+    const [dx, dy] = directions[path.symbol];
+
+    for (const [x, y] of path.cells) {
+      let nx = x + dx;
+      let ny = y + dy;
+
+      while (nx >= 0 && nx < 5 && ny >= 0 && ny < 5) {
+        const blocker = paths.find(other =>
+          remaining.has(other.id) &&
+          other.id !== path.id &&
+          other.cells.some(([px, py]) =>
+            px === nx && py === ny
+          )
+        );
+
+        if (blocker) return blocker.id;
+
+        nx += dx;
+        ny += dy;
+      }
+    }
+
+    return null;
+  }
+
+  // Make every path clickable
+  paths.forEach(path => {
+    path.cells.forEach(([x, y]) => {
+      const cell = board.children[y * 5 + x];
+      cell.style.cursor = "pointer";
+
+      cell.addEventListener("click", () => {
+        if (!remaining.has(path.id)) return;
+
+        const blocker = findBlocker(path);
+
+        if (blocker) {
+          document.querySelector("p").textContent =
+            `Path ${path.id} is blocked by ${blocker}!`;
+          return;
+        }
+
+        // Successfully release this path
+        remaining.delete(path.id);
+
+        path.cells.forEach(([px, py]) => {
+          const tile = board.children[py * 5 + px];
+          tile.style.background = "#19232B";
+          tile.style.cursor = "default";
+          tile.textContent = "";
+        });
+
+        document.querySelector("p").textContent =
+          `Path ${path.id} released!`;
+
+        if (remaining.size === 0) {
+          document.querySelector("h1").textContent =
+            "LEVEL COMPLETE!";
+          document.querySelector("p").textContent =
+            "You released all the light paths!";
+        }
+      });
+    });
+  });
+
 });

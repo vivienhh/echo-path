@@ -8,7 +8,10 @@ startButton.addEventListener("click", function () {
 
   startButton.style.display = "none";
 
-  // Three light paths in Level 1
+  // ==========================================
+  // 1. LEVEL DATA
+  // ==========================================
+
   const paths = [
     {
       id: "A",
@@ -33,7 +36,10 @@ startButton.addEventListener("click", function () {
     }
   ];
 
-  // Create a 5x5 board
+  // ==========================================
+  // 2. CREATE GAME BOARD
+  // ==========================================
+
   const board = document.createElement("div");
 
   board.style.cssText = `
@@ -68,7 +74,10 @@ startButton.addEventListener("click", function () {
         cell.style.background = path.color;
         cell.style.color = "#000000";
 
-        if (path.arrow[0] === x && path.arrow[1] === y) {
+        if (
+          path.arrow[0] === x &&
+          path.arrow[1] === y
+        ) {
           cell.textContent = path.symbol;
         }
       }
@@ -79,7 +88,10 @@ startButton.addEventListener("click", function () {
 
   document.body.appendChild(board);
 
-  // Track which paths are still on the board
+  // ==========================================
+  // 3. GAME STATE AND DIRECTIONS
+  // ==========================================
+
   const remaining = new Set(paths.map(p => p.id));
 
   const directions = {
@@ -89,7 +101,81 @@ startButton.addEventListener("click", function () {
     "↓": [0, 1]
   };
 
-  // Check whether another path blocks the exit
+  // ==========================================
+  // 4. MUSICAL FEEDBACK
+  // ==========================================
+
+  let audioContext = null;
+  let soundEnabled = true;
+
+  const pathNotes = {
+    A: 523.25,       // C5
+    B: 392.00,       // G4
+    C: 329.63,       // E4
+    BLOCKED: 466.16  // Bb4: temporary blocked tone
+  };
+
+  function playPathNote(noteId) {
+    if (!soundEnabled) return;
+
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    if (!audioContext) {
+      audioContext = new AudioContextClass();
+    }
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume().catch(error => {
+        console.error("Audio error:", error);
+      });
+    }
+
+    const now = audioContext.currentTime;
+    const oscillator = audioContext.createOscillator();
+    const volume = audioContext.createGain();
+
+    oscillator.type = "sine";
+
+    oscillator.frequency.setValueAtTime(
+      pathNotes[noteId],
+      now
+    );
+
+    volume.gain.setValueAtTime(0.001, now);
+
+    volume.gain.exponentialRampToValueAtTime(
+      0.12,
+      now + 0.025
+    );
+
+    volume.gain.exponentialRampToValueAtTime(
+      0.001,
+      now + 0.4
+    );
+
+    oscillator.connect(volume);
+    volume.connect(audioContext.destination);
+
+    oscillator.start(now);
+    oscillator.stop(now + 0.42);
+  }
+
+  // ==========================================
+  // 5. BLOCKED PATH SOUND
+  // ==========================================
+
+  // Reuse the working sound engine for blocked feedback
+  function playBlockedSound() {
+    playPathNote("BLOCKED");
+  }
+
+  // ==========================================
+  // 6. COLLISION DETECTION
+  // ==========================================
+
   function findBlocker(path) {
     const [dx, dy] = directions[path.symbol];
 
@@ -97,7 +183,12 @@ startButton.addEventListener("click", function () {
       let nx = x + dx;
       let ny = y + dy;
 
-      while (nx >= 0 && nx < 5 && ny >= 0 && ny < 5) {
+      while (
+        nx >= 0 &&
+        nx < 5 &&
+        ny >= 0 &&
+        ny < 5
+      ) {
         const blocker = paths.find(other =>
           remaining.has(other.id) &&
           other.id !== path.id &&
@@ -106,7 +197,9 @@ startButton.addEventListener("click", function () {
           )
         );
 
-        if (blocker) return blocker.id;
+        if (blocker) {
+          return blocker.id;
+        }
 
         nx += dx;
         ny += dy;
@@ -116,35 +209,48 @@ startButton.addEventListener("click", function () {
     return null;
   }
 
-  // Make every path clickable
+  // ==========================================
+  // 7. PATH INTERACTION
+  // ==========================================
+
   paths.forEach(path => {
     path.cells.forEach(([x, y]) => {
       const cell = board.children[y * 5 + x];
+
       cell.style.cursor = "pointer";
 
       cell.addEventListener("click", () => {
-        if (!remaining.has(path.id)) return;
-
-        const blocker = findBlocker(path);
-
-        if (blocker) {
-          document.querySelector("p").textContent =
-            `Path ${path.id} is blocked by ${blocker}!`;
+        if (!remaining.has(path.id)) {
           return;
         }
 
-        // Successfully release this path
+        const blocker = findBlocker(path);
+
+        // Path is blocked
+        if (blocker) {
+          playBlockedSound();
+
+          document.querySelector("p").textContent =
+            `Path ${path.id} is blocked by ${blocker}!`;
+
+          return;
+        }
+
+        // Path can be released
         remaining.delete(path.id);
 
+        playPathNote(path.id);
 
-        // Animate the released path along its movement direction
+        // ==================================
+        // 8. PATH RELEASE ANIMATION
+        // ==================================
+
         const [dx, dy] = directions[path.symbol];
 
         path.cells.forEach(([x, y]) => {
           const tile = board.children[y * 5 + x];
           const rect = tile.getBoundingClientRect();
 
-          // Create a visual copy so the game board can update immediately
           const flyingTile = tile.cloneNode(true);
 
           flyingTile.style.position = "fixed";
@@ -153,6 +259,7 @@ startButton.addEventListener("click", function () {
           flyingTile.style.margin = "0";
           flyingTile.style.zIndex = "100";
           flyingTile.style.pointerEvents = "none";
+
           flyingTile.style.boxShadow =
             `0 0 18px ${path.color}, 0 0 35px ${path.color}`;
 
@@ -165,7 +272,8 @@ startButton.addEventListener("click", function () {
                 opacity: 1
               },
               {
-                transform: `translate(${dx * 360}px, ${dy * 360}px)`,
+                transform:
+                  `translate(${dx * 360}px, ${dy * 360}px)`,
                 opacity: 0
               }
             ],
@@ -176,12 +284,15 @@ startButton.addEventListener("click", function () {
             }
           );
 
-          animation.onfinish = () => flyingTile.remove();
+          animation.onfinish = () => {
+            flyingTile.remove();
+          };
         });
 
-
+        // Remove released path from the board
         path.cells.forEach(([px, py]) => {
           const tile = board.children[py * 5 + px];
+
           tile.style.background = "#19232B";
           tile.style.cursor = "default";
           tile.textContent = "";
@@ -190,9 +301,11 @@ startButton.addEventListener("click", function () {
         document.querySelector("p").textContent =
           `Path ${path.id} released!`;
 
+        // Check for level completion
         if (remaining.size === 0) {
           document.querySelector("h1").textContent =
             "LEVEL COMPLETE!";
+
           document.querySelector("p").textContent =
             "You released all the light paths!";
         }
@@ -200,11 +313,19 @@ startButton.addEventListener("click", function () {
     });
   });
 
-  // Restart the current puzzle without reloading the page
+  // ==========================================
+  // 9. RESTART FUNCTIONALITY
+  // ==========================================
+
   const restartButton = document.createElement("button");
+
   restartButton.type = "button";
   restartButton.textContent = "↻ RESTART";
-  restartButton.setAttribute("aria-label", "Restart level 1");
+
+  restartButton.setAttribute(
+    "aria-label",
+    "Restart level 1"
+  );
 
   restartButton.style.cssText = `
     position: fixed;
@@ -228,7 +349,6 @@ startButton.addEventListener("click", function () {
     paths.forEach(path => {
       remaining.add(path.id);
 
-      // Restore the visual appearance of each path
       path.cells.forEach(([x, y]) => {
         const tile = board.children[y * 5 + x];
 
@@ -243,12 +363,56 @@ startButton.addEventListener("click", function () {
       });
     });
 
-    // Restore the level heading and instructions
-    document.querySelector("h1").textContent = "LEVEL 01";
+    document.querySelector("h1").textContent =
+      "LEVEL 01";
+
     document.querySelector("p").textContent =
       "Level restarted. Release the paths without collisions.";
   });
 
+ 
   document.body.appendChild(restartButton);
 
+  // ==========================================
+  // 10. SOUND ON / OFF CONTROL
+  // ==========================================
+
+  const soundButton = document.createElement("button");
+
+  soundButton.type = "button";
+  soundButton.textContent = "♫ SOUND ON";
+  soundButton.setAttribute("aria-label", "Toggle game sound");
+  soundButton.setAttribute("aria-pressed", "false");
+
+  soundButton.style.cssText = `
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10;
+    background: #000000;
+    color: #60FFE5;
+    border: 2px solid #60FFE5;
+    border-radius: 12px;
+    padding: 12px 16px;
+    min-height: 44px;
+    cursor: pointer;
+    font-weight: bold;
+  `;
+
+  soundButton.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+
+    soundButton.textContent = soundEnabled
+      ? "♫ SOUND ON"
+      : "♫ SOUND OFF";
+
+    soundButton.setAttribute(
+      "aria-pressed",
+      String(!soundEnabled)
+    );
+  });
+
+  document.body.appendChild(soundButton);
+
 });
+

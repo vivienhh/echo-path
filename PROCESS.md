@@ -38,6 +38,16 @@ Each path occupies specific grid cells and has a movement direction. When the pl
 
 This approach allows the same interaction logic to support different puzzle layouts without manually defining the correct removal order for every level.
 
+
+### Musical Feedback
+
+I designed different audio responses for successful and blocked actions.
+
+Successful path releases produce musical notes, linking the player's actions to a short melodic sequence. Blocked actions produce a separate tone to indicate that the selected path cannot leave the board.
+
+I also included a Sound ON/OFF control to make audio optional. Important information remains available through text and visual feedback.
+
+
 ## 3. Development Log
 
 ### 29 October 2026 — Initial Setup
@@ -135,6 +145,50 @@ and the visual appearance of the paths.
 - Integrate musical feedback.
 
 
+### 30 October 2026 — Musical Feedback and Audio Debugging
+
+**Completed:**
+- Added musical notes for successful path releases using the Web Audio API.
+- Assigned different notes to the three light paths: C (E4), B (G4), and A (C5).
+- Added audio feedback for blocked paths.
+- Implemented a Sound ON/OFF button.
+- Confirmed that the game remains playable when sound is disabled.
+
+**Problem Encountered:**
+The initial blocked-path sound did not play audibly, although the text feedback appeared correctly. Increasing the frequency, volume, and duration did not resolve the issue.
+
+**Debugging and Revision:**
+- Temporarily replaced the blocked-path sound with the existing successful-release sound.
+- Confirmed that both blocked paths could trigger the existing sound.
+- This suggested that the click and collision logic were working, while the issue was related to the original blocked-sound implementation.
+- Replaced the separate blocked-sound function with a call to the existing working audio function.
+- Assigned a distinct frequency (466.16 Hz) to blocked-path feedback.
+- Retested the interaction and confirmed that the blocked-path sound was audible.
+
+The exact cause of the original sound failure was not conclusively identified.
+
+**Additional Testing:**
+- Tested restarting the level during a release animation and observed no visible animation artifacts.
+- Confirmed that successful and blocked interactions produce different sounds.
+- Confirmed that turning sound off prevents new sound effects without interrupting the puzzle interaction.
+- Confirmed that sound can be turned on again.
+
+**Design Decision:**
+I reused the working audio function for both successful and blocked interactions to reduce duplicated code and simplify sound management.
+
+I also added a sound toggle so players can choose whether to hear audio feedback while still receiving visual and text feedback.
+
+**Current Limitations:**
+- The blocked-path sound is currently distinguished mainly by pitch rather than a fully developed sound design.
+- Sounds already playing may continue briefly after sound is turned off.
+- External user testing has not yet been conducted.
+
+**Next Steps:**
+- Refine the game's visual appearance and animations.
+- Explore additional visual and audio materials using Easel Studio.
+- Conduct an external user trial and improve the experience based on observations.
+
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -152,6 +206,18 @@ ChatGPT was used to discuss the game concept, plan the development process, and 
 Easel Studio is planned for visual and audio development but has not yet been used to produce assets for the project.
 
 Further AI suggestions accepted, modified, or rejected will be documented as development continues.
+
+
+**AI-assisted debugging and revision:**
+
+ChatGPT provided examples for musical feedback using the Web Audio API. The initial suggestion for a separate blocked-path sound did not work audibly during testing.
+
+After testing an alternative suggested by ChatGPT, I replaced the separate sound-generation function with the existing working audio function and assigned a different note to blocked interactions.
+
+This was a modification of the initial AI-generated solution based on the actual test results.
+
+ChatGPT also assisted with the implementation of the sound toggle. The functions were tested in the browser after integration.
+
 
 ## 6. Credits and Limitations
 

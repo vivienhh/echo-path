@@ -430,6 +430,58 @@ It also highlighted the difference between explanatory design language and instr
 - Conduct an independent user test.
 - Improve the game based on feedback and prepare the final submission.
 
+
+### 30 October 2026 — Milestone 11: Difficulty Balancing and Continuous Challenge
+
+**Development Progress**
+
+I refined ECHO PATH's three-level structure to create a more challenging and continuous gameplay experience.
+
+Updated level configurations:
+
+- Level 01: 3 paths, 5×5 grid, 5-second limit.
+- Level 02: 10 paths, 7×7 grid, 20-second limit.
+- Level 03: 20 paths, 9×9 grid, 30-second limit.
+
+I increased the complexity of blocking relationships in Levels 02 and 03. Players must now identify valid release sequences under greater time pressure.
+
+**Interaction and Gameplay Flow**
+
+I redesigned the experience as a continuous three-level challenge.
+
+- Completing a level automatically starts the next level after the celebration animation.
+- Individual result dialogs no longer interrupt the challenge.
+- A consolidated results screen appears after all three levels are completed.
+- A Pause menu allows players to resume, restart the entire challenge, or exit to the start menu.
+- Pausing freezes the countdown and path animations.
+- Restarting or exiting abandons the current attempt without deleting saved records.
+
+**Scoring and Leaderboard**
+
+I expanded the scoring system to display:
+
+- The current attempt's completion time for each level.
+- Personal best times for Levels 01, 02, and 03.
+- Historical records and rankings.
+- The total completion time for one continuous three-level run.
+
+The total completion time is calculated using the actual times from the same attempt, rather than combining personal bests from different attempts.
+
+**Self-Evaluation and Reflection**
+
+I played the revised game and found the continuous challenge more enjoyable and engaging.
+
+The increased number of paths creates a stronger feeling of progression. Automatic level transitions maintain the rhythm of gameplay, while the Pause menu provides more control.
+
+However, this evaluation reflects my own experience. Independent user testing is still needed to determine whether the time limits and difficulty progression are appropriate for new players.
+
+**Next Steps**
+
+- Refine the background music and interaction sounds.
+- Conduct independent user testing.
+- Iterate based on player feedback.
+- Complete the README and final submission checks.
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -522,6 +574,19 @@ ChatGPT helped restore the earlier orbital decorations and implement revised gam
 I reviewed the updated interface in the browser and accepted the visual changes after evaluating the result.
 
 Further gameplay testing, audio refinement, and independent user evaluation are still planned.
+
+
+### AI Assistance — Milestone 11: Difficulty and Challenge Flow
+
+ChatGPT assisted with implementing the revised difficulty settings, path configurations, continuous level transitions, Pause menu, and consolidated results system.
+
+I specified the main design decisions, including increasing the difficulty of Levels 02 and 03, reducing their time limits to 20 and 30 seconds, and removing intermediate result dialogs.
+
+ChatGPT helped generate and revise the JavaScript implementation while preserving the existing visual effects, audio functionality, and leaderboard system.
+
+I tested the updated game in the browser and evaluated the changes from the player's perspective. I found the revised gameplay more engaging and accepted it as the current working version.
+
+Further audio refinement and independent user testing are still planned.
 
 ## 6. Credits and Limitations
 

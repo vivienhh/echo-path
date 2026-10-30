@@ -371,6 +371,13 @@ h1 span {
   border-color: var(--pink);
 }
 
+.ctrl:disabled { opacity: .35; cursor: not-allowed; }
+.pause-actions { display: grid; gap: 10px; margin: 22px 0 14px; }
+#pause-dialog { border-color: var(--pink); }
+#pause-dialog h2 { color: var(--lime); }
+.comparison-scroll { overflow-x: auto; }
+.comparison { min-width: 390px; }
+
 .legend {
   max-width: 1320px;
   margin: 22px auto;
@@ -721,8 +728,8 @@ dialog p {
     </div>
 
     <div class="button-row">
-      <button id="restart" class="ctrl" type="button">
-        RESTART ↺
+      <button id="pause" class="ctrl" type="button" disabled>
+        PAUSE Ⅱ
       </button>
 
       <button id="sound" class="ctrl"
@@ -755,10 +762,10 @@ dialog p {
     <h2 id="start-title">READY TO PLAY?</h2>
 
     <p>
-      Complete three increasingly difficult levels: <strong>3, 10 and 20 paths</strong>.
-      Follow the arrows and release every path before its timer expires.
-      Finish all three levels in one continuous run to earn a <strong>TOTAL RUN</strong> record.
-      Restarting or timing out ends that run; level personal bests remain saved.
+      Clear <strong>3, 10 and 20 light paths</strong> across three levels.
+      Your time limits are <strong>5, 20 and 30 seconds</strong>.
+      Each level flows straight into the next: your times and ranks appear together at the end.
+      Use PAUSE whenever you need to stop the clock.
     </p>
 
     <label for="player-name">PLAYER NAME</label>
@@ -780,6 +787,19 @@ dialog p {
   </form>
 </dialog>
 
+<!-- PAUSE MENU -->
+<dialog id="pause-dialog" aria-labelledby="pause-title">
+  <div class="modal-kicker">ECHO PATH / CHALLENGE PAUSED</div>
+  <h2 id="pause-title">PAUSED Ⅱ</h2>
+  <p id="pause-description">The clock is stopped. Your paths are waiting.</p>
+  <div class="pause-actions">
+    <button id="resume-game" class="modal-button" type="button">RESUME →</button>
+    <button id="restart-run" class="modal-button secondary" type="button">RESTART FULL RUN ↺</button>
+    <button id="exit-to-menu" class="modal-button secondary" type="button">EXIT TO MENU</button>
+  </div>
+  <p class="storage-note">Restarting or exiting discards this unfinished run. Previously saved records stay safe.</p>
+</dialog>
+
 <!-- RESULT DIALOG -->
 
 <dialog id="result-dialog"
@@ -796,31 +816,33 @@ dialog p {
   <div class="result-grid">
 
     <div class="result-metric">
-      <small>YOUR TIME</small>
+      <small>THIS TOTAL</small>
       <strong id="your-time">—</strong>
     </div>
 
     <div class="result-metric">
-      <small>YOUR BEST</small>
+      <small>BEST TOTAL</small>
       <strong id="best-time">—</strong>
     </div>
 
     <div class="result-metric">
-      <small>YOUR RANK</small>
+      <small>TOTAL RANK</small>
       <strong id="your-rank">—</strong>
     </div>
 
     <div class="result-metric">
-      <small>RUN TIME</small>
+      <small>LEVELS CLEAR</small>
       <strong id="total-time">—</strong>
     </div>
   </div>
 
-  <div class="result-heading">PERSONAL & GLOBAL RECORDS</div>
+  <div class="result-heading">THIS RUN · PERSONAL & GLOBAL RECORDS</div>
+  <div class="comparison-scroll">
   <table class="comparison">
-    <thead><tr><th>MODE</th><th>YOUR BEST</th><th>FASTEST</th><th>RANK</th></tr></thead>
+    <thead><tr><th>MODE</th><th>THIS RUN</th><th>YOUR BEST</th><th>FASTEST</th><th>RANK</th></tr></thead>
     <tbody id="comparison-body"></tbody>
   </table>
+  </div>
 
   <div class="result-heading">FASTEST SOLVERS · TOP 5</div>
   <label class="score-select-label" for="leaderboard-view">VIEW LEADERBOARD</label>
@@ -839,7 +861,7 @@ dialog p {
   <div class="result-actions">
     <button id="play-again"
       class="modal-button" type="button">
-      NEXT LEVEL →
+      PLAY AGAIN ↺
     </button>
 
     <button id="new-player"
@@ -921,7 +943,7 @@ dialog p {
   {
     "name": "CHAIN REACTION",
     "size": 7,
-    "limit": 25000,
+    "limit": 20000,
     "paths": [
       {
         "id": "A",
@@ -969,7 +991,7 @@ dialog p {
             5
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "DOWN",
         "color": "#FC70AF",
         "rgb": "252,112,175",
         "note": 329.63
@@ -986,7 +1008,7 @@ dialog p {
             0
           ]
         ],
-        "dir": "LEFT",
+        "dir": "DOWN",
         "color": "#AB92FF",
         "rgb": "171,146,255",
         "note": 440
@@ -1003,7 +1025,7 @@ dialog p {
             5
           ]
         ],
-        "dir": "DOWN",
+        "dir": "LEFT",
         "color": "#FFA45B",
         "rgb": "255,164,91",
         "note": 587.33
@@ -1020,7 +1042,7 @@ dialog p {
             4
           ]
         ],
-        "dir": "DOWN",
+        "dir": "UP",
         "color": "#62B8FF",
         "rgb": "98,184,255",
         "note": 659.25
@@ -1037,7 +1059,7 @@ dialog p {
             1
           ]
         ],
-        "dir": "DOWN",
+        "dir": "RIGHT",
         "color": "#F99084",
         "rgb": "249,144,132",
         "note": 493.88
@@ -1071,7 +1093,7 @@ dialog p {
             1
           ]
         ],
-        "dir": "LEFT",
+        "dir": "DOWN",
         "color": "#71F7AB",
         "rgb": "113,247,171",
         "note": 349.23
@@ -1098,7 +1120,7 @@ dialog p {
   {
     "name": "CROSSED CURRENTS",
     "size": 9,
-    "limit": 50000,
+    "limit": 30000,
     "paths": [
       {
         "id": "A",
@@ -1112,7 +1134,7 @@ dialog p {
             1
           ]
         ],
-        "dir": "DOWN",
+        "dir": "LEFT",
         "color": "#D5FF5A",
         "rgb": "213,255,90",
         "note": 523.25
@@ -1146,7 +1168,7 @@ dialog p {
             2
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "DOWN",
         "color": "#FC70AF",
         "rgb": "252,112,175",
         "note": 329.63
@@ -1163,7 +1185,7 @@ dialog p {
             6
           ]
         ],
-        "dir": "LEFT",
+        "dir": "DOWN",
         "color": "#AB92FF",
         "rgb": "171,146,255",
         "note": 440
@@ -1180,7 +1202,7 @@ dialog p {
             1
           ]
         ],
-        "dir": "DOWN",
+        "dir": "RIGHT",
         "color": "#FFA45B",
         "rgb": "255,164,91",
         "note": 587.33
@@ -1197,7 +1219,7 @@ dialog p {
             4
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "LEFT",
         "color": "#62B8FF",
         "rgb": "98,184,255",
         "note": 659.25
@@ -1214,7 +1236,7 @@ dialog p {
             7
           ]
         ],
-        "dir": "DOWN",
+        "dir": "LEFT",
         "color": "#F99084",
         "rgb": "249,144,132",
         "note": 493.88
@@ -1231,7 +1253,7 @@ dialog p {
             6
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "LEFT",
         "color": "#FFE17A",
         "rgb": "255,225,122",
         "note": 698.46
@@ -1248,7 +1270,7 @@ dialog p {
             3
           ]
         ],
-        "dir": "DOWN",
+        "dir": "LEFT",
         "color": "#71F7AB",
         "rgb": "113,247,171",
         "note": 349.23
@@ -1282,7 +1304,7 @@ dialog p {
             6
           ]
         ],
-        "dir": "UP",
+        "dir": "DOWN",
         "color": "#FF6DA8",
         "rgb": "255,109,168",
         "note": 523.25
@@ -1299,7 +1321,7 @@ dialog p {
             5
           ]
         ],
-        "dir": "DOWN",
+        "dir": "UP",
         "color": "#68E7FC",
         "rgb": "104,231,252",
         "note": 392
@@ -1333,7 +1355,7 @@ dialog p {
             5
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "DOWN",
         "color": "#FFA6CE",
         "rgb": "255,166,206",
         "note": 440
@@ -1350,7 +1372,7 @@ dialog p {
             2
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "LEFT",
         "color": "#C2A9FF",
         "rgb": "194,169,255",
         "note": 587.33
@@ -1367,7 +1389,7 @@ dialog p {
             4
           ]
         ],
-        "dir": "DOWN",
+        "dir": "UP",
         "color": "#FFBF7A",
         "rgb": "255,191,122",
         "note": 659.25
@@ -1384,7 +1406,7 @@ dialog p {
             3
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "DOWN",
         "color": "#83FFD8",
         "rgb": "131,255,216",
         "note": 493.88
@@ -1401,7 +1423,7 @@ dialog p {
             8
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "LEFT",
         "color": "#9EBDFF",
         "rgb": "158,189,255",
         "note": 698.46
@@ -1418,7 +1440,7 @@ dialog p {
             8
           ]
         ],
-        "dir": "RIGHT",
+        "dir": "UP",
         "color": "#FB8B7E",
         "rgb": "251,139,126",
         "note": 349.23
@@ -1435,7 +1457,7 @@ dialog p {
             8
           ]
         ],
-        "dir": "UP",
+        "dir": "LEFT",
         "color": "#F5FFAE",
         "rgb": "245,255,174",
         "note": 783.99
@@ -1445,7 +1467,9 @@ dialog p {
 ];
 
   const STORAGE_KEY = "echo-path-level-01-best-v1";
-  const MULTI_STORAGE_KEY = "echo-path-three-level-best-v1";
+  // Revised harder Levels 02 and 03: start fresh scores for fair comparison.
+  const MULTI_STORAGE_KEY = "echo-path-three-level-best-v2";
+  const PRIOR_MULTI_STORAGE_KEY = "echo-path-three-level-best-v1";
 
   let levelIndex = 0;
   let paths = LEVELS[0].paths;
@@ -1480,6 +1504,9 @@ dialog p {
     player: "",
     startedAt: 0,
     deadline: 0,
+    pauseStartedAt: 0,
+    pauseRemaining: 0,
+    transitionTimeout: null,
 
     active: new Set(paths.map(p => p.id)),
     release: null,
@@ -1568,9 +1595,17 @@ dialog p {
           data[key] = rankScores(validScores(parsed?.[key]));
         }
       } else {
-        // Preserve old Level 01 personal bests on this same origin.
+        // Preserve Level 01 bests, but reset levels that changed difficulty.
+        const prior = JSON.parse(localStorage.getItem(PRIOR_MULTI_STORAGE_KEY) || "null");
         const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        data.level1 = rankScores(validScores(legacy));
+        const oldLevel1 = validScores(prior?.level1);
+        const allLevel1 = [...oldLevel1, ...validScores(legacy)];
+        const unique = new Map();
+        for (const row of rankScores(allLevel1)) {
+          const key = row.name.toLowerCase();
+          if (!unique.has(key)) unique.set(key, row);
+        }
+        data.level1 = rankScores([...unique.values()]);
       }
     } catch (error) {
       storageOk = false;
@@ -1652,6 +1687,11 @@ dialog p {
       const row = document.createElement("tr");
       for (const value of [
         scoreLabels[key],
+        key === "total"
+          ? (state.runTimes.filter(Number.isFinite).length === 3
+              ? fmt(state.runTimes.reduce((sum, ms) => sum + ms, 0)) : "—")
+          : (Number.isFinite(state.runTimes[Number(key.slice(-1)) - 1])
+              ? fmt(state.runTimes[Number(key.slice(-1)) - 1]) : "—"),
         mine ? fmt(mine.ms) : "—",
         best ? fmt(best.ms) : "—",
         rankOf(state.player, list) ? `#${rankOf(state.player, list)}` : "—"
@@ -1677,75 +1717,83 @@ dialog p {
     if (state.phase !== "running") return;
 
     stopBackground();
-    state.phase = success ? "won" : "lost";
     state.release = null;
+    el("pause").disabled = true;
 
-    const levelNumber = state.levelIndex + 1;
-    const key = `level${levelNumber}`;
-    const elapsedRounded = Math.round(elapsed);
+    const index = state.levelIndex;
+    const levelNumber = index + 1;
     const isFinal = levelNumber === LEVELS.length;
-    let improved = false;
+    const elapsedRounded = Math.round(elapsed);
+    const key = `level${levelNumber}`;
 
     if (success) {
-      state.runTimes[state.levelIndex] = elapsedRounded;
-      improved = recordTime(key, state.player, elapsedRounded);
-      if (isFinal && state.runTimes.length === 3) {
+      state.runTimes[index] = elapsedRounded;
+      recordTime(key, state.player, elapsedRounded);
+      if (isFinal && state.runTimes.every(Number.isFinite) && state.runTimes.length === 3) {
         const total = state.runTimes.reduce((sum, ms) => sum + ms, 0);
         recordTime("total", state.player, total);
       }
     }
 
-    const records = readRecords();
-    const mine = scoreFor(state.player, records[key]);
-    const rank = rankOf(state.player, records[key]);
-    const runningTotal = state.runTimes.reduce((sum, ms) => sum + ms, 0);
-
+    state.phase = success ? (isFinal ? "won" : "transition") : "lost";
     timerDisplay.textContent = clock(success ? LIMIT - elapsed : 0);
     timerDisplay.classList.toggle("warning", !success);
 
-    el("result-kicker").textContent =
-      `ECHO PATH / LEVEL ${String(levelNumber).padStart(2, "0")} RESULTS`;
-    el("result-title").textContent = success
-      ? (isFinal ? "ALL LEVELS CLEARED!" : `LEVEL ${String(levelNumber).padStart(2, "0")} CLEAR!`)
-      : "TIME UP!";
-    el("result-title").style.color = success ? "#D5FF5A" : "#FC70AF";
+    // The completed level celebrates, then flows directly into the next.
+    // No leaderboard or action is shown between levels.
+    if (success && !isFinal) {
+      feedback.textContent = `LEVEL ${String(levelNumber).padStart(2,"0")} CLEAR · NEXT SIGNAL INCOMING…`;
+      const token = state.runToken;
+      state.transitionTimeout = setTimeout(() => {
+        state.transitionTimeout = null;
+        if (state.runToken === token && state.phase === "transition") {
+          startRound(state.player, index + 1);
+        }
+      }, 1150);
+      return;
+    }
 
-    el("result-message").textContent = success
-      ? (isFinal
-          ? `${state.player}, you cleared all three levels! Your total playing time was ${fmt(runningTotal)}.`
-          : `${state.player}, Level ${levelNumber} completed in ${fmt(elapsed)}. Ready for the next level?`) +
-          (improved ? " New level personal best!" : "")
-      : `${state.player}, Level ${levelNumber} timed out. Restart the full run to try again; previous level records are safe.`;
+    const records = readRecords();
+    const totalScores = records.total;
+    const mine = scoreFor(state.player, totalScores);
+    const totalRank = rankOf(state.player, totalScores);
+    const isComplete = success && isFinal && state.runTimes.length === 3;
+    const total = state.runTimes.reduce((sum, ms) => sum + ms, 0);
 
-    el("your-time").textContent = success ? fmt(elapsed) : "—";
+    el("result-kicker").textContent = "ECHO PATH / THREE-LEVEL CHALLENGE";
+    el("result-title").textContent = isComplete
+      ? "ALL LEVELS CLEARED!" : "RUN ENDED";
+    el("result-title").style.color = isComplete ? "#D5FF5A" : "#FC70AF";
+    el("result-message").textContent = isComplete
+      ? `${state.player}, all three signals are free! Total playing time: ${fmt(total)}. Compare each level with your best results below.`
+      : `${state.player}, Level ${String(levelNumber).padStart(2,"0")} ran out of time. Your completed level records are saved. Try a new full run!`;
+
+    el("your-time").textContent = isComplete ? fmt(total) : "—";
     el("best-time").textContent = mine ? fmt(mine.ms) : "—";
-    el("your-rank").textContent = rank ? `#${rank}` : "—";
-    el("total-time").textContent = success ? fmt(runningTotal) : "—";
-
-    el("play-again").textContent = success && !isFinal
-      ? "NEXT LEVEL →" : "NEW RUN ↺";
-
+    el("your-rank").textContent = totalRank ? `#${totalRank}` : "—";
+    el("total-time").textContent = `${state.runTimes.filter(Number.isFinite).length} / 3`;
+    el("play-again").textContent = "NEW RUN ↺";
     el("storage-note").textContent = storageOk
-      ? "Personal bests and leaderboards are saved in this browser only. Total = Levels 1 + 2 + 3 in one completed run (gameplay time only)."
-      : "Browser storage unavailable; records are held in memory until this tab closes.";
+      ? "Records are saved in this browser only. This run excludes time spent paused or between levels."
+      : "Browser storage unavailable; records last only until this tab closes.";
 
     renderComparison();
     const select = el("leaderboard-view");
-    select.value = isFinal && success ? "total" : key;
+    select.value = isComplete ? "total" : key;
     renderLeaderboard(select.value);
 
     const token = state.runToken;
     const showDialog = () => {
-      if (state.runToken === token && state.phase === (success ? "won" : "lost") && !resultDialog.open) {
+      if (state.runToken === token && state.phase === (isComplete ? "won" : "lost") && !resultDialog.open) {
         resultDialog.showModal();
       }
     };
-    if (success) setTimeout(showDialog, 1100);
+    if (isComplete) setTimeout(showDialog, 1150);
     else showDialog();
   }
 
 
-  // ============================================
+    // ============================================
   // 4. START AND RESTART
   // ============================================
 
@@ -1793,6 +1841,10 @@ dialog p {
 
   function startRound(name, index = 0) {
     state.runToken++;
+    if (state.transitionTimeout !== null) {
+      clearTimeout(state.transitionTimeout);
+      state.transitionTimeout = null;
+    }
     if (index === 0) state.runTimes = [];
 
     state.player = name;
@@ -1801,6 +1853,9 @@ dialog p {
     state.phase = "running";
     state.startedAt = now();
     state.deadline = state.startedAt + LIMIT;
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    el("pause").disabled = false;
 
     el("current-player").textContent = name;
     timerDisplay.textContent = clock(LIMIT);
@@ -1810,6 +1865,7 @@ dialog p {
 
     if (startDialog.open) startDialog.close();
     if (resultDialog.open) resultDialog.close();
+    if (el("pause-dialog").open) el("pause-dialog").close();
     startBackground();
   }
 
@@ -1824,46 +1880,91 @@ dialog p {
     startRound(name, 0);
   });
 
-  el("play-again").addEventListener("click", () => {
-    const nextLevel = state.phase === "won" &&
-      state.levelIndex < LEVELS.length - 1
-      ? state.levelIndex + 1 : 0;
-    startRound(state.player, nextLevel);
-  });
-
-  el("new-player").addEventListener("click", () => {
+  function returnToMenu() {
     state.runToken++;
+    if (state.transitionTimeout !== null) {
+      clearTimeout(state.transitionTimeout);
+      state.transitionTimeout = null;
+    }
     stopBackground();
-    resultDialog.close();
+    if (resultDialog.open) resultDialog.close();
+    if (el("pause-dialog").open) el("pause-dialog").close();
     state.phase = "ready";
     state.runTimes = [];
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    el("pause").disabled = true;
     configureLevel(0);
     resetBoard();
     nameInput.value = "";
     el("name-error").textContent = "";
     timerDisplay.textContent = clock(LIMIT);
+    timerDisplay.classList.remove("warning");
     el("current-player").textContent = "—";
-    feedback.textContent = "Enter your name to start the 3-level challenge.";
-    startDialog.showModal();
+    feedback.textContent = "Enter your name to start the three-level challenge.";
+    if (!startDialog.open) startDialog.showModal();
     nameInput.focus();
+  }
+
+  el("play-again").addEventListener("click", () => {
+    startRound(state.player, 0);
   });
+
+  el("new-player").addEventListener("click", returnToMenu);
+
+  const pauseDialog = el("pause-dialog");
+  const pauseButton = el("pause");
+
+  pauseButton.addEventListener("click", () => {
+    if (state.phase !== "running") return;
+    state.pauseStartedAt = now();
+    state.pauseRemaining = Math.max(0, state.deadline - state.pauseStartedAt);
+    state.phase = "paused";
+    pauseButton.disabled = true;
+    stopBackground();
+    timerDisplay.textContent = clock(state.pauseRemaining);
+    el("pause-description").textContent =
+      `LEVEL ${String(state.levelIndex + 1).padStart(2,"0")} · ${fmt(state.pauseRemaining)} remaining. The timer and the light paths are frozen.`;
+    pauseDialog.showModal();
+  });
+
+  function resumeGame() {
+    if (state.phase !== "paused") return;
+    const pausedDuration = Math.max(0, now() - state.pauseStartedAt);
+    state.startedAt += pausedDuration;
+    state.deadline += pausedDuration;
+    if (state.release) {
+      state.release.start += pausedDuration;
+      state.release.lastTrail += pausedDuration;
+    }
+    state.blockedUntil += pausedDuration;
+    state.celebrationUntil += pausedDuration;
+    for (const particle of state.particles) particle.t += pausedDuration;
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    state.phase = "running";
+    pauseDialog.close();
+    pauseButton.disabled = false;
+    startBackground();
+  }
+
+  el("resume-game").addEventListener("click", resumeGame);
+  el("restart-run").addEventListener("click", () => {
+    pauseDialog.close();
+    startRound(state.player, 0);
+  });
+  el("exit-to-menu").addEventListener("click", returnToMenu);
 
   [startDialog, resultDialog].forEach(dialog => {
     dialog.addEventListener("cancel", event => event.preventDefault());
   });
-
-  el("restart").addEventListener("click", () => {
-    if (state.phase === "running") {
-      // Restarting abandons the current continuous run.
-      startRound(state.player, 0);
-    } else if (state.phase === "ready") {
-      configureLevel(0);
-      resetBoard();
-    }
+  pauseDialog.addEventListener("cancel", event => {
+    event.preventDefault();
+    resumeGame();
   });
 
 
-  // ============================================
+    // ============================================
   // 5. MUSIC AND SOUND CONTROL
   // ============================================
 
@@ -2677,6 +2778,8 @@ function playBackgroundStep() {
   // ============================================
 
   function frame(t) {
+    // Rendering uses a frozen clock during pause, not wall-clock time.
+    const visualTime = state.phase === "paused" ? state.pauseStartedAt : t;
     const w = canvas.width / state.dpr;
     const h = canvas.height / state.dpr;
 
@@ -2695,15 +2798,15 @@ function playBackgroundStep() {
 
     for (const p of paths) {
       if (state.active.has(p.id)) {
-        drawPath(p, t);
+        drawPath(p, visualTime);
       }
     }
 
-    updateRelease(t);
-    drawParticles(t);
+    if (state.phase !== "paused") updateRelease(t);
+    drawParticles(visualTime);
 
-    if (state.celebrationUntil > t) {
-      const k = Math.max(0, (state.celebrationUntil - t) / 1100);
+    if (state.celebrationUntil > visualTime) {
+      const k = Math.max(0, (state.celebrationUntil - visualTime) / 1100);
       ctx.save();
       ctx.globalAlpha = k * 0.35;
       ctx.strokeStyle = "#D5FF5A";

@@ -385,6 +385,51 @@ This revision helped reconnect visual feedback with player actions without chang
 Develop Levels 02 and 03 using the existing visual and interaction system, followed by further audio refinement and independent user testing.
 
 
+### 30 October 2026 — Three-Level Expansion and Visual Refinement
+
+**Development Progress**
+
+Expanded ECHO PATH from a single-level prototype into a three-level time-attack experience:
+
+- Level 01: 3 light paths, 5×5 grid, 5-second time limit.
+- Level 02: 10 light paths, 7×7 grid, 25-second time limit.
+- Level 03: 20 light paths, 9×9 grid, 50-second time limit.
+
+The new levels introduce more paths and more complex blocking relationships, requiring players to identify valid release sequences under increasing time pressure.
+
+I also extended the scoring system to support individual level records and a total challenge record. The total time represents one continuous three-level attempt rather than a combination of unrelated personal bests.
+
+**Visual Design Refinement**
+
+After integrating the three-level system, I compared the current browser game with my earlier Easel Studio visual prototype.
+
+I noticed that the decorative elements on both sides of the game board no longer matched the original design. The intersecting orbital lines and pink accent dots had been lost, leaving only the central neon symbols.
+
+To restore visual consistency, I:
+
+- Reintroduced the intersecting mint and pink orbital decorations.
+- Restored the small glowing pink dots.
+- Retained the neon green symbols at the centre.
+- Refined the side-panel typography and visual hierarchy.
+- Rewrote the gameplay instructions to make them more concise and player-oriented.
+
+In particular, I replaced the previous right-side description with "CLEAR THE WAY", explaining that players must release unblocked paths before others can move.
+
+**Testing and Reflection**
+
+I manually reviewed the updated game in the browser and was satisfied with the restored side decorations and revised interface text.
+
+This iteration reinforced the importance of maintaining visual consistency when transferring an interactive prototype into a functional game.
+
+It also highlighted the difference between explanatory design language and instructions intended for players.
+
+**Next Steps**
+
+- Evaluate the difficulty and time limits of Levels 02 and 03.
+- Refine background music and interaction sound effects.
+- Conduct an independent user test.
+- Improve the game based on feedback and prepare the final submission.
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -455,7 +500,6 @@ I also tested and debugged audio playback with ChatGPT's guidance, including fix
 
 Although the revised audio is functional, I have not accepted it as the final sound design. Further refinement is planned based on my own listening evaluation.
 
-
 ### AI Assistance — Particle Animation Restoration
 
 ChatGPT assisted in comparing the earlier Easel Studio particle logic with the integrated browser game and generating changes to restore the visual effects.
@@ -463,6 +507,21 @@ ChatGPT assisted in comparing the earlier Easel Studio particle logic with the i
 I identified the differences during gameplay and requested that particle trails follow moving paths and that the completion fireworks remain visible before the result dialog appears.
 
 The resulting changes were tested in the browser before being accepted into the project.
+
+
+### AI Assistance — Level Expansion and Interface Refinement
+
+ChatGPT assisted in generating and integrating the three-level game system, including additional path configurations, level transitions, timing logic, and leaderboard functionality.
+
+I specified the intended difficulty progression, including 10 paths for Level 02 and 20 paths for Level 03.
+
+After reviewing the integrated interface, I identified differences between the new version and my original Easel Studio visual design.
+
+ChatGPT helped restore the earlier orbital decorations and implement revised gameplay instructions.
+
+I reviewed the updated interface in the browser and accepted the visual changes after evaluating the result.
+
+Further gameplay testing, audio refinement, and independent user evaluation are still planned.
 
 ## 6. Credits and Limitations
 

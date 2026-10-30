@@ -1,17 +1,2875 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="0; url=visual-prototype/echo-path-prototype.html">
-  <title>ECHO PATH — Play the Light</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ECHO PATH — Time Attack</title>
+
+<style>
+:root {
+  --ice: #C4E6F9;
+  --mint: #60FFE5;
+  --pink: #FC70AF;
+  --lime: #D5FF5A;
+  --black: #000;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #000;
+  color: var(--ice);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    #07171b 0%,
+    #020809 43%,
+    #000 80%
+  );
+}
+
+button, input { font: inherit; }
+
+.shell {
+  min-height: 100vh;
+  padding: clamp(20px,4vw,48px) clamp(16px,5vw,72px);
+  overflow: hidden;
+  position: relative;
+}
+
+.shell:before {
+  content: "";
+  position: absolute;
+  right: -150px;
+  top: 160px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #60ffe529;
+  transform: rotate(38deg);
+  pointer-events: none;
+}
+
+.topline {
+  max-width: 1320px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #c4e6f92a;
+  padding-bottom: 15px;
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: #79949d;
+}
+
+.signal { color: var(--mint); }
+
+.signal:before {
+  content: "●";
+  margin-right: 12px;
+  text-shadow: 0 0 12px var(--mint);
+}
+
+.mast {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 38px 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: .24em;
+  color: var(--mint);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: clamp(44px,7.6vw,100px);
+  line-height: .85;
+  letter-spacing: -.08em;
+  margin: 0;
+  font-weight: 900;
+}
+
+h1 span {
+  color: var(--mint);
+  font-weight: 500;
+}
+
+.tagline {
+  font-size: clamp(11px,1.4vw,15px);
+  letter-spacing: .17em;
+  color: #90adb9;
+  font-weight: bold;
+}
+
+.level-stamp {
+  border-left: 1px solid #c4e6f940;
+  padding-left: 20px;
+  min-width: 135px;
+}
+
+.level-stamp small {
+  display: block;
+  letter-spacing: .18em;
+  color: #79949d;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+.level-stamp strong {
+  font: 30px Georgia, serif;
+  color: var(--pink);
+}
+
+.main {
+  max-width: 1320px;
+  margin: auto;
+  display: grid;
+  grid-template-columns:
+    minmax(120px,1fr)
+    minmax(330px,620px)
+    minmax(120px,1fr);
+  align-items: center;
+  gap: clamp(14px,3vw,50px);
+}
+
+.side {
+  min-height: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 25px 0;
+}
+
+.side.right {
+  text-align: right;
+  align-items: end;
+}
+
+.side-note {
+  max-width: 230px;
+  color: rgba(196,230,249,.62);
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: .025em;
+}
+
+.side-note b {
+  display: block;
+  color: var(--ice);
+  font-size: 10px;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.side-note em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+/* Restored directly from the Easel Studio ornamental design */
+.ornament {
+  position: relative;
+  width: 112px;
+  height: 90px;
+  margin: 8px 0 26px;
+  flex: 0 0 90px;
+}
+
+.ornament .orbit {
+  position: absolute;
+  inset: 12px 8px;
+  border: 1px solid rgba(96,255,229,.48);
+  border-radius: 50%;
+  transform: rotate(-34deg);
+}
+
+.ornament .orbit::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--pink);
+  border-radius: 50%;
+  top: -3px;
+  left: 30%;
+  box-shadow: 0 0 12px var(--pink);
+}
+
+.ornament .orb2 {
+  inset: 27px 0;
+  border-color: rgba(252,112,175,.5);
+  transform: rotate(28deg);
+}
+
+.ornament .cross {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%,-50%);
+  color: var(--lime);
+  font-size: 28px;
+  font-weight: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 0 13px rgba(213,255,90,.4);
+}
+
+.microtype {
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: rgba(196,230,249,.38);
+  writing-mode: vertical-rl;
+}
+
+.side.right .microtype {
+  transform: rotate(180deg);
+}
+
+.board-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  background: linear-gradient(145deg,#07161a,#010507);
+  border: 1px solid #c4e6f93a;
+  box-shadow:
+    0 20px 70px #000c,
+    inset 0 0 60px #60ffe50a;
+}
+
+.board-wrap:before,
+.board-wrap:after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--mint);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.board-wrap:before {
+  left: -1px;
+  top: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.board-wrap:after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+#board {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.board-index,
+.board-coordinate {
+  position: absolute;
+  top: 18px;
+  color: #718d98;
+  font: 10px/1.6 monospace;
+  letter-spacing: .1em;
+  pointer-events: none;
+}
+
+.board-index { left: 20px; }
+.board-coordinate { right: 20px; }
+
+#challenge-panel {
+  max-width: 1320px;
+  margin: 25px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+
+#current-player { color: var(--mint); }
+
+#timer-display {
+  font-size: 27px;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+#timer-display.warning { color: var(--pink); }
+
+.controls {
+  max-width: 1320px;
+  margin: 24px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #c4e6f92b;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.feedback {
+  color: #aec3ce;
+  font-size: 12px;
+  line-height: 1.5;
+  min-height: 20px;
+}
+
+.feedback:before {
+  content: "/ ";
+  color: var(--mint);
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ctrl {
+  border: 1px solid #c4e6f966;
+  background: #010608;
+  color: var(--ice);
+  padding: 13px 18px;
+  min-height: 44px;
+  cursor: pointer;
+  letter-spacing: .12em;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.ctrl:hover,
+.ctrl:focus-visible {
+  border-color: var(--mint);
+  color: var(--mint);
+}
+
+.ctrl[aria-pressed=true] {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+
+.ctrl:disabled { opacity: .35; cursor: not-allowed; }
+.pause-actions { display: grid; gap: 10px; margin: 22px 0 14px; }
+#pause-dialog { border-color: var(--pink); }
+#pause-dialog h2 { color: var(--lime); }
+.comparison-scroll { overflow-x: auto; }
+.comparison { min-width: 390px; }
+
+.legend {
+  max-width: 1320px;
+  margin: 22px auto;
+  display: flex;
+  gap: 12px 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: #96aeb8;
+  font-size: 11px;
+  letter-spacing: .12em;
+}
+
+.swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 9px;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.foot {
+  max-width: 1320px;
+  margin: 25px auto 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  color: #53616a;
+  font: 10px monospace;
+  letter-spacing: .14em;
+}
+
+/* WELCOME AND RESULT DIALOGS */
+
+dialog {
+  width: min(600px,calc(100% - 26px));
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 1px solid var(--mint);
+  background: #061216;
+  color: var(--ice);
+  padding: clamp(24px,4vw,36px);
+  box-shadow: 0 0 65px #60ffe51e;
+}
+
+dialog::backdrop {
+  background: #000d;
+  backdrop-filter: blur(7px);
+}
+
+dialog h2 {
+  font-size: clamp(30px,5vw,43px);
+  color: var(--pink);
+  margin: 12px 0 18px;
+  line-height: 1.05;
+}
+
+dialog p {
+  color: #b6d1dd;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.modal-kicker {
+  font-size: 11px;
+  color: var(--mint);
+  letter-spacing: .18em;
+  font-weight: bold;
+}
+
+#start-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#start-form label {
+  font-size: 11px;
+  letter-spacing: .18em;
+}
+
+#player-name {
+  padding: 15px;
+  background: #000;
+  border: 1px solid var(--mint);
+  color: var(--ice);
+  font-size: 17px;
+  width: 100%;
+}
+
+.modal-button {
+  padding: 15px;
+  border: none;
+  background: var(--lime);
+  color: #000;
+  cursor: pointer;
+  font-weight: 900;
+  letter-spacing: .1em;
+  min-height: 48px;
+}
+
+.modal-button:hover { background: var(--mint); }
+
+.secondary {
+  border: 1px solid var(--mint);
+  background: transparent;
+  color: var(--mint);
+}
+
+.secondary:hover { background: #143034; }
+
+.error {
+  color: var(--pink) !important;
+  min-height: 16px;
+  margin: 0 !important;
+}
+
+/* RESULTS */
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.result-metric {
+  background: #112229;
+  padding: 12px 8px;
+  text-align: center;
+  min-width: 0;
+}
+
+.result-metric small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .07em;
+  color: #9cb4bc;
+}
+
+.result-metric strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 21px;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+.result-heading {
+  margin: 20px 0 6px;
+  color: var(--pink);
+  font-size: 12px;
+  letter-spacing: .14em;
+}
+
+.leaderboard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 170px;
+  overflow: auto;
+}
+
+.leaderboard li {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 9px 12px;
+  border-bottom: 1px solid #c4e6f91d;
+  font-size: 13px;
+}
+
+.leaderboard li.highlight {
+  color: var(--lime);
+  background: #17251b;
+}
+
+.result-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.storage-note {
+  font-size: 11px !important;
+  color: #8aabb4 !important;
+}
+
+/* FOUR-WAY SCORE COMPARISON */
+.comparison {width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:12px;font-variant-numeric:tabular-nums}
+.comparison th {font-size:9px;letter-spacing:.09em;text-align:left;color:#92adb8;font-weight:700;border-bottom:1px solid #c4e6f92b;padding:9px 5px}
+.comparison td {padding:10px 5px;border-bottom:1px solid #c4e6f91a;color:#c4e6f9}
+.comparison td:first-child {color:#60ffe5;font-weight:bold}
+.score-select-label {display:block;color:#93b1bc;font-size:10px;letter-spacing:.12em;margin:9px 0 5px}
+.score-select {width:100%;background:#010608;border:1px solid #60ffe56a;color:#c4e6f9;padding:10px;margin:0 0 10px;cursor:pointer}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+  .main {
+    grid-template-columns: 1fr minmax(300px,610px) 1fr;
+    gap: 12px;
+  }
+  .side-note { font-size: 11px; }
+}
+
+@media(max-width:700px) {
+  .mast { padding: 28px 0; }
+  .main { display: block; }
+  .side { display: none; }
+  .board-wrap {
+    max-width: 580px;
+    margin: auto;
+  }
+  .level-stamp {
+    min-width: 90px;
+    padding-left: 11px;
+  }
+  .level-stamp strong { font-size: 20px; }
+  .controls {
+    justify-content: center;
+    text-align: center;
+  }
+  .result-grid { grid-template-columns: repeat(2,1fr); }
+  .result-metric strong { font-size: 17px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
 </head>
+
 <body>
-  <p>
-    Opening ECHO PATH...
-    <a href="visual-prototype/echo-path-prototype.html">
-      Play ECHO PATH
-    </a>
+
+<div class="shell">
+
+  <div class="topline">
+    <span>INTERACTIVE LIGHT STUDY · TIME ATTACK</span>
+    <span class="signal">SIGNAL FOUND</span>
+  </div>
+
+  <header class="mast">
+    <div>
+      <div class="eyebrow">
+        A SMALL INSTRUMENT FOR MOVING LIGHT
+      </div>
+      <h1>ECHO <span>PATH</span></h1>
+      <p class="tagline">
+        PLAY THE LIGHT. HEAR THE PATH.
+      </p>
+    </div>
+
+    <div class="level-stamp">
+      <small>FIELD STUDY</small>
+      <strong>LEVEL 01</strong>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <aside class="side left" aria-hidden="true">
+      <div class="side-note">
+        <b>01 / READ THE CURRENT</b>
+        Every path points toward an exit.
+        Follow its arrow and
+        <em>find a clear way out.</em>
+      </div>
+
+      <div class="ornament">
+        <i class="orbit"></i>
+        <i class="orbit orb2"></i>
+        <span class="cross">✳</span>
+      </div>
+
+      <span class="microtype">
+        LIGHT IS A KIND OF LISTENING / 001
+      </span>
+    </aside>
+
+    <section class="board-wrap"
+      aria-label="Interactive 5 by 5 puzzle">
+
+      <span class="board-index">
+        EP—01
+        <br>
+        GRID / 05×05
+      </span>
+
+      <span class="board-coordinate">
+        X → &nbsp; Y ↓
+      </span>
+
+      <canvas id="board"
+        aria-label="Click the neon paths to release them">
+      </canvas>
+
+    </section>
+
+    <aside class="side right" aria-hidden="true">
+      <div class="side-note">
+        <b>02 / CLEAR THE WAY</b>
+        Some paths block others.
+        Free an open path first,
+        then <em>let the next light flow.</em>
+      </div>
+
+      <div class="ornament">
+        <i class="orbit"></i>
+        <i class="orbit orb2"></i>
+        <span class="cross">＋</span>
+      </div>
+
+      <span class="microtype">
+        ECHO PATH / TIME ATTACK / 2026
+      </span>
+    </aside>
+
+  </main>
+
+  <section id="challenge-panel"
+    aria-label="Time attack status">
+
+    <span>
+      PLAYER /
+      <strong id="current-player">—</strong>
+    </span>
+    <span>LEVEL / <strong id="level-counter">1 / 3</strong></span>
+    <span>PATHS LEFT / <strong id="paths-remaining">3</strong></span>
+
+    <span>
+      TIME LEFT /
+      <strong id="timer-display" role="timer">
+        00:05.00
+      </strong>
+    </span>
+
+  </section>
+
+  <section class="controls">
+    <div id="feedback" class="feedback" aria-live="polite">
+      Enter your name to start the 5-second challenge.
+    </div>
+
+    <div class="button-row">
+      <button id="pause" class="ctrl" type="button" disabled>
+        PAUSE Ⅱ
+      </button>
+
+      <button id="sound" class="ctrl"
+        type="button" aria-pressed="false">
+        SOUND · OFF
+      </button>
+    </div>
+  </section>
+
+  <div class="legend" aria-label="Current level path directions"></div>
+
+  <footer class="foot">
+    <span>ECHO PATH — MUSICAL LIGHT PUZZLE</span>
+    <span>3-LEVEL TIME ATTACK · PERSONAL BESTS</span>
+  </footer>
+
+</div>
+
+<!-- WELCOME DIALOG -->
+
+<dialog id="start-dialog"
+  aria-labelledby="start-title">
+
+  <form id="start-form">
+
+    <div class="modal-kicker">
+      ECHO PATH / TIME ATTACK
+    </div>
+
+    <h2 id="start-title">READY TO PLAY?</h2>
+
+    <p>
+      Clear <strong>3, 10 and 20 light paths</strong> across three levels.
+      Your time limits are <strong>5, 20 and 30 seconds</strong>.
+      Each level flows straight into the next: your times and ranks appear together at the end.
+      Use PAUSE whenever you need to stop the clock.
+    </p>
+
+    <label for="player-name">PLAYER NAME</label>
+
+    <input
+      id="player-name"
+      maxlength="16"
+      autocomplete="off"
+      placeholder="Your nickname"
+      required
+    >
+
+    <p id="name-error" class="error" role="alert"></p>
+
+    <button class="modal-button" type="submit">
+      START CHALLENGE →
+    </button>
+
+  </form>
+</dialog>
+
+<!-- PAUSE MENU -->
+<dialog id="pause-dialog" aria-labelledby="pause-title">
+  <div class="modal-kicker">ECHO PATH / CHALLENGE PAUSED</div>
+  <h2 id="pause-title">PAUSED Ⅱ</h2>
+  <p id="pause-description">The clock is stopped. Your paths are waiting.</p>
+  <div class="pause-actions">
+    <button id="resume-game" class="modal-button" type="button">RESUME →</button>
+    <button id="restart-run" class="modal-button secondary" type="button">RESTART FULL RUN ↺</button>
+    <button id="exit-to-menu" class="modal-button secondary" type="button">EXIT TO MENU</button>
+  </div>
+  <p class="storage-note">Restarting or exiting discards this unfinished run. Previously saved records stay safe.</p>
+</dialog>
+
+<!-- RESULT DIALOG -->
+
+<dialog id="result-dialog"
+  aria-labelledby="result-title">
+
+  <div class="modal-kicker" id="result-kicker">
+    ECHO PATH / LEVEL 01 RESULTS
+  </div>
+
+  <h2 id="result-title">LEVEL CLEAR!</h2>
+
+  <p id="result-message"></p>
+
+  <div class="result-grid">
+
+    <div class="result-metric">
+      <small>THIS TOTAL</small>
+      <strong id="your-time">—</strong>
+    </div>
+
+    <div class="result-metric">
+      <small>BEST TOTAL</small>
+      <strong id="best-time">—</strong>
+    </div>
+
+    <div class="result-metric">
+      <small>TOTAL RANK</small>
+      <strong id="your-rank">—</strong>
+    </div>
+
+    <div class="result-metric">
+      <small>LEVELS CLEAR</small>
+      <strong id="total-time">—</strong>
+    </div>
+  </div>
+
+  <div class="result-heading">THIS RUN · PERSONAL & GLOBAL RECORDS</div>
+  <div class="comparison-scroll">
+  <table class="comparison">
+    <thead><tr><th>MODE</th><th>THIS RUN</th><th>YOUR BEST</th><th>FASTEST</th><th>RANK</th></tr></thead>
+    <tbody id="comparison-body"></tbody>
+  </table>
+  </div>
+
+  <div class="result-heading">FASTEST SOLVERS · TOP 5</div>
+  <label class="score-select-label" for="leaderboard-view">VIEW LEADERBOARD</label>
+  <select id="leaderboard-view" class="score-select">
+    <option value="level1">LEVEL 01</option>
+    <option value="level2">LEVEL 02</option>
+    <option value="level3">LEVEL 03</option>
+    <option value="total">TOTAL RUN</option>
+  </select>
+  <ol id="leaderboard" class="leaderboard"></ol>
+
+  <p class="storage-note" id="storage-note">
+    Scores are saved in this browser only.
   </p>
+
+  <div class="result-actions">
+    <button id="play-again"
+      class="modal-button" type="button">
+      PLAY AGAIN ↺
+    </button>
+
+    <button id="new-player"
+      class="modal-button secondary" type="button">
+      NEW PLAYER →
+    </button>
+  </div>
+
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+
+  // ============================================
+  // 1. GAME CONFIGURATION
+  // ============================================
+
+  // Three sequential puzzle levels. Each path occupies two grid cells.
+  const LEVELS = [
+  {
+    "name": "FIRST SIGNAL",
+    "size": 5,
+    "limit": 5000,
+    "paths": [
+      {
+        "id": "A",
+        "cells": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "dir": "RIGHT",
+        "color": "#D5FF5A",
+        "rgb": "213,255,90",
+        "note": 523.25
+      },
+      {
+        "id": "B",
+        "cells": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "dir": "UP",
+        "color": "#60FFE5",
+        "rgb": "96,255,229",
+        "note": 392
+      },
+      {
+        "id": "C",
+        "cells": [
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#FC70AF",
+        "rgb": "252,112,175",
+        "note": 329.63
+      }
+    ]
+  },
+  {
+    "name": "CHAIN REACTION",
+    "size": 7,
+    "limit": 20000,
+    "paths": [
+      {
+        "id": "A",
+        "cells": [
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#D5FF5A",
+        "rgb": "213,255,90",
+        "note": 523.25
+      },
+      {
+        "id": "B",
+        "cells": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "dir": "RIGHT",
+        "color": "#60FFE5",
+        "rgb": "96,255,229",
+        "note": 392
+      },
+      {
+        "id": "C",
+        "cells": [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#FC70AF",
+        "rgb": "252,112,175",
+        "note": 329.63
+      },
+      {
+        "id": "D",
+        "cells": [
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#AB92FF",
+        "rgb": "171,146,255",
+        "note": 440
+      },
+      {
+        "id": "E",
+        "cells": [
+          [
+            6,
+            4
+          ],
+          [
+            6,
+            5
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#FFA45B",
+        "rgb": "255,164,91",
+        "note": 587.33
+      },
+      {
+        "id": "F",
+        "cells": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "dir": "UP",
+        "color": "#62B8FF",
+        "rgb": "98,184,255",
+        "note": 659.25
+      },
+      {
+        "id": "G",
+        "cells": [
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ],
+        "dir": "RIGHT",
+        "color": "#F99084",
+        "rgb": "249,144,132",
+        "note": 493.88
+      },
+      {
+        "id": "H",
+        "cells": [
+          [
+            1,
+            6
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        "dir": "RIGHT",
+        "color": "#FFE17A",
+        "rgb": "255,225,122",
+        "note": 698.46
+      },
+      {
+        "id": "I",
+        "cells": [
+          [
+            5,
+            1
+          ],
+          [
+            6,
+            1
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#71F7AB",
+        "rgb": "113,247,171",
+        "note": 349.23
+      },
+      {
+        "id": "J",
+        "cells": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#D9AEFF",
+        "rgb": "217,174,255",
+        "note": 783.99
+      }
+    ]
+  },
+  {
+    "name": "CROSSED CURRENTS",
+    "size": 9,
+    "limit": 30000,
+    "paths": [
+      {
+        "id": "A",
+        "cells": [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#D5FF5A",
+        "rgb": "213,255,90",
+        "note": 523.25
+      },
+      {
+        "id": "B",
+        "cells": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#60FFE5",
+        "rgb": "96,255,229",
+        "note": 392
+      },
+      {
+        "id": "C",
+        "cells": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#FC70AF",
+        "rgb": "252,112,175",
+        "note": 329.63
+      },
+      {
+        "id": "D",
+        "cells": [
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#AB92FF",
+        "rgb": "171,146,255",
+        "note": 440
+      },
+      {
+        "id": "E",
+        "cells": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            1
+          ]
+        ],
+        "dir": "RIGHT",
+        "color": "#FFA45B",
+        "rgb": "255,164,91",
+        "note": 587.33
+      },
+      {
+        "id": "F",
+        "cells": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#62B8FF",
+        "rgb": "98,184,255",
+        "note": 659.25
+      },
+      {
+        "id": "G",
+        "cells": [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#F99084",
+        "rgb": "249,144,132",
+        "note": 493.88
+      },
+      {
+        "id": "H",
+        "cells": [
+          [
+            6,
+            6
+          ],
+          [
+            7,
+            6
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#FFE17A",
+        "rgb": "255,225,122",
+        "note": 698.46
+      },
+      {
+        "id": "I",
+        "cells": [
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#71F7AB",
+        "rgb": "113,247,171",
+        "note": 349.23
+      },
+      {
+        "id": "J",
+        "cells": [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            7
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#D9AEFF",
+        "rgb": "217,174,255",
+        "note": 783.99
+      },
+      {
+        "id": "K",
+        "cells": [
+          [
+            8,
+            5
+          ],
+          [
+            8,
+            6
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#FF6DA8",
+        "rgb": "255,109,168",
+        "note": 523.25
+      },
+      {
+        "id": "L",
+        "cells": [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "dir": "UP",
+        "color": "#68E7FC",
+        "rgb": "104,231,252",
+        "note": 392
+      },
+      {
+        "id": "M",
+        "cells": [
+          [
+            7,
+            2
+          ],
+          [
+            7,
+            3
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#C8FF75",
+        "rgb": "200,255,117",
+        "note": 329.63
+      },
+      {
+        "id": "N",
+        "cells": [
+          [
+            6,
+            5
+          ],
+          [
+            7,
+            5
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#FFA6CE",
+        "rgb": "255,166,206",
+        "note": 440
+      },
+      {
+        "id": "O",
+        "cells": [
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#C2A9FF",
+        "rgb": "194,169,255",
+        "note": 587.33
+      },
+      {
+        "id": "P",
+        "cells": [
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            4
+          ]
+        ],
+        "dir": "UP",
+        "color": "#FFBF7A",
+        "rgb": "255,191,122",
+        "note": 659.25
+      },
+      {
+        "id": "Q",
+        "cells": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "dir": "DOWN",
+        "color": "#83FFD8",
+        "rgb": "131,255,216",
+        "note": 493.88
+      },
+      {
+        "id": "R",
+        "cells": [
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            8
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#9EBDFF",
+        "rgb": "158,189,255",
+        "note": 698.46
+      },
+      {
+        "id": "S",
+        "cells": [
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            8
+          ]
+        ],
+        "dir": "UP",
+        "color": "#FB8B7E",
+        "rgb": "251,139,126",
+        "note": 349.23
+      },
+      {
+        "id": "T",
+        "cells": [
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            8
+          ]
+        ],
+        "dir": "LEFT",
+        "color": "#F5FFAE",
+        "rgb": "245,255,174",
+        "note": 783.99
+      }
+    ]
+  }
+];
+
+  const STORAGE_KEY = "echo-path-level-01-best-v1";
+  // Revised harder Levels 02 and 03: start fresh scores for fair comparison.
+  const MULTI_STORAGE_KEY = "echo-path-three-level-best-v2";
+  const PRIOR_MULTI_STORAGE_KEY = "echo-path-three-level-best-v1";
+
+  let levelIndex = 0;
+  let paths = LEVELS[0].paths;
+  let LIMIT = LEVELS[0].limit;
+
+
+  const directions = {
+    RIGHT: [1, 0],
+    LEFT: [-1, 0],
+    UP: [0, -1],
+    DOWN: [0, 1]
+  };
+
+  const el = id => document.getElementById(id);
+
+  const canvas = el("board");
+  const ctx = canvas.getContext("2d");
+
+  const startDialog = el("start-dialog");
+  const resultDialog = el("result-dialog");
+
+  const nameInput = el("player-name");
+  const timerDisplay = el("timer-display");
+  const feedback = el("feedback");
+
+  const state = {
+    phase: "ready",
+    levelIndex: 0,
+    gridSize: 5,
+    runTimes: [],
+    runToken: 0,
+    player: "",
+    startedAt: 0,
+    deadline: 0,
+    pauseStartedAt: 0,
+    pauseRemaining: 0,
+    transitionTimeout: null,
+
+    active: new Set(paths.map(p => p.id)),
+    release: null,
+    selected: null,
+    hover: null,
+
+    blocked: null,
+    blockedUntil: 0,
+
+    particles: [],
+    celebrationUntil: 0,
+
+    sound: false,
+
+    grid: {
+      x: 0,
+      y: 0,
+      cell: 0
+    },
+
+    dpr: 1,
+    raf: 0
+  };
+
+  let memoryRecords = null;
+  let storageOk = true;
+  let audio = null;
+
+  const reduced = matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const now = () => performance.now();
+
+  const byId = id => paths.find(
+    p => p.id === id
+  );
+
+  function fmt(ms) {
+    return `${(Math.max(0, ms) / 1000).toFixed(2)}s`;
+  }
+
+  function clock(ms) {
+    const centiseconds = Math.max(0, Math.ceil(ms / 10));
+    const mins = Math.floor(centiseconds / 6000);
+    const secs = Math.floor((centiseconds % 6000) / 100);
+    const cents = centiseconds % 100;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}.${String(cents).padStart(2, "0")}`;
+  }
+
+  // ============================================
+  // 2. LEADERBOARD STORAGE
+  // ============================================
+
+  const scoreKeys = ["level1", "level2", "level3", "total"];
+
+  function blankRecords() {
+    return {level1: [], level2: [], level3: [], total: []};
+  }
+
+  function validScores(items) {
+    return Array.isArray(items)
+      ? items.filter(r => r && typeof r.name === "string" &&
+          r.name.trim() && Number.isFinite(r.ms) && r.ms > 0)
+      : [];
+  }
+
+  function rankScores(list) {
+    return list.slice().sort((a, b) =>
+      a.ms - b.ms || a.name.localeCompare(b.name)
+    );
+  }
+
+  function scoreFor(name, list) {
+    return list.find(r => r.name.toLowerCase() === name.toLowerCase());
+  }
+
+  function readRecords() {
+    if (memoryRecords) return memoryRecords;
+    const data = blankRecords();
+    try {
+      const saved = localStorage.getItem(MULTI_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        for (const key of scoreKeys) {
+          data[key] = rankScores(validScores(parsed?.[key]));
+        }
+      } else {
+        // Preserve Level 01 bests, but reset levels that changed difficulty.
+        const prior = JSON.parse(localStorage.getItem(PRIOR_MULTI_STORAGE_KEY) || "null");
+        const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const oldLevel1 = validScores(prior?.level1);
+        const allLevel1 = [...oldLevel1, ...validScores(legacy)];
+        const unique = new Map();
+        for (const row of rankScores(allLevel1)) {
+          const key = row.name.toLowerCase();
+          if (!unique.has(key)) unique.set(key, row);
+        }
+        data.level1 = rankScores([...unique.values()]);
+      }
+    } catch (error) {
+      storageOk = false;
+      console.warn("Leaderboard storage unavailable:", error);
+    }
+    memoryRecords = data;
+    return data;
+  }
+
+  function saveRecords() {
+    try {
+      localStorage.setItem(MULTI_STORAGE_KEY, JSON.stringify(readRecords()));
+      storageOk = true;
+    } catch (error) {
+      storageOk = false;
+      console.warn("Records kept in memory only:", error);
+    }
+  }
+
+  function recordTime(key, name, ms) {
+    const records = readRecords();
+    const list = records[key];
+    const old = scoreFor(name, list);
+    const improved = !old || ms < old.ms;
+    if (improved) {
+      records[key] = rankScores([
+        ...list.filter(r => r.name.toLowerCase() !== name.toLowerCase()),
+        {name, ms: Math.round(ms)}
+      ]);
+      saveRecords();
+    }
+    return improved;
+  }
+
+  function rankOf(name, list) {
+    const index = list.findIndex(r =>
+      r.name.toLowerCase() === name.toLowerCase()
+    );
+    return index < 0 ? null : index + 1;
+  }
+
+  const scoreLabels = {
+    level1: "LEVEL 01", level2: "LEVEL 02",
+    level3: "LEVEL 03", total: "TOTAL RUN"
+  };
+
+  function renderLeaderboard(key = "level1") {
+    const holder = el("leaderboard");
+    holder.replaceChildren();
+    const list = readRecords()[key] || [];
+    if (!list.length) {
+      const li = document.createElement("li");
+      li.textContent = "No completed records yet";
+      holder.append(li);
+      return;
+    }
+    list.slice(0, 5).forEach((record, index) => {
+      const li = document.createElement("li");
+      if (record.name.toLowerCase() === state.player.toLowerCase()) {
+        li.className = "highlight";
+      }
+      const label = document.createElement("span");
+      const time = document.createElement("span");
+      label.textContent = `#${index + 1}  ${record.name}`;
+      time.textContent = fmt(record.ms);
+      li.append(label, time);
+      holder.append(li);
+    });
+  }
+
+  function renderComparison() {
+    const body = el("comparison-body");
+    body.replaceChildren();
+    const records = readRecords();
+    for (const key of scoreKeys) {
+      const list = records[key];
+      const mine = scoreFor(state.player, list);
+      const best = list[0];
+      const row = document.createElement("tr");
+      for (const value of [
+        scoreLabels[key],
+        key === "total"
+          ? (state.runTimes.filter(Number.isFinite).length === 3
+              ? fmt(state.runTimes.reduce((sum, ms) => sum + ms, 0)) : "—")
+          : (Number.isFinite(state.runTimes[Number(key.slice(-1)) - 1])
+              ? fmt(state.runTimes[Number(key.slice(-1)) - 1]) : "—"),
+        mine ? fmt(mine.ms) : "—",
+        best ? fmt(best.ms) : "—",
+        rankOf(state.player, list) ? `#${rankOf(state.player, list)}` : "—"
+      ]) {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.append(cell);
+      }
+      body.append(row);
+    }
+  }
+
+  el("leaderboard-view").addEventListener("change", event => {
+    renderLeaderboard(event.target.value);
+  });
+
+
+  // ============================================
+  // 3. GAME RESULTS
+  // ============================================
+
+  function showResult(success, elapsed) {
+    if (state.phase !== "running") return;
+
+    stopBackground();
+    state.release = null;
+    el("pause").disabled = true;
+
+    const index = state.levelIndex;
+    const levelNumber = index + 1;
+    const isFinal = levelNumber === LEVELS.length;
+    const elapsedRounded = Math.round(elapsed);
+    const key = `level${levelNumber}`;
+
+    if (success) {
+      state.runTimes[index] = elapsedRounded;
+      recordTime(key, state.player, elapsedRounded);
+      if (isFinal && state.runTimes.every(Number.isFinite) && state.runTimes.length === 3) {
+        const total = state.runTimes.reduce((sum, ms) => sum + ms, 0);
+        recordTime("total", state.player, total);
+      }
+    }
+
+    state.phase = success ? (isFinal ? "won" : "transition") : "lost";
+    timerDisplay.textContent = clock(success ? LIMIT - elapsed : 0);
+    timerDisplay.classList.toggle("warning", !success);
+
+    // The completed level celebrates, then flows directly into the next.
+    // No leaderboard or action is shown between levels.
+    if (success && !isFinal) {
+      feedback.textContent = `LEVEL ${String(levelNumber).padStart(2,"0")} CLEAR · NEXT SIGNAL INCOMING…`;
+      const token = state.runToken;
+      state.transitionTimeout = setTimeout(() => {
+        state.transitionTimeout = null;
+        if (state.runToken === token && state.phase === "transition") {
+          startRound(state.player, index + 1);
+        }
+      }, 1150);
+      return;
+    }
+
+    const records = readRecords();
+    const totalScores = records.total;
+    const mine = scoreFor(state.player, totalScores);
+    const totalRank = rankOf(state.player, totalScores);
+    const isComplete = success && isFinal && state.runTimes.length === 3;
+    const total = state.runTimes.reduce((sum, ms) => sum + ms, 0);
+
+    el("result-kicker").textContent = "ECHO PATH / THREE-LEVEL CHALLENGE";
+    el("result-title").textContent = isComplete
+      ? "ALL LEVELS CLEARED!" : "RUN ENDED";
+    el("result-title").style.color = isComplete ? "#D5FF5A" : "#FC70AF";
+    el("result-message").textContent = isComplete
+      ? `${state.player}, all three signals are free! Total playing time: ${fmt(total)}. Compare each level with your best results below.`
+      : `${state.player}, Level ${String(levelNumber).padStart(2,"0")} ran out of time. Your completed level records are saved. Try a new full run!`;
+
+    el("your-time").textContent = isComplete ? fmt(total) : "—";
+    el("best-time").textContent = mine ? fmt(mine.ms) : "—";
+    el("your-rank").textContent = totalRank ? `#${totalRank}` : "—";
+    el("total-time").textContent = `${state.runTimes.filter(Number.isFinite).length} / 3`;
+    el("play-again").textContent = "NEW RUN ↺";
+    el("storage-note").textContent = storageOk
+      ? "Records are saved in this browser only. This run excludes time spent paused or between levels."
+      : "Browser storage unavailable; records last only until this tab closes.";
+
+    renderComparison();
+    const select = el("leaderboard-view");
+    select.value = isComplete ? "total" : key;
+    renderLeaderboard(select.value);
+
+    const token = state.runToken;
+    const showDialog = () => {
+      if (state.runToken === token && state.phase === (isComplete ? "won" : "lost") && !resultDialog.open) {
+        resultDialog.showModal();
+      }
+    };
+    if (isComplete) setTimeout(showDialog, 1150);
+    else showDialog();
+  }
+
+
+    // ============================================
+  // 4. START AND RESTART
+  // ============================================
+
+  function configureLevel(index) {
+    state.levelIndex = index;
+    levelIndex = index;
+    const level = LEVELS[index];
+    paths = level.paths;
+    LIMIT = level.limit;
+    state.gridSize = level.size;
+
+    document.querySelector(".level-stamp strong").textContent =
+      `LEVEL ${String(index + 1).padStart(2, "0")}`;
+    document.querySelector(".level-stamp small").textContent = level.name;
+    document.querySelector(".board-index").innerHTML =
+      `EP—${String(index + 1).padStart(2, "0")}<br>GRID / ${String(level.size).padStart(2, "0")}×${String(level.size).padStart(2, "0")}`;
+    el("level-counter").textContent = `${index + 1} / ${LEVELS.length}`;
+
+    const legend = document.querySelector(".legend");
+    legend.replaceChildren();
+    const arrows = {LEFT:"←", RIGHT:"→", UP:"↑", DOWN:"↓"};
+    for (const path of paths) {
+      const span = document.createElement("span");
+      const swatch = document.createElement("i");
+      swatch.className = "swatch";
+      swatch.style.background = path.color;
+      swatch.style.color = path.color;
+      span.append(swatch, document.createTextNode(`${path.id} ${arrows[path.dir]}`));
+      legend.append(span);
+    }
+    resize();
+  }
+
+  function resetBoard() {
+    state.active = new Set(paths.map(p => p.id));
+    state.release = null;
+    state.selected = null;
+    state.hover = null;
+    state.blocked = null;
+    state.blockedUntil = 0;
+    state.particles = [];
+    state.celebrationUntil = 0;
+    el("paths-remaining").textContent = String(state.active.size);
+  }
+
+  function startRound(name, index = 0) {
+    state.runToken++;
+    if (state.transitionTimeout !== null) {
+      clearTimeout(state.transitionTimeout);
+      state.transitionTimeout = null;
+    }
+    if (index === 0) state.runTimes = [];
+
+    state.player = name;
+    configureLevel(index);
+    resetBoard();
+    state.phase = "running";
+    state.startedAt = now();
+    state.deadline = state.startedAt + LIMIT;
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    el("pause").disabled = false;
+
+    el("current-player").textContent = name;
+    timerDisplay.textContent = clock(LIMIT);
+    timerDisplay.classList.remove("warning");
+    feedback.textContent =
+      `LEVEL ${String(index + 1).padStart(2, "0")} · Release ${paths.length} paths before time runs out.`;
+
+    if (startDialog.open) startDialog.close();
+    if (resultDialog.open) resultDialog.close();
+    if (el("pause-dialog").open) el("pause-dialog").close();
+    startBackground();
+  }
+
+  el("start-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const name = nameInput.value.trim().replace(/\s+/g, " ");
+    if (!name) {
+      el("name-error").textContent = "Please enter a name.";
+      return;
+    }
+    el("name-error").textContent = "";
+    startRound(name, 0);
+  });
+
+  function returnToMenu() {
+    state.runToken++;
+    if (state.transitionTimeout !== null) {
+      clearTimeout(state.transitionTimeout);
+      state.transitionTimeout = null;
+    }
+    stopBackground();
+    if (resultDialog.open) resultDialog.close();
+    if (el("pause-dialog").open) el("pause-dialog").close();
+    state.phase = "ready";
+    state.runTimes = [];
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    el("pause").disabled = true;
+    configureLevel(0);
+    resetBoard();
+    nameInput.value = "";
+    el("name-error").textContent = "";
+    timerDisplay.textContent = clock(LIMIT);
+    timerDisplay.classList.remove("warning");
+    el("current-player").textContent = "—";
+    feedback.textContent = "Enter your name to start the three-level challenge.";
+    if (!startDialog.open) startDialog.showModal();
+    nameInput.focus();
+  }
+
+  el("play-again").addEventListener("click", () => {
+    startRound(state.player, 0);
+  });
+
+  el("new-player").addEventListener("click", returnToMenu);
+
+  const pauseDialog = el("pause-dialog");
+  const pauseButton = el("pause");
+
+  pauseButton.addEventListener("click", () => {
+    if (state.phase !== "running") return;
+    state.pauseStartedAt = now();
+    state.pauseRemaining = Math.max(0, state.deadline - state.pauseStartedAt);
+    state.phase = "paused";
+    pauseButton.disabled = true;
+    stopBackground();
+    timerDisplay.textContent = clock(state.pauseRemaining);
+    el("pause-description").textContent =
+      `LEVEL ${String(state.levelIndex + 1).padStart(2,"0")} · ${fmt(state.pauseRemaining)} remaining. The timer and the light paths are frozen.`;
+    pauseDialog.showModal();
+  });
+
+  function resumeGame() {
+    if (state.phase !== "paused") return;
+    const pausedDuration = Math.max(0, now() - state.pauseStartedAt);
+    state.startedAt += pausedDuration;
+    state.deadline += pausedDuration;
+    if (state.release) {
+      state.release.start += pausedDuration;
+      state.release.lastTrail += pausedDuration;
+    }
+    state.blockedUntil += pausedDuration;
+    state.celebrationUntil += pausedDuration;
+    for (const particle of state.particles) particle.t += pausedDuration;
+    state.pauseStartedAt = 0;
+    state.pauseRemaining = 0;
+    state.phase = "running";
+    pauseDialog.close();
+    pauseButton.disabled = false;
+    startBackground();
+  }
+
+  el("resume-game").addEventListener("click", resumeGame);
+  el("restart-run").addEventListener("click", () => {
+    pauseDialog.close();
+    startRound(state.player, 0);
+  });
+  el("exit-to-menu").addEventListener("click", returnToMenu);
+
+  [startDialog, resultDialog].forEach(dialog => {
+    dialog.addEventListener("cancel", event => event.preventDefault());
+  });
+  pauseDialog.addEventListener("cancel", event => {
+    event.preventDefault();
+    resumeGame();
+  });
+
+
+    // ============================================
+  // 5. MUSIC AND SOUND CONTROL
+  // ============================================
+
+  // Sound is enabled by default.
+  // Audio starts only after the player clicks Start.
+
+  state.sound = true;
+
+  const soundButton = el("sound");
+
+  soundButton.textContent = "SOUND · ON";
+  soundButton.setAttribute("aria-pressed", "true");
+
+  let backgroundTimer = null;
+  let backgroundStep = 0;
+
+  // A gentle repeating electronic melody
+  const backgroundNotes = [
+    261.63, // C4
+    329.63, // E4
+    392.00, // G4
+    329.63, // E4
+    293.66, // D4
+    329.63, // E4
+    392.00, // G4
+    493.88  // B4
+  ];
+
+  function getAudioContext() {
+    const AudioContextClass =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+      return null;
+    }
+
+    if (!audio) {
+      audio = new AudioContextClass();
+    }
+
+    if (audio.state === "suspended") {
+      audio.resume().catch(error => {
+        console.warn("Audio could not resume:", error);
+      });
+    }
+
+    return audio;
+  }
+
+  // Shared synthesizer for background and interaction
+  function synthNote(
+    frequency,
+    duration = 0.35,
+    volume = 0.1,
+    wave = "sine",
+    endFrequency = null
+  ) {
+    if (!state.sound) return;
+
+    try {
+      const context = getAudioContext();
+      if (!context) return;
+
+      const t = context.currentTime;
+
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+
+      oscillator.type = wave;
+
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        t
+      );
+
+      // Optional descending pitch for blocked actions
+      if (endFrequency) {
+        oscillator.frequency.exponentialRampToValueAtTime(
+          endFrequency,
+          t + duration * 0.7
+        );
+      }
+
+      // Soft attack and decay to avoid clicking sounds
+      gain.gain.setValueAtTime(0.001, t);
+
+      gain.gain.exponentialRampToValueAtTime(
+        volume,
+        t + 0.025
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        t + duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+
+      oscillator.start(t);
+      oscillator.stop(t + duration + 0.02);
+
+      oscillator.onended = () => {
+        oscillator.disconnect();
+        gain.disconnect();
+      };
+
+    } catch (error) {
+      console.warn("Audio playback unavailable:", error);
+    }
+  }
+
+  // Interactive sound for released or blocked paths
+  function playTone(frequency, blocked = false) {
+    if (blocked) {
+      synthNote(
+        466.16,
+        0.16,
+        0.065,
+        "triangle",
+        350
+      );
+
+    } else {
+      synthNote(
+        frequency,
+        0.38,
+        0.12,
+        "sine"
+      );
+    }
+  }
+
+  
+function playBackgroundStep() {
+  if (!state.sound || state.phase !== "running") {
+    return;
+  }
+
+  // Play a soft ambient chord every 1.8 seconds.
+  // Leave space for the player's musical actions.
+  if (backgroundStep % 3 === 0) {
+
+    // Low C3: warm background foundation
+    synthNote(
+      130.81,
+      1.25,
+      0.020,
+      "sine"
+    );
+
+    // Low G3: gentle harmonic layer
+    synthNote(
+      196.00,
+      1.25,
+      0.010,
+      "sine"
+    );
+  }
+
+  backgroundStep++;
+}
+
+
+  function stopBackground() {
+    if (backgroundTimer !== null) {
+      clearInterval(backgroundTimer);
+      backgroundTimer = null;
+    }
+  }
+
+  function startBackground() {
+    stopBackground();
+
+    if (!state.sound || state.phase !== "running") {
+      return;
+    }
+
+    backgroundStep = 0;
+
+    // Begin immediately after the Start click
+    playBackgroundStep();
+
+    backgroundTimer = setInterval(
+      playBackgroundStep,
+      600
+    );
+  }
+
+  soundButton.addEventListener("click", () => {
+    state.sound = !state.sound;
+
+    soundButton.textContent =
+      state.sound ? "SOUND · ON" : "SOUND · OFF";
+
+    soundButton.setAttribute(
+      "aria-pressed",
+      String(state.sound)
+    );
+
+    if (state.sound) {
+      startBackground();
+    } else {
+      stopBackground();
+    }
+  });
+
+
+  // ============================================
+  // 6. COLLISION DETECTION
+  // ============================================
+
+  function occupied(x, y, ownId) {
+    return paths.find(p =>
+      p.id !== ownId &&
+      state.active.has(p.id) &&
+      p.cells.some(
+        ([cx, cy]) => cx === x && cy === y
+      )
+    );
+  }
+
+  function blockerFor(path) {
+    const [dx, dy] = directions[path.dir];
+
+    for (const [cx, cy] of path.cells) {
+      let x = cx + dx;
+      let y = cy + dy;
+
+      while (
+        x >= 0 &&
+        y >= 0 &&
+        x < state.gridSize &&
+        y < state.gridSize
+      ) {
+        const blocker = occupied(
+          x,
+          y,
+          path.id
+        );
+
+        if (blocker) return blocker;
+
+        x += dx;
+        y += dy;
+      }
+    }
+
+    return null;
+  }
+
+  function attemptRelease(path) {
+    if (
+      state.phase !== "running" ||
+      state.release ||
+      !state.active.has(path.id)
+    ) {
+      return;
+    }
+
+    const blocker = blockerFor(path);
+    const t = now();
+
+    state.selected = path.id;
+
+    if (blocker) {
+      state.blocked = path.id;
+      state.blockedUntil = t + 470;
+
+      feedback.textContent =
+        `Path ${path.id} is blocked by ${blocker.id}. ` +
+        "Try another path.";
+
+      playTone(466.16, true);
+      return;
+    }
+
+    state.release = {
+      id: path.id,
+      start: t,
+      // Equal release lockout for every player, including reduced-motion settings.
+      duration: 620,
+      lastTrail: t
+    };
+
+    state.blocked = null;
+
+    feedback.textContent =
+      `Path ${path.id} is moving ` +
+      `${path.dir.toLowerCase()}!`;
+
+    playTone(path.note);
+  }
+
+  // ============================================
+  // 7. CANVAS LAYOUT AND INPUT
+  // ============================================
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+
+    const dpr = Math.min(
+      devicePixelRatio || 1,
+      2
+    );
+
+    const size = Math.min(
+      rect.width,
+      rect.height
+    );
+
+    state.dpr = dpr;
+
+    canvas.width = Math.max(
+      1,
+      Math.round(rect.width * dpr)
+    );
+
+    canvas.height = Math.max(
+      1,
+      Math.round(rect.height * dpr)
+    );
+
+    state.grid = {
+      x: (rect.width - size) / 2 + size * 0.09,
+      y: (rect.height - size) / 2 + size * 0.09,
+      cell: size * 0.82 / state.gridSize
+    };
+  }
+
+  const observer = new ResizeObserver(resize);
+
+  observer.observe(canvas);
+  resize();
+
+  function center([x, y]) {
+    const g = state.grid;
+
+    return {
+      x: g.x + (x + 0.5) * g.cell,
+      y: g.y + (y + 0.5) * g.cell
+    };
+  }
+
+  function hit(px, py) {
+    const g = state.grid;
+
+    const col = Math.floor(
+      (px - g.x) / g.cell
+    );
+
+    const row = Math.floor(
+      (py - g.y) / g.cell
+    );
+
+    if (
+      col < 0 ||
+      row < 0 ||
+      col >= state.gridSize ||
+      row >= state.gridSize
+    ) {
+      return null;
+    }
+
+    return paths.find(p =>
+      state.active.has(p.id) &&
+      p.cells.some(
+        ([x, y]) => x === col && y === row
+      )
+    ) || null;
+  }
+
+  function point(event) {
+    const rect = canvas.getBoundingClientRect();
+
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+  }
+
+  canvas.addEventListener(
+    "pointermove",
+    event => {
+      const p = point(event);
+
+      state.hover =
+        state.phase === "running"
+          ? hit(p.x, p.y)?.id
+          : null;
+
+      canvas.style.cursor =
+        state.hover ? "pointer" : "crosshair";
+    }
+  );
+
+  canvas.addEventListener(
+    "pointerleave",
+    () => {
+      state.hover = null;
+    }
+  );
+
+  canvas.addEventListener(
+    "pointerdown",
+    event => {
+      if (state.phase !== "running") return;
+
+      const p = point(event);
+      const path = hit(p.x, p.y);
+
+      if (path) {
+        attemptRelease(path);
+      }
+    }
+  );
+
+  // ============================================
+  // 8. DRAW THE GRID
+  // ============================================
+
+  function drawGrid() {
+    const { x, y, cell } = state.grid;
+
+    ctx.save();
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#c4e6f924";
+
+    for (let i = 0; i <= state.gridSize; i++) {
+      ctx.beginPath();
+
+      ctx.moveTo(
+        x + i * cell,
+        y
+      );
+
+      ctx.lineTo(
+        x + i * cell,
+        y + state.gridSize * cell
+      );
+
+      ctx.moveTo(
+        x,
+        y + i * cell
+      );
+
+      ctx.lineTo(
+        x + state.gridSize * cell,
+        y + i * cell
+      );
+
+      ctx.stroke();
+    }
+
+    for (let row = 0; row < state.gridSize; row++) {
+      for (let col = 0; col < state.gridSize; col++) {
+        const px = x + col * cell;
+        const py = y + row * cell;
+
+        ctx.fillStyle = "#c4e6f954";
+
+        ctx.font =
+          `${Math.max(9, cell * 0.10)}px monospace`;
+
+        if (state.gridSize <= 5) ctx.fillText(
+          `${col},${row}`,
+          px + cell * 0.07,
+          py + cell * 0.17
+        );
+
+        ctx.fillStyle = "#60ffe588";
+
+        ctx.beginPath();
+
+        ctx.arc(
+          px + cell * 0.9,
+          py + cell * 0.1,
+          1.4,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fill();
+      }
+    }
+
+    ctx.strokeStyle = "#c4e6f93a";
+
+    ctx.strokeRect(
+      x,
+      y,
+      state.gridSize * cell,
+      state.gridSize * cell
+    );
+
+    ctx.restore();
+  }
+
+  // ============================================
+  // 9. DRAW THE GLOWING PATHS
+  // ============================================
+
+  function drawPath(path, t) {
+    const a = center(path.cells[0]);
+    const b = center(path.cells[1]);
+
+    const unit = state.grid.cell;
+
+    const release =
+      state.release?.id === path.id
+        ? state.release
+        : null;
+
+    const progress = release
+      ? (reduced ? 1 : Math.min(
+          1,
+          (t - release.start) / release.duration
+        ))
+      : 0;
+
+    const ease =
+      progress * progress * (3 - 2 * progress);
+
+    const d = directions[path.dir];
+
+    const shift = unit * (state.gridSize + 0.9) * ease;
+
+    const shake =
+      state.blocked === path.id &&
+      state.blockedUntil > t
+        ? Math.sin(t * 0.07) * 4
+        : 0;
+
+    const hovered =
+      state.hover === path.id;
+
+    const w = unit * 0.43;
+
+    ctx.save();
+
+    ctx.translate(
+      d[0] * shift + shake,
+      d[1] * shift
+    );
+
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    function line(width, color, blur = 0) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+
+      ctx.shadowColor = path.color;
+      ctx.shadowBlur = blur;
+
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+    }
+
+    // Neon glow, dark rim and bright core
+    line(
+      w * 1.9,
+      `rgba(${path.rgb},.20)`,
+      hovered ? 30 : 20
+    );
+
+    line(w * 1.17, "#000");
+
+    line(
+      w * 0.92,
+      `rgba(${path.rgb},.42)`
+    );
+
+    line(
+      w * 0.72,
+      path.color,
+      hovered ? 25 : 14
+    );
+
+    line(
+      Math.max(1, w * 0.04),
+      "#ffffffa6"
+    );
+
+    // Endpoints
+    for (const p of [a, b]) {
+      ctx.fillStyle = "#010609";
+      ctx.beginPath();
+      ctx.arc(
+        p.x,
+        p.y,
+        w * 0.18,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      ctx.fillStyle = path.color;
+      ctx.shadowColor = path.color;
+      ctx.shadowBlur = 12;
+
+      ctx.beginPath();
+      ctx.arc(
+        p.x,
+        p.y,
+        w * 0.08,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+    }
+
+    // Directional arrow
+    const cx =
+      (a.x + b.x) / 2 +
+      d[0] * unit * 0.23;
+
+    const cy =
+      (a.y + b.y) / 2 +
+      d[1] * unit * 0.23;
+
+    ctx.translate(cx, cy);
+    ctx.rotate(Math.atan2(d[1], d[0]));
+
+    const l = unit * 0.26;
+
+    ctx.fillStyle = "#001012";
+    ctx.strokeStyle = path.color;
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(l, 0);
+    ctx.lineTo(-l * 0.25, -l * 0.65);
+    ctx.lineTo(-l * 0.25, -l * 0.23);
+    ctx.lineTo(-l, -l * 0.23);
+    ctx.lineTo(-l, l * 0.23);
+    ctx.lineTo(-l * 0.25, l * 0.23);
+    ctx.lineTo(-l * 0.25, l * 0.65);
+    ctx.closePath();
+
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
+
+    // Path ID remains readable even with twenty coloured paths.
+    if (state.gridSize > 5) {
+      const cx = (a.x + b.x) / 2 + d[0] * shift;
+      const cy = (a.y + b.y) / 2 + d[1] * shift;
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = `bold ${Math.max(10, unit * 0.19)}px Arial`;
+      ctx.shadowColor = "#000";
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillText(path.id, cx - d[1] * unit * 0.34, cy + d[0] * unit * 0.34);
+      ctx.restore();
+    }
+
+    // Moving energy bead
+    if (!reduced) {
+      const bead = (t * 0.00065) % 1;
+
+      const x =
+        a.x + (b.x - a.x) * bead +
+        d[0] * shift;
+
+      const y =
+        a.y + (b.y - a.y) * bead +
+        d[1] * shift;
+
+      ctx.save();
+
+      ctx.fillStyle = "#fff";
+      ctx.shadowColor = path.color;
+      ctx.shadowBlur = 12;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        x,
+        y,
+        Math.max(2, unit * 0.04),
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // ============================================
+  // 10. PARTICLES AND CELEBRATION
+  // ============================================
+
+  function addBurst(t) {
+    const g = state.grid;
+    const x = g.x + g.cell * state.gridSize / 2;
+    const y = g.y + g.cell * state.gridSize / 2;
+    const colors = [paths[0].color, paths[1].color, paths[2].color, "#C4E6F9"];
+    for (let i = 0; i < 48; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.4 + Math.random() * 1.8;
+      state.particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        r: 1.4 + Math.random() * 2.1,
+        t,
+        life: 650 + Math.random() * 500,
+        color: colors[i % colors.length],
+        kind: "firework"
+      });
+    }
+  }
+
+  function drawParticles(t) {
+    state.particles = state.particles.filter(p => t - p.t < p.life);
+    for (const p of state.particles) {
+      const age = Math.max(0, Math.min(1, (t - p.t) / p.life));
+      const fade = 1 - age;
+      const distance = p.kind === "firework" ? 60 : 44;
+      ctx.save();
+      ctx.globalAlpha = fade;
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(
+        p.x + p.vx * age * distance,
+        p.y + p.vy * age * distance,
+        Math.max(0.7, p.r * fade), 0, Math.PI * 2
+      );
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // ============================================
+  // 11. PATH RELEASE AND LEVEL COMPLETION
+  // ============================================
+
+  function updateRelease(t) {
+    const r = state.release;
+    if (!r) return;
+
+    const path = byId(r.id);
+    const direction = directions[path.dir];
+    const cell = state.grid.cell;
+    const progress = Math.max(0, Math.min(1, (t - r.start) / r.duration));
+    const ease = progress * progress * (3 - 2 * progress);
+    const distance = cell * (state.gridSize + 0.9) * ease;
+
+    if (!reduced && t - r.lastTrail > 34) {
+      r.lastTrail = t;
+      const a = center(path.cells[0]);
+      const b = center(path.cells[1]);
+      const x = (a.x + b.x) / 2 + direction[0] * distance - direction[0] * cell * 0.25;
+      const y = (a.y + b.y) / 2 + direction[1] * distance - direction[1] * cell * 0.25;
+
+      for (let i = 0; i < 2; i++) {
+        state.particles.push({
+          x: x + (Math.random() - 0.5) * cell * 0.16,
+          y: y + (Math.random() - 0.5) * cell * 0.16,
+          vx: -direction[0] * (0.7 + Math.random() * 0.45) + (Math.random() - 0.5) * 0.45,
+          vy: -direction[1] * (0.7 + Math.random() * 0.45) + (Math.random() - 0.5) * 0.45,
+          r: 1 + Math.random() * 1.5,
+          t,
+          life: 300 + Math.random() * 250,
+          color: path.color,
+          kind: "trail"
+        });
+      }
+    }
+
+    if (progress < 1) return;
+    state.active.delete(r.id);
+    state.release = null;
+    el("paths-remaining").textContent = String(state.active.size);
+
+    if (state.active.size === 0) {
+      const inTime = t <= state.deadline;
+      if (inTime) {
+        state.celebrationUntil = t + 1100;
+        addBurst(t);
+        document.querySelector(".level-stamp strong").textContent = "COMPLETE";
+        feedback.textContent = `LEVEL ${state.levelIndex + 1} COMPLETE · all ${paths.length} paths released!`;
+      }
+      if (state.phase === "running") {
+        showResult(inTime, t - state.startedAt);
+      }
+    } else {
+      feedback.textContent = `Path ${r.id} released · ${state.active.size} path(s) left.`;
+    }
+  }
+
+
+  // ============================================
+  // 12. MAIN RENDER AND TIMER LOOP
+  // ============================================
+
+  function frame(t) {
+    // Rendering uses a frozen clock during pause, not wall-clock time.
+    const visualTime = state.phase === "paused" ? state.pauseStartedAt : t;
+    const w = canvas.width / state.dpr;
+    const h = canvas.height / state.dpr;
+
+    ctx.setTransform(
+      state.dpr,
+      0,
+      0,
+      state.dpr,
+      0,
+      0
+    );
+
+    ctx.clearRect(0, 0, w, h);
+
+    drawGrid();
+
+    for (const p of paths) {
+      if (state.active.has(p.id)) {
+        drawPath(p, visualTime);
+      }
+    }
+
+    if (state.phase !== "paused") updateRelease(t);
+    drawParticles(visualTime);
+
+    if (state.celebrationUntil > visualTime) {
+      const k = Math.max(0, (state.celebrationUntil - visualTime) / 1100);
+      ctx.save();
+      ctx.globalAlpha = k * 0.35;
+      ctx.strokeStyle = "#D5FF5A";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(w / 2, h / 2,
+        Math.min(w, h) * (0.24 + (1 - k) * 0.22),
+        0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+
+    // Countdown is active only during a challenge
+    if (state.phase === "running") {
+      const remaining = Math.max(
+        0,
+        state.deadline - t
+      );
+
+      timerDisplay.textContent =
+        clock(remaining);
+
+      timerDisplay.classList.toggle(
+        "warning",
+        remaining < 1700
+      );
+
+      // Challenge failed
+      if (t >= state.deadline) {
+        showResult(false, LIMIT);
+      }
+    }
+
+    state.raf = requestAnimationFrame(frame);
+  }
+
+  // ============================================
+  // 13. INITIALISATION
+  // ============================================
+
+  state.raf = requestAnimationFrame(frame);
+
+  window.addEventListener(
+    "beforeunload",
+    () => {
+      cancelAnimationFrame(state.raf);
+      observer.disconnect();
+
+      audio?.close().catch(() => {});
+    }
+  );
+
+  configureLevel(0);
+  resetBoard();
+  timerDisplay.textContent = clock(LIMIT);
+  readRecords();
+
+  startDialog.showModal();
+  nameInput.focus();
+
+})();
+</script>
+
 </body>
 </html>

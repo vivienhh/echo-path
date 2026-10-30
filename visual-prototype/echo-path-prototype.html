@@ -1090,7 +1090,20 @@ dialog p {
     renderLeaderboard(scores);
 
     if (!resultDialog.open) {
-      resultDialog.showModal();
+      if (success) {
+        // Keep the board visible during the firework animation.
+        // The timer has already stopped in showResult().
+        setTimeout(() => {
+          if (
+            state.phase === "won" &&
+            !resultDialog.open
+          ) {
+            resultDialog.showModal();
+          }
+        }, 1100);
+      } else {
+        resultDialog.showModal();
+      }
     }
   }
 
@@ -1901,23 +1914,31 @@ dialog p {
 
   function addBurst(t) {
     const g = state.grid;
-
     const x = g.x + g.cell * 2.5;
     const y = g.y + g.cell * 2.5;
 
-    for (let i = 0; i < 45; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const v = 0.4 + Math.random() * 2;
+    // Multi-coloured fireworks inspired by the Easel prototype
+    const colors = [
+      paths[0].color,
+      paths[1].color,
+      paths[2].color,
+      "#C4E6F9"
+    ];
+
+    for (let i = 0; i < 48; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.4 + Math.random() * 1.8;
 
       state.particles.push({
         x,
         y,
-        vx: Math.cos(a) * v,
-        vy: Math.sin(a) * v,
-        r: 2 + Math.random() * 2,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        r: 1.4 + Math.random() * 2.1,
         t,
-        life: 600 + Math.random() * 500,
-        color: paths[i % 3].color
+        life: 650 + Math.random() * 500,
+        color: colors[i % colors.length],
+        kind: "firework"
       });
     }
   }
@@ -1928,30 +1949,31 @@ dialog p {
     );
 
     for (const p of state.particles) {
-      const age = (t - p.t) / p.life;
+      const age = Math.max(
+        0,
+        Math.min(1, (t - p.t) / p.life)
+      );
+
+      const fade = 1 - age;
+      const distance = p.kind === "firework" ? 60 : 44;
 
       ctx.save();
 
-      ctx.globalAlpha = 1 - age;
+      ctx.globalAlpha = fade;
       ctx.fillStyle = p.color;
-
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 11;
+      ctx.shadowBlur = 12;
 
       ctx.beginPath();
-
       ctx.arc(
-        p.x + p.vx * age * 45,
-        p.y + p.vy * age * 45,
-        Math.max(
-          0.7,
-          p.r * (1 - age)
-        ),
+        p.x + p.vx * age * distance,
+        p.y + p.vy * age * distance,
+        Math.max(0.7, p.r * fade),
         0,
         Math.PI * 2
       );
-
       ctx.fill();
+
       ctx.restore();
     }
   }
@@ -1962,33 +1984,68 @@ dialog p {
 
   function updateRelease(t) {
     const r = state.release;
-
     if (!r) return;
 
-    if (!reduced && t - r.lastTrail > 40) {
+    const path = byId(r.id);
+    const direction = directions[path.dir];
+    const cell = state.grid.cell;
+
+    // Same smooth movement curve used by the path itself
+    const progress = Math.max(
+      0,
+      Math.min(1, (t - r.start) / r.duration)
+    );
+
+    const ease =
+      progress * progress * (3 - 2 * progress);
+
+    const distance = cell * 5.9 * ease;
+
+    // Particle emitter follows the moving path,
+    // slightly behind its centre.
+    if (!reduced && t - r.lastTrail > 34) {
       r.lastTrail = t;
 
-      const p = byId(r.id);
-      const a = center(p.cells[0]);
-      const b = center(p.cells[1]);
+      const a = center(path.cells[0]);
+      const b = center(path.cells[1]);
 
-      state.particles.push({
-        x: (a.x + b.x) / 2,
-        y: (a.y + b.y) / 2,
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2,
-        r: 2,
-        t,
-        life: 400,
-        color: p.color
-      });
+      const x =
+        (a.x + b.x) / 2 +
+        direction[0] * distance -
+        direction[0] * cell * 0.25;
+
+      const y =
+        (a.y + b.y) / 2 +
+        direction[1] * distance -
+        direction[1] * cell * 0.25;
+
+      for (let i = 0; i < 2; i++) {
+        state.particles.push({
+          x: x + (Math.random() - 0.5) * cell * 0.16,
+          y: y + (Math.random() - 0.5) * cell * 0.16,
+
+          vx:
+            -direction[0] *
+              (0.7 + Math.random() * 0.45) +
+            (Math.random() - 0.5) * 0.45,
+
+          vy:
+            -direction[1] *
+              (0.7 + Math.random() * 0.45) +
+            (Math.random() - 0.5) * 0.45,
+
+          r: 1 + Math.random() * 1.5,
+          t,
+          life: 300 + Math.random() * 250,
+          color: path.color,
+          kind: "trail"
+        });
+      }
     }
 
-    if (t - r.start < r.duration) {
-      return;
-    }
+    if (progress < 1) return;
 
-    // The released path has fully left the board
+    // Finish the release animation
     state.active.delete(r.id);
     state.release = null;
 
@@ -1996,8 +2053,7 @@ dialog p {
       const inTime = t <= state.deadline;
 
       if (inTime) {
-        state.celebrationUntil = t + 850;
-
+        state.celebrationUntil = t + 1100;
         addBurst(t);
 
         document.querySelector(
@@ -2008,14 +2064,14 @@ dialog p {
           "LEVEL COMPLETE · all three paths released!";
       }
 
-      // Stop the timer and show the results
+      // Timer and score stop immediately.
+      // Only the result dialog is shown later.
       if (state.phase === "running") {
         showResult(
           inTime,
           t - state.startedAt
         );
       }
-
     } else {
       feedback.textContent =
         `Path ${r.id} released · ` +
@@ -2054,28 +2110,26 @@ dialog p {
     drawParticles(t);
 
     if (state.celebrationUntil > t) {
+      const k = Math.max(
+        0,
+        (state.celebrationUntil - t) / 1100
+      );
+
       ctx.save();
-
+      ctx.globalAlpha = k * 0.35;
       ctx.strokeStyle = "#D5FF5A";
-
-      ctx.globalAlpha =
-        0.3 *
-        (state.celebrationUntil - t) /
-        850;
-
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
 
       ctx.beginPath();
-
       ctx.arc(
         w / 2,
         h / 2,
-        w * 0.35,
+        Math.min(w, h) * (0.24 + (1 - k) * 0.22),
         0,
         Math.PI * 2
       );
-
       ctx.stroke();
+
       ctx.restore();
     }
 

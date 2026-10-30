@@ -355,6 +355,36 @@ This iteration should therefore be considered a working prototype rather than th
 - Test the final audio experience before conducting independent user testing.
 
 
+### 30 October 2026 — Restoring Visual Feedback
+
+**Problem Identified**
+
+After integrating the Easel Studio visual prototype into the time-attack game, I noticed that two important visual feedback effects had changed.
+
+First, particles were generated near the light paths' original positions instead of following the paths as they moved out of the grid.
+
+Second, the completion fireworks were obscured because the result dialog appeared immediately after the final path was released.
+
+**Design and Implementation Changes**
+
+- Revisited the original Easel Studio particle animation logic.
+- Updated the particle emitter to follow each moving path.
+- Restored coloured particle trails that gradually fade as the paths exit the board.
+- Restored a multi-coloured particle burst and expanding ring on successful completion.
+- Delayed the result dialog by approximately 1.1 seconds so that players can see the celebration.
+- Kept the timer and score calculation immediate to preserve fair completion times.
+
+**Testing and Reflection**
+
+I tested the updated Level 01 in the browser and confirmed that the moving particle trails and completion celebration were visible.
+
+This revision helped reconnect visual feedback with player actions without changing the puzzle mechanics or leaderboard.
+
+**Next Step**
+
+Develop Levels 02 and 03 using the existing visual and interaction system, followed by further audio refinement and independent user testing.
+
+
 ## 4. User Testing
 
 Not conducted yet.
@@ -425,6 +455,14 @@ I also tested and debugged audio playback with ChatGPT's guidance, including fix
 
 Although the revised audio is functional, I have not accepted it as the final sound design. Further refinement is planned based on my own listening evaluation.
 
+
+### AI Assistance — Particle Animation Restoration
+
+ChatGPT assisted in comparing the earlier Easel Studio particle logic with the integrated browser game and generating changes to restore the visual effects.
+
+I identified the differences during gameplay and requested that particle trails follow moving paths and that the completion fireworks remain visible before the result dialog appears.
+
+The resulting changes were tested in the browser before being accepted into the project.
 
 ## 6. Credits and Limitations
 

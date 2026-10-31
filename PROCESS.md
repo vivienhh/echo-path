@@ -601,3 +601,40 @@ Further audio refinement and independent user testing are still planned.
 - External user testing has not yet been conducted.
 
 This section will be updated as the project develops.
+
+---
+
+### 2026-10-31 — Audio Integration and Sound Balance
+
+**Design Goal**
+
+Create a relaxing, mysterious cosmic atmosphere while keeping player actions clearly audible. The background music should support the puzzle experience rather than compete with interaction feedback.
+
+**Development and Iteration**
+
+- Explored audio directions in Easel Studio and selected a light fantasy-space atmosphere inspired by the general feeling of magical adventure games.
+- Integrated the selected path-release, blocked-path, and completion sound effects into the three-level game.
+- Found that the original background music was inaudible in the integrated version.
+- Tried adjusting the audio levels, but this did not solve the problem.
+- Implemented an independent background-music loop using the Web Audio API.
+- Created three distinct musical variations:
+  - Level 01 — Stargazer: quiet and atmospheric.
+  - Level 02 — Orbit Drift: playful and gently rhythmic.
+  - Level 03 — Nebula Rush: slightly faster and more energetic.
+- Reduced the BGM master level from 0.55 to 0.35.
+- Increased the prominence of path-release and level-completion sounds.
+- Added temporary background-volume reduction during player interactions.
+
+**Self-Testing and Feedback**
+
+Tested the integrated audio in the local browser preview. The background music became audible after the independent loop was implemented. Further listening identified that the music was too prominent, leading to a final volume adjustment. The revised balance was considered satisfactory during self-testing.
+
+Independent user testing has not yet been documented.
+
+**AI Tool Use**
+
+Easel Studio was used to explore and prototype the audio direction. ChatGPT assisted with examining the generated audio code, integrating effects into the existing game, debugging background playback, implementing the three-level music system, and adjusting the audio mix. The final sound direction and acceptance decisions were made through manual listening and iteration.
+
+**Current Status**
+
+Audio design provisionally finalized for the Assignment 3 submission, pending final published-site checks and independent user testing.

@@ -613,6 +613,28 @@ dialog p {
     transition-duration: .01ms !important;
   }
 }
+
+/* EASEL LEFT PINK ORBIT */
+.shell {
+  isolation: isolate;
+}
+
+.shell::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+
+  width: 300px;
+  height: 300px;
+  left: -205px;
+  bottom: 3%;
+
+  border: 1px solid rgba(252,112,175,.25);
+  border-radius: 50%;
+  box-shadow: 0 0 55px rgba(252,112,175,.08);
+}
+
 </style>
 </head>
 
@@ -1594,7 +1616,7 @@ dialog p {
 
   let memoryRecords = null;
   let storageOk = true;
-  let audio = null;
+  // AudioContext is managed by easelAudio.
 
   const reduced = matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -1784,6 +1806,15 @@ dialog p {
     const index = state.levelIndex;
     const levelNumber = index + 1;
     const isFinal = levelNumber === LEVELS.length;
+
+    if (success) {
+      if (isFinal) {
+        easelAudio.complete();
+      } else {
+        easelAudio.levelUp();
+      }
+    }
+
     const elapsedRounded = Math.round(elapsed);
     const key = `level${levelNumber}`;
 
@@ -2025,199 +2056,472 @@ dialog p {
   });
 
 
-    // ============================================
-  // 5. MUSIC AND SOUND CONTROL
-  // ============================================
 
-  // Sound is enabled by default.
-  // Audio starts only after the player clicks Start.
+  // ============================================
+  // 5. EASEL STARDUST ADVENTURE AUDIO
+  // ============================================
 
   state.sound = true;
 
   const soundButton = el("sound");
-
   soundButton.textContent = "SOUND · ON";
   soundButton.setAttribute("aria-pressed", "true");
 
-  let backgroundTimer = null;
-  let backgroundStep = 0;
+  const easelAudio = (() => {
+    let ac=null, master=null, musicBus=null, sfxBus=null, delay=null, delayFeedback=null, musicTimer=null, musicPlaying=false, nextMusicTime=0, musicStep=0, duckTimer=null;
+    // Original 12-beat Stardust Adventure loop: warm suspended pads, rare upper-register plucks, no E4/G4/C5 lead notes.
+    const phrase=[659.25,null,0,783.99,null,0,987.77,null,880,0,null,1174.66];
+    const harmony=[[146.83,220,293.66],[164.81,246.94,329.63],[130.81,196,261.63],[174.61,261.63,349.23]];
+    const beatSeconds=60/90;
+    function ensure(){
+      if(ac)return;
+      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+      ac=new AC();master=ac.createGain();master.gain.value=state.sound?.62:0;master.connect(ac.destination);
+      musicBus=ac.createGain();musicBus.gain.value=.0001;
+      const musicTone=ac.createGain();musicTone.gain.value=.70;musicTone.connect(musicBus);
+      const musicDelay=ac.createDelay(2.2);musicDelay.delayTime.value=.73;const musicEcho=ac.createGain();musicEcho.gain.value=.28;
+      musicTone.connect(musicDelay);musicDelay.connect(musicEcho);musicEcho.connect(musicDelay);musicDelay.connect(musicBus);musicBus.connect(master);
+      sfxBus=ac.createGain();sfxBus.gain.value=.78;sfxBus.connect(master);
+      delay=ac.createDelay(1.6);delay.delayTime.value=.31;delayFeedback=ac.createGain();delayFeedback.gain.value=.2;
+      const filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=4700;
+      delay.connect(filter);filter.connect(sfxBus);delay.connect(delayFeedback);delayFeedback.connect(delay);
+    }
+    function ramp(param,value,time=.12){if(!ac||!param)return;const t=ac.currentTime;param.cancelScheduledValues(t);param.setTargetAtTime(value,t,time)}
+    function tone(freq,when,duration,volume,bus,shimmer=true,type='sine'){
+      if(!ac)return;
+      const env=ac.createGain(), osc=ac.createOscillator(), upper=ac.createOscillator(), blend=ac.createGain();
+      osc.type=type;osc.frequency.setValueAtTime(freq,when);
+      upper.type='sine';upper.frequency.setValueAtTime(freq*2.76,when);blend.gain.value=.075;
+      env.gain.setValueAtTime(.0001,when);env.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),when+.06);env.gain.exponentialRampToValueAtTime(.0001,when+duration);
+      osc.connect(env);upper.connect(blend);blend.connect(env);env.connect(bus);
+      if(shimmer&&delay){const send=ac.createGain();send.gain.value=.31;env.connect(send);send.connect(delay);}
+      osc.start(when);upper.start(when);osc.stop(when+duration+.08);upper.stop(when+duration+.08);
+    }
+    function pad(freq,when,duration,volume){
+      if(!ac)return;
+      const filter=ac.createBiquadFilter(), env=ac.createGain(), a=ac.createOscillator(), b=ac.createOscillator(), drift=ac.createOscillator(), driftGain=ac.createGain();
+      filter.type='lowpass';filter.frequency.setValueAtTime(1250,when);filter.Q.value=.35;
+      a.type='sine';b.type='triangle';a.frequency.setValueAtTime(freq,when);b.frequency.setValueAtTime(freq*1.003,when);
+      drift.frequency.value=.11;driftGain.gain.value=2.2;drift.connect(driftGain);driftGain.connect(b.detune);
+      env.gain.setValueAtTime(.0001,when);env.gain.linearRampToValueAtTime(volume,when+1.1);env.gain.setValueAtTime(volume,when+duration*.65);env.gain.exponentialRampToValueAtTime(.0001,when+duration);
+      a.connect(filter);b.connect(filter);filter.connect(env);env.connect(musicBus);env.connect(musicTone);
+      a.start(when);b.start(when);drift.start(when);a.stop(when+duration+.1);b.stop(when+duration+.1);drift.stop(when+duration+.1);
+    }
+    function starDust(when,volume=.006){
+      if(!ac)return;
+      const length=Math.floor(ac.sampleRate*.65), data=ac.createBuffer(1,length,ac.sampleRate), samples=data.getChannelData(0);
+      for(let i=0;i<length;i++)samples[i]=(Math.random()*2-1)*(1-i/length);
+      const source=ac.createBufferSource(), filter=ac.createBiquadFilter(), env=ac.createGain();source.buffer=data;
+      filter.type='highpass';filter.frequency.value=4100;filter.Q.value=.45;
+      env.gain.setValueAtTime(.0001,when);env.gain.linearRampToValueAtTime(volume,when+.045);env.gain.exponentialRampToValueAtTime(.0001,when+.7);
+      source.connect(filter);filter.connect(env);env.connect(musicBus);source.start(when);source.stop(when+.72);
+    }
+    function pluck(freq,when,volume=.034){
+      if(!ac)return;
+      const osc=ac.createOscillator(), overtone=ac.createOscillator(), filter=ac.createBiquadFilter(), env=ac.createGain(), blend=ac.createGain();
+      osc.type='triangle';osc.frequency.setValueAtTime(freq,when);overtone.type='sine';overtone.frequency.setValueAtTime(freq*2.01,when);blend.gain.value=.12;
+      filter.type='lowpass';filter.frequency.setValueAtTime(3400,when);filter.frequency.exponentialRampToValueAtTime(1200,when+.42);filter.Q.value=.45;
+      env.gain.setValueAtTime(.0001,when);env.gain.exponentialRampToValueAtTime(volume,when+.012);env.gain.exponentialRampToValueAtTime(.0001,when+.58);
+      osc.connect(filter);overtone.connect(blend);blend.connect(filter);filter.connect(env);env.connect(musicTone);
+      osc.start(when);overtone.start(when);osc.stop(when+.62);overtone.stop(when+.62);
+    }
+    function pulse(when){
+      if(!ac)return;
+      const osc=ac.createOscillator(), env=ac.createGain(), filter=ac.createBiquadFilter();osc.type='sine';osc.frequency.setValueAtTime(110,when);
+      filter.type='lowpass';filter.frequency.value=260;env.gain.setValueAtTime(.0001,when);env.gain.linearRampToValueAtTime(.018,when+.018);env.gain.exponentialRampToValueAtTime(.0001,when+.19);
+      osc.connect(filter);filter.connect(env);env.connect(musicBus);osc.start(when);osc.stop(when+.21);
+    }
+    function startMusic(){
+      ensure();if(!ac)return false;
+      ac.resume();if(musicPlaying)return true;
+      musicPlaying=true;nextMusicTime=ac.currentTime+.16;musicStep=0;
+      musicTimer=setInterval(()=>{
+        if(!musicPlaying||!ac)return;
+        if(!state.sound){nextMusicTime=ac.currentTime+.16;return}
+        while(nextMusicTime<ac.currentTime+.55){
+          const index=musicStep%12, f=phrase[index], chord=harmony[Math.floor(musicStep/12)%harmony.length];
+          // 90 BPM, understated heartbeat; four seamless 8-second harmonic cycles make a 32-second journey.
+          if(index===0)chord.forEach((hz,j)=>pad(hz,nextMusicTime,7.92,j===0?.020:.012));
+          if(f)pluck(f,nextMusicTime+.015,index===0?.045:.055);
+          if(index%2===0)pulse(nextMusicTime+.02);
+          if(index===3||index===9)starDust(nextMusicTime+.12,.0045);
+          nextMusicTime+=beatSeconds;musicStep++;
+        }
+      },120);
+      ramp(musicBus.gain,.62,.22);return true;
+    }
+    function pauseMusic(){if(!ac)return;musicPlaying=false;clearInterval(musicTimer);musicTimer=null;ramp(musicBus.gain,.0001,.12)}
+    function resumeMusic(){return startMusic()}
+    function stopMusic(){pauseMusic();if(ac){const t=ac.currentTime;musicBus.gain.cancelScheduledValues(t);musicBus.gain.setTargetAtTime(.0001,t,.035)}}
+    function setEnabled(enabled){state.sound=!!enabled;ensure();if(!ac)return;ac.resume();ramp(master.gain,state.sound?.62:.0001,.035);if(musicPlaying)ramp(musicBus.gain,state.sound?.62:.0001,.06)}
+    function duck(){if(!ac||!state.sound)return;musicBus.gain.cancelScheduledValues(ac.currentTime);musicBus.gain.setTargetAtTime(musicPlaying?.18:.0001,ac.currentTime,.035);clearTimeout(duckTimer);duckTimer=setTimeout(()=>{if(ac&&musicPlaying&&state.sound)ramp(musicBus.gain,.62,.30)},550)}
+    function playPath(id,frequency){if(!state.sound)return;ensure();if(!ac)return;ac.resume();duck();const f=frequency ?? ({C:329.63,B:392,A:523.25}[id]||523.25);tone(f,ac.currentTime+.015,1.9,.36,sfxBus,true,'sine');tone(f*2.76,ac.currentTime+.09,1.2,.055,sfxBus,true,'sine')}
+    function blocked(){if(!state.sound)return;ensure();if(!ac)return;ac.resume();duck();tone(440,ac.currentTime,.42,.065,sfxBus,true,'sine');tone(369.99,ac.currentTime+.12,.55,.045,sfxBus,true,'sine')}
+    function complete(){if(!state.sound)return;ensure();if(!ac)return;ac.resume();duck();[392,523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,ac.currentTime+i*.16,1.35,.18-i*.020,sfxBus,true,'sine'))}
 
-  // A gentle repeating electronic melody
-  const backgroundNotes = [
-    261.63, // C4
-    329.63, // E4
-    392.00, // G4
-    329.63, // E4
-    293.66, // D4
-    329.63, // E4
-    392.00, // G4
-    493.88  // B4
-  ];
+    function levelUp(){
+      if(!state.sound)return;
+      ensure();
+      if(!ac)return;
+      ac.resume();
+      duck();
 
-  function getAudioContext() {
-    const AudioContextClass =
-      window.AudioContext ||
-      window.webkitAudioContext;
-
-    if (!AudioContextClass) {
-      return null;
+      [659.25,783.99,987.77].forEach((f,i)=>
+        tone(
+          f,
+          ac.currentTime+i*.12,
+          .72,
+          .13,
+          sfxBus,
+          true,
+          'sine'
+        )
+      );
     }
 
-    if (!audio) {
-      audio = new AudioContextClass();
-    }
+    return {
+      startMusic,
+      pauseMusic,
+      resumeMusic,
+      stopMusic,
+      setEnabled,
+      playPath,
+      blocked,
+      complete,
+      levelUp,
+      get playing(){return musicPlaying}
+    };
 
-    if (audio.state === "suspended") {
-      audio.resume().catch(error => {
-        console.warn("Audio could not resume:", error);
-      });
-    }
+  })();
 
-    return audio;
+  window.EchoPathAudio = easelAudio;
+
+  function playTone(frequency, blocked = false) {
+    if (blocked) {
+      cosmicBgm.duck();
+      easelAudio.blocked();
+    } else {
+      cosmicBgm.duck();
+      easelAudio.playPath(state.selected, frequency);
+    }
   }
 
-  // Shared synthesizer for background and interaction
-  function synthNote(
-    frequency,
-    duration = 0.35,
-    volume = 0.1,
-    wave = "sine",
-    endFrequency = null
-  ) {
-    if (!state.sound) return;
 
-    try {
-      const context = getAudioContext();
-      if (!context) return;
+  // ============================================
+  // INDEPENDENT STARDUST ADVENTURE BGM
+  // ============================================
 
-      const t = context.currentTime;
+  // MIX BALANCE V2: quieter BGM, clearer SFX.
+  const cosmicBgm = (() => {
+    let ctx = null;
+    let output = null;
+    let timer = null;
+    let beat = 0;
+    let nextBeat = 0;
+    let generation = 0;
+    let duckTimer = null;
 
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
+    const voices = new Set();
 
-      oscillator.type = wave;
 
-      oscillator.frequency.setValueAtTime(
-        frequency,
-        t
-      );
+    // Each level has its own musical atmosphere.
+    // Levels are identified by the number of paths.
 
-      // Optional descending pitch for blocked actions
-      if (endFrequency) {
-        oscillator.frequency.exponentialRampToValueAtTime(
-          endFrequency,
-          t + duration * 0.7
-        );
+    const levelThemes = {
+      3: {
+        name: "Stargazer",
+        beatSeconds: 0.66,
+        chordEvery: 8,
+        sparkleEvery: 6,
+        sparkleOffset: 2,
+        sparkleVolume: 0.035,
+        chords: [
+          [196.00, 293.66, 440.00],
+          [174.61, 261.63, 392.00],
+          [220.00, 293.66, 440.00],
+          [196.00, 293.66, 493.88]
+        ],
+        sparkles: [
+          783.99, 880.00, 739.99, 987.77
+        ]
+      },
+
+      10: {
+        name: "Orbit Drift",
+        beatSeconds: 0.60,
+        chordEvery: 8,
+        sparkleEvery: 5,
+        sparkleOffset: 2,
+        sparkleVolume: 0.038,
+        chords: [
+          [220.00, 329.63, 493.88],
+          [196.00, 293.66, 440.00],
+          [174.61, 261.63, 440.00],
+          [196.00, 293.66, 493.88]
+        ],
+        sparkles: [
+          880.00, 987.77, 1046.50, 783.99
+        ]
+      },
+
+      20: {
+        name: "Nebula Rush",
+        beatSeconds: 0.55,
+        chordEvery: 8,
+        sparkleEvery: 4,
+        sparkleOffset: 2,
+        sparkleVolume: 0.032,
+        chords: [
+          [220.00, 329.63, 493.88],
+          [196.00, 293.66, 440.00],
+          [185.00, 277.18, 415.30],
+          [174.61, 261.63, 392.00]
+        ],
+        sparkles: [
+          987.77, 1174.66, 880.00, 1046.50
+        ]
       }
+    };
 
-      // Soft attack and decay to avoid clicking sounds
-      gain.gain.setValueAtTime(0.001, t);
+    function currentTheme() {
+      return levelThemes[paths.length] || levelThemes[3];
+    }
 
+    function note(
+      frequency,
+      at,
+      duration,
+      volume,
+      type = "sine"
+    ) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(frequency, at);
+
+      gain.gain.setValueAtTime(0.0001, at);
+      gain.gain.linearRampToValueAtTime(
+        volume, at + 0.09
+      );
+      gain.gain.setValueAtTime(
+        volume * 0.65,
+        at + duration * 0.6
+      );
       gain.gain.exponentialRampToValueAtTime(
-        volume,
-        t + 0.025
+        0.0001,
+        at + duration
       );
 
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        t + duration
-      );
+      osc.connect(gain);
+      gain.connect(output);
 
-      oscillator.connect(gain);
-      gain.connect(context.destination);
+      voices.add(osc);
 
-      oscillator.start(t);
-      oscillator.stop(t + duration + 0.02);
-
-      oscillator.onended = () => {
-        oscillator.disconnect();
+      osc.onended = () => {
+        voices.delete(osc);
+        osc.disconnect();
         gain.disconnect();
       };
 
-    } catch (error) {
-      console.warn("Audio playback unavailable:", error);
+      osc.start(at);
+      osc.stop(at + duration + 0.02);
     }
-  }
 
-  // Interactive sound for released or blocked paths
-  function playTone(frequency, blocked = false) {
-    if (blocked) {
-      synthNote(
-        466.16,
-        0.16,
-        0.065,
-        "triangle",
-        350
+
+    function schedule() {
+      if (
+        timer === null ||
+        !ctx ||
+        !state.sound ||
+        state.phase !== "running"
+      ) return;
+
+      const theme = currentTheme();
+
+      while (nextBeat < ctx.currentTime + 0.25) {
+
+        // Soft floating harmony
+        if (beat % theme.chordEvery === 0) {
+          const chord = theme.chords[
+            Math.floor(beat / theme.chordEvery)
+            % theme.chords.length
+          ];
+
+          chord.forEach((hz, i) => {
+            note(
+              hz,
+              nextBeat,
+              4.5,
+              [0.065, 0.045, 0.030][i],
+              i === 0 ? "triangle" : "sine"
+            );
+          });
+        }
+
+        // Delicate starlight, different in each level
+        if (
+          beat % theme.sparkleEvery ===
+          theme.sparkleOffset
+        ) {
+          const index = Math.floor(
+            beat / theme.sparkleEvery
+          ) % theme.sparkles.length;
+
+          note(
+            theme.sparkles[index],
+            nextBeat,
+            0.55,
+            theme.sparkleVolume
+          );
+        }
+
+        nextBeat += theme.beatSeconds;
+        beat++;
+      }
+    }
+
+    async function start() {
+      if (
+        !state.sound ||
+        state.phase !== "running" ||
+        timer !== null
+      ) return;
+
+      const id = ++generation;
+
+      try {
+        if (!ctx) {
+          const AudioCtor =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+          if (!AudioCtor) {
+            throw new Error("Web Audio unavailable");
+          }
+
+          ctx = new AudioCtor();
+          output = ctx.createGain();
+          output.gain.value = 0.35;
+          output.connect(ctx.destination);
+        }
+
+        await ctx.resume();
+
+        if (
+          id !== generation ||
+          !state.sound ||
+          state.phase !== "running"
+        ) return;
+
+        output.gain.cancelScheduledValues(
+          ctx.currentTime
+        );
+
+        output.gain.setValueAtTime(
+          0.35,
+          ctx.currentTime
+        );
+
+        nextBeat = ctx.currentTime + 0.04;
+        beat = 0;
+
+        timer = setInterval(schedule, 85);
+        schedule();
+
+        console.info(
+          "ECHO PATH BGM started:",
+          ctx.state
+        );
+
+      } catch (error) {
+        console.warn(
+          "ECHO PATH BGM error:",
+          error
+        );
+      }
+    }
+
+    function duck() {
+      if (!ctx || timer === null) return;
+
+      const t = ctx.currentTime;
+
+      output.gain.cancelScheduledValues(t);
+      output.gain.setTargetAtTime(
+        0.12, t, 0.04
       );
 
-    } else {
-      synthNote(
-        frequency,
-        0.38,
-        0.12,
-        "sine"
+      clearTimeout(duckTimer);
+
+      duckTimer = setTimeout(() => {
+        if (timer !== null && ctx) {
+          output.gain.setTargetAtTime(
+            0.35,
+            ctx.currentTime,
+            0.16
+          );
+        }
+      }, 450);
+    }
+
+    function stop() {
+      generation++;
+
+      clearTimeout(duckTimer);
+
+      if (timer !== null) {
+        clearInterval(timer);
+      }
+
+      timer = null;
+
+      if (!ctx) return;
+
+      const t = ctx.currentTime;
+
+      output.gain.cancelScheduledValues(t);
+      output.gain.setTargetAtTime(
+        0.0001, t, 0.03
       );
+
+      for (const osc of voices) {
+        try {
+          osc.stop(t + 0.05);
+        } catch (_) {}
+      }
+
+      voices.clear();
     }
-  }
 
-  
-function playBackgroundStep() {
-  if (!state.sound || state.phase !== "running") {
-    return;
-  }
+    // Diagnostic information if audio needs checking
+    window.echoBgmStatus = () => ({
+      audio: ctx ? ctx.state : "not created",
+      playing: timer !== null,
+      sound: state.sound,
+      game: state.phase
+    });
 
-  // Play a soft ambient chord every 1.8 seconds.
-  // Leave space for the player's musical actions.
-  if (backgroundStep % 3 === 0) {
-
-    // Low C3: warm background foundation
-    synthNote(
-      130.81,
-      1.25,
-      0.020,
-      "sine"
-    );
-
-    // Low G3: gentle harmonic layer
-    synthNote(
-      196.00,
-      1.25,
-      0.010,
-      "sine"
-    );
-  }
-
-  backgroundStep++;
-}
-
-
-  function stopBackground() {
-    if (backgroundTimer !== null) {
-      clearInterval(backgroundTimer);
-      backgroundTimer = null;
-    }
-  }
+    return { start, stop, duck };
+  })();
 
   function startBackground() {
-    stopBackground();
-
-    if (!state.sound || state.phase !== "running") {
-      return;
+    if (
+      state.sound &&
+      state.phase === "running"
+    ) {
+      cosmicBgm.start();
     }
-
-    backgroundStep = 0;
-
-    // Begin immediately after the Start click
-    playBackgroundStep();
-
-    backgroundTimer = setInterval(
-      playBackgroundStep,
-      600
-    );
   }
 
+  function stopBackground() {
+    cosmicBgm.stop();
+    easelAudio.stopMusic();
+  }
+
+
   soundButton.addEventListener("click", () => {
-    state.sound = !state.sound;
+    easelAudio.setEnabled(!state.sound);
 
     soundButton.textContent =
       state.sound ? "SOUND · ON" : "SOUND · OFF";
@@ -2227,13 +2531,14 @@ function playBackgroundStep() {
       String(state.sound)
     );
 
-    if (state.sound) {
+    if (state.sound && state.phase === "running") {
       startBackground();
-    } else {
+    }
+
+    if (!state.sound) {
       stopBackground();
     }
   });
-
 
   // ============================================
   // 6. COLLISION DETECTION
@@ -2917,7 +3222,7 @@ function playBackgroundStep() {
       cancelAnimationFrame(state.raf);
       observer.disconnect();
 
-      audio?.close().catch(() => {});
+      easelAudio.stopMusic();
     }
   );
 

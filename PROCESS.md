@@ -484,9 +484,23 @@ However, this evaluation reflects my own experience. Independent user testing is
 
 ## 4. User Testing
 
-Not conducted yet.
+### External Playtest 01 — 30 October 2026
 
-A user unfamiliar with the project will be invited to try the game without instructions. Observations and subsequent design changes will be documented here.
+**Method:** One friend played ECHO PATH and provided informal feedback through a text conversation. The participant had played games with similar mechanics before.
+
+**Positive feedback:** The participant liked the visual presentation, puzzle mechanics, and click sound effects.
+
+**Usability issue:** While reading the interface instructions, the participant ran out of time in Level 01 before fully understanding the challenge.
+
+**Participant suggestion:** Increase the first level's time limit by approximately five seconds.
+
+**Design decision — 31 October 2026:** Increased Level 01 from 5 to 10 seconds and updated the on-screen instructions. Levels 02 and 03 remain at 20 and 40 seconds.
+
+**Reflection:** My familiarity with the puzzle may have led me to underestimate the time first-time players need to orient themselves.
+
+**AI assistance:** ChatGPT helped interpret the feedback, prepare the code changes, and document the iteration.
+
+**Limitation:** This was one informal external playtest. The new 10-second limit still requires follow-up validation.
 
 ## 5. AI Tool Use
 

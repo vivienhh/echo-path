@@ -67,9 +67,7 @@ I later introduced an optional competitive motivation through time-based perform
 
 The purpose was to encourage replayability by allowing players to compare their completion times with previous attempts and other players using the same browser.
 
-I chose a five-second time limit for the introductory level as an initial design hypothesis, not a validated difficulty setting.
-
-The appropriate time limit will be reconsidered after user testing.
+I initially selected a five-second introductory limit as a design hypothesis. After an informal external playtest on 30 October, I decided that ten seconds would be a more appropriate target for new players. This change still requires successful deployment and follow-up verification.
 
 
 ## 3. Development Log
@@ -482,6 +480,75 @@ However, this evaluation reflects my own experience. Independent user testing is
 - Iterate based on player feedback.
 - Complete the README and final submission checks.
 
+### 2026-10-31 — Audio Integration and Sound Balance
+
+**Design Goal**
+
+Create a relaxing, mysterious cosmic atmosphere while keeping player actions clearly audible. The background music should support the puzzle experience rather than compete with interaction feedback.
+
+**Development and Iteration**
+
+- Explored audio directions in Easel Studio and selected a light fantasy-space atmosphere inspired by the general feeling of magical adventure games.
+- Integrated the selected path-release, blocked-path, and completion sound effects into the three-level game.
+- Found that the original background music was inaudible in the integrated version.
+- Tried adjusting the audio levels, but this did not solve the problem.
+- Implemented an independent background-music loop using the Web Audio API.
+- Created three distinct musical variations:
+  - Level 01 — Stargazer: quiet and atmospheric.
+  - Level 02 — Orbit Drift: playful and gently rhythmic.
+  - Level 03 — Nebula Rush: slightly faster and more energetic.
+- Reduced the BGM master level from 0.55 to 0.35.
+- Increased the prominence of path-release and level-completion sounds.
+- Added temporary background-volume reduction during player interactions.
+
+**Self-Testing and Feedback**
+
+Tested the integrated audio in the local browser preview. The background music became audible after the independent loop was implemented. Further listening identified that the music was too prominent, leading to a final volume adjustment. The revised balance was considered satisfactory during self-testing.
+
+An informal external playtest is documented in Section 4.
+
+**AI Tool Use**
+
+Easel Studio was used to explore and prototype the audio direction. ChatGPT assisted with examining the generated audio code, integrating effects into the existing game, debugging background playback, implementing the three-level music system, and adjusting the audio mix. The final sound direction and acceptance decisions were made through manual listening and iteration.
+
+**Current Status**
+
+Audio balance accepted during self-testing. External playtest feedback and the pending introductory timing revision are documented in Section 4.
+
+### 31 October 2026 — External Playtest and Timing Iteration
+
+**Design Context**
+
+The introductory level originally had a five-second time limit. I chose this to make the opening challenge fast and exciting, but the setting was based on my own familiarity with the puzzle rather than external testing.
+
+**External Feedback**
+
+On 30 October, a friend tried ECHO PATH and shared feedback through a text conversation. The participant liked the visual design, interactive puzzle mechanics, and click sound effects.
+
+However, the participant reported that the first round ended while they were still reading the interface and trying to understand what to do. The participant suggested adding approximately five seconds to the first level.
+
+**Design Decision**
+
+I decided to extend the intended Level 01 limit from five to ten seconds, allowing first-time players more time to orient themselves.
+
+The other levels remain designed around 20-second and 40-second limits.
+
+**Implementation and Verification Status**
+
+I attempted to revise the Level 01 timer and on-screen instructions. However, the public GitHub Pages version still displayed a five-second countdown during the latest check.
+
+Therefore, the ten-second timing revision is recorded as an attempted implementation that still requires successful publication and verification, rather than a confirmed deployed change.
+
+**Reflection**
+
+This revealed a difference between how I experience the game as its designer and how a first-time player encounters it. A short timer may increase excitement for experienced players, but can interfere with understanding the interaction during the introductory level.
+
+The playtest helped me reconsider the balance between immediate challenge and accessible onboarding.
+
+**Next Step**
+
+Verify that the intended ten-second countdown is working in the final published version, then conduct a follow-up playtest.
+
 ## 4. User Testing
 
 ### External Playtest 01 — 30 October 2026
@@ -501,6 +568,8 @@ However, this evaluation reflects my own experience. Independent user testing is
 **AI assistance:** ChatGPT helped interpret the feedback, prepare the code changes, and document the iteration.
 
 **Limitation:** This was one informal external playtest. The new 10-second limit still requires follow-up validation.
+
+**Published-Version Verification:** A ten-second opening limit was selected and implementation was attempted, but the public website still showed five seconds during the latest check. Deployment remains unverified.
 
 ## 5. AI Tool Use
 
@@ -602,6 +671,12 @@ I tested the updated game in the browser and evaluated the changes from the play
 
 Further audio refinement and independent user testing are still planned.
 
+### AI Assistance — External Playtest and Timing Revision
+
+ChatGPT assisted with interpreting the participant's feedback, documenting the usability issue, and preparing changes to the first-level timer. The decision to target a ten-second introductory limit was based on the participant's feedback and my own design judgment.
+
+The proposed timing change has not yet been verified in the published version. This limitation is documented rather than presenting the attempted change as a confirmed improvement.
+
 ## 6. Credits and Limitations
 
 **Credits:**
@@ -615,40 +690,3 @@ Further audio refinement and independent user testing are still planned.
 - External user testing has not yet been conducted.
 
 This section will be updated as the project develops.
-
----
-
-### 2026-10-31 — Audio Integration and Sound Balance
-
-**Design Goal**
-
-Create a relaxing, mysterious cosmic atmosphere while keeping player actions clearly audible. The background music should support the puzzle experience rather than compete with interaction feedback.
-
-**Development and Iteration**
-
-- Explored audio directions in Easel Studio and selected a light fantasy-space atmosphere inspired by the general feeling of magical adventure games.
-- Integrated the selected path-release, blocked-path, and completion sound effects into the three-level game.
-- Found that the original background music was inaudible in the integrated version.
-- Tried adjusting the audio levels, but this did not solve the problem.
-- Implemented an independent background-music loop using the Web Audio API.
-- Created three distinct musical variations:
-  - Level 01 — Stargazer: quiet and atmospheric.
-  - Level 02 — Orbit Drift: playful and gently rhythmic.
-  - Level 03 — Nebula Rush: slightly faster and more energetic.
-- Reduced the BGM master level from 0.55 to 0.35.
-- Increased the prominence of path-release and level-completion sounds.
-- Added temporary background-volume reduction during player interactions.
-
-**Self-Testing and Feedback**
-
-Tested the integrated audio in the local browser preview. The background music became audible after the independent loop was implemented. Further listening identified that the music was too prominent, leading to a final volume adjustment. The revised balance was considered satisfactory during self-testing.
-
-Independent user testing has not yet been documented.
-
-**AI Tool Use**
-
-Easel Studio was used to explore and prototype the audio direction. ChatGPT assisted with examining the generated audio code, integrating effects into the existing game, debugging background playback, implementing the three-level music system, and adjusting the audio mix. The final sound direction and acceptance decisions were made through manual listening and iteration.
-
-**Current Status**
-
-Audio design provisionally finalized for the Assignment 3 submission, pending final published-site checks and independent user testing.

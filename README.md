@@ -315,7 +315,7 @@ The Git commit history and `PROCESS.md` document the development process.
 | `game.js` | Earlier development prototype |
 | `PROCESS.md` | Design decisions, development history, testing, and AI usage |
 | `README.md` | Project documentation and running instructions |
-| `assets/echo-path-gameplay.png` | Gameplay screenshot |
+| `assets/screenshots/` | Final gameplay screenshots and prototype evidence |
 
 ---
 

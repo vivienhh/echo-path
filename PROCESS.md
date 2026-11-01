@@ -875,7 +875,7 @@ I also requested a complete integrated code version instead of applying multiple
 
 The final implementation combines the visual direction explored through Easel Studio with subsequent JavaScript gameplay and time-attack functionality developed with ChatGPT assistance.
 
-The code still requires independent user testing and final verification.
+At that stage, independent testing was still pending. Four participants later provided feedback across two informal playtest rounds.
 
 
 ### AI Assistance — Audio Development
@@ -888,7 +888,7 @@ The revised approach uses a softer, lower-pitched ambient harmony to leave more 
 
 I also tested and debugged audio playback with ChatGPT's guidance, including fixing an incorrect audio-stop call and testing through a local HTTP server.
 
-Although the revised audio is functional, I have not accepted it as the final sound design. Further refinement is planned based on my own listening evaluation.
+At that stage, the audio design was still under review. The later three-level audio mix was refined and accepted during developer listening tests.
 
 ### AI Assistance — Particle Animation Restoration
 
@@ -930,7 +930,7 @@ Further audio refinement and independent user testing are still planned.
 
 ChatGPT assisted with interpreting the participant's feedback, documenting the usability issue, and preparing changes to the first-level timer. The decision to target a ten-second introductory limit was based on the participant's feedback and my own design judgment.
 
-The proposed timing change has not yet been verified in the published version. This limitation is documented rather than presenting the attempted change as a confirmed improvement.
+The ten-second timing change was initially unverified. The published game was subsequently checked and confirmed to use a ten-second introductory countdown. Further independent testing would help assess its usability.
 
 ## 6. Credits and Limitations
 

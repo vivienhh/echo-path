@@ -67,7 +67,7 @@ I later introduced an optional competitive motivation through time-based perform
 
 The purpose was to encourage replayability by allowing players to compare their completion times with previous attempts and other players using the same browser.
 
-I initially selected a five-second introductory limit as a design hypothesis. After an informal external playtest on 30 October, I decided that ten seconds would be a more appropriate target for new players. This change still requires successful deployment and follow-up verification.
+I initially selected a five-second introductory limit as a design hypothesis. After an informal external playtest on 30 October, I decided that ten seconds would be a more appropriate target for new players. The ten-second limit was subsequently published and verified through developer gameplay. The same participant subsequently tested the latest published version and confirmed that the revised introductory experience worked as intended.
 
 
 ## 3. Development Log
@@ -513,7 +513,7 @@ Easel Studio was used to explore and prototype the audio direction. ChatGPT assi
 
 **Current Status**
 
-Audio balance accepted during self-testing. External playtest feedback and the pending introductory timing revision are documented in Section 4.
+Audio balance was accepted during self-testing. Both usability changes arising from external feedback were subsequently published and developer-verified.
 
 ### 31 October 2026 — External Playtest and Timing Iteration
 
@@ -535,9 +535,9 @@ The other levels remain designed around 20-second and 40-second limits.
 
 **Implementation and Verification Status**
 
-I attempted to revise the Level 01 timer and on-screen instructions. However, the public GitHub Pages version still displayed a five-second countdown during the latest check.
+The first publication attempt still showed a five-second countdown. I subsequently corrected the published game and confirmed the ten-second countdown during gameplay.
 
-Therefore, the ten-second timing revision is recorded as an attempted implementation that still requires successful publication and verification, rather than a confirmed deployed change.
+The ten-second revision is now implemented and developer-verified in the public game. A follow-up independent usability test remains an opportunity for further evaluation.
 
 **Reflection**
 
@@ -547,7 +547,7 @@ The playtest helped me reconsider the balance between immediate challenge and ac
 
 **Next Step**
 
-Verify that the intended ten-second countdown is working in the final published version, then conduct a follow-up playtest.
+The published countdown was subsequently verified at ten seconds. A follow-up independent playtest would help evaluate its usability.
 
 ### 1 November 2026 — User-Centred Gameplay Refinement
 
@@ -571,9 +571,9 @@ The introductory countdown should give first-time players enough time to underst
 
 **Implementation Status**
 
-These are the decisions arising from the second external playtest. The removal of visible path letters and final verification of the ten-second countdown are the next implementation tasks.
+Both changes arising from the second external playtest have now been implemented: visible path letters were removed, and Level 01 was extended to ten seconds.
 
-The final public version will be tested after these changes. No unverified implementation is claimed as complete.
+Both changes were subsequently checked in the public game by the developer. Their effect on new players has not yet been independently retested.
 
 **AI Assistance**
 
@@ -643,7 +643,7 @@ The letters were useful as internal identifiers but were unnecessary for the pla
 
 Removing redundant visual information helps emphasize the movement arrows and may reduce confusion for first-time players.
 
-The next step is to verify the introductory countdown and evaluate the revised interface with another player.
+The introductory countdown was subsequently verified at ten seconds. Further independent evaluation of the revised interface would be useful.
 
 **AI Tool Use**
 
@@ -748,7 +748,7 @@ These comparisons show how the experience evolved from a basic click-based puzzl
 
 **Participant suggestion:** Increase the first level's time limit by approximately five seconds.
 
-**Design decision — 31 October 2026:** Selected a ten-second introductory limit and attempted to update the implementation. Final published gameplay verification is required. Levels 02 and 03 retain their 20- and 40-second limits.
+**Design decision — 31 October 2026:** Selected a ten-second introductory limit, subsequently implemented and verified in the public game. Levels 02 and 03 retain their 20- and 40-second limits.
 
 **Reflection:** My familiarity with the puzzle may have led me to underestimate the time first-time players need to orient themselves.
 
@@ -756,7 +756,7 @@ These comparisons show how the experience evolved from a basic click-based puzzl
 
 **Limitation:** This was one informal external playtest. The new 10-second limit still requires follow-up validation.
 
-**Published-Version Verification:** A ten-second opening limit was selected and implementation was attempted, but the public website still showed five seconds during the latest check. Deployment remains unverified.
+**Published-Version Verification:** The first deployment attempt still showed five seconds. This was subsequently corrected, and the ten-second countdown was confirmed during developer gameplay on the public website.
 
 ### External Playtest 02 — 31 October 2026
 
@@ -790,7 +790,7 @@ This feedback was consistent with the earlier external playtest, which also iden
 
 Set the intended Level 01 limit to ten seconds. Keep Levels 02 and 03 at 20 and 40 seconds to retain progression in difficulty.
 
-The final timer must be checked in the published game.
+The ten-second timer was subsequently checked and verified in the published game.
 
 **Positive Feedback**
 
@@ -812,7 +812,7 @@ I therefore chose to simplify the visible controls and extend the opening time a
 
 These were informal qualitative playtests, not controlled usability experiments. No numerical usability or satisfaction scores were collected.
 
-The changes need to be implemented and verified in the published game. A further short playtest would help determine whether the revised interface is easier for new players.
+Both changes were subsequently implemented and verified in the published game. A further independent playtest would help evaluate whether the revised interface is easier for new players.
 
 ### Playtest 02 — Implementation Follow-up (1 November 2026)
 
@@ -824,7 +824,7 @@ The revision responds directly to feedback from one participant in the second ex
 
 A follow-up test with an unfamiliar participant would help determine whether the revised directional cues are easier to understand.
 
-The separate introductory time-limit issue remains subject to final gameplay verification.
+The introductory time limit has now been updated to ten seconds and verified in the published game.
 
 ## 5. AI Tool Use
 
@@ -836,7 +836,7 @@ ChatGPT was used to discuss the game concept, plan the development process, and 
 
 Easel Studio was used for visual and audio prototyping. Selected elements were adapted and integrated into the browser game.
 
-Further AI suggestions accepted, modified, or rejected will be documented as development continues.
+The following sections document AI-assisted decisions, including suggestions that were retained, modified, or rejected during development.
 
 
 **AI-assisted debugging and revision:**
@@ -911,7 +911,7 @@ ChatGPT helped restore the earlier orbital decorations and implement revised gam
 
 I reviewed the updated interface in the browser and accepted the visual changes after evaluating the result.
 
-Further gameplay testing, audio refinement, and independent user evaluation are still planned.
+Later iterations refined the gameplay and audio, and four participants provided feedback across two informal external playtest rounds.
 
 
 ### AI Assistance — Milestone 11: Difficulty and Challenge Flow
@@ -924,7 +924,7 @@ ChatGPT helped generate and revise the JavaScript implementation while preservin
 
 I tested the updated game in the browser and evaluated the changes from the player's perspective. I found the revised gameplay more engaging and accepted it as the current working version.
 
-Further audio refinement and independent user testing are still planned.
+Audio refinement and two rounds of informal external testing were subsequently completed. The latest interface and timing changes were developer-verified.
 
 ### AI Assistance — External Playtest and Timing Revision
 
@@ -940,6 +940,17 @@ The ten-second timing change was initially unverified. The published game was su
 - Coding assistance, debugging, and development documentation: ChatGPT (OpenAI).
 - Visual and interactive sound prototyping: Easel Studio.
 - Visual reference materials informed the design direction but were not directly incorporated into the final game.
+
+**Resolved Usability and Implementation Issues**
+
+- Visible letter labels were removed from the puzzle paths; directional arrows remain.
+- The Level 01 countdown was increased from 5 to 10 seconds.
+- Levels 02 and 03 retain their 20- and 40-second limits.
+- The updated interface and countdown were checked on the published GitHub Pages game.
+- Background music playback and audio balance were resolved through implementation and developer listening tests.
+- Earlier publication inconsistencies were corrected.
+
+These implementation issues are resolved. However, the revised interface has not yet undergone an additional independent playtest.
 
 **Current Project Status**
 

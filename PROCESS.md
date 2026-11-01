@@ -651,6 +651,34 @@ ChatGPT assisted with identifying the Canvas label-rendering code, debugging the
 
 The decision to remove the labels was based on external user feedback.
 
+### 1 November 2026 — Introductory Timing Verification
+
+**Background**
+
+Feedback from three external participants across two playtest rounds indicated that the original five-second opening limit was too short for first-time orientation.
+
+**Implementation**
+
+The published game now uses the following time limits:
+
+- Level 01: 10 seconds
+- Level 02: 20 seconds
+- Level 03: 40 seconds
+
+**Verification**
+
+The published first-level countdown was checked during gameplay and confirmed to begin at approximately ten seconds.
+
+**Reflection**
+
+Increasing the introductory time limit gives new players more opportunity to understand the interaction before the more complex challenges.
+
+This change responds to qualitative feedback. Its effectiveness has not yet been evaluated through a follow-up independent user test.
+
+**AI Assistance**
+
+ChatGPT assisted with checking the timing configuration and documenting the design iteration. The decision to increase the opening time was based on external feedback.
+
 ## 4. User Testing
 
 ### External Playtest 01 — 30 October 2026
@@ -849,14 +877,25 @@ The proposed timing change has not yet been verified in the published version. T
 
 ## 6. Credits and Limitations
 
-**Credits:**
-- Game concept, visual direction, and design decisions: project author.
-- Initial code examples and development assistance: ChatGPT.
-- Visual reference images were used for inspiration, not directly incorporated into the current game.
+**Credits**
 
-**Current Limitations:**
-- The prototype contains only one puzzle layout.
-- Animation and musical feedback are not yet implemented.
-- External user testing has not yet been conducted.
+- Game concept, interaction design, visual direction, playtesting decisions, and final design evaluation: project author.
+- Coding assistance, debugging, and development documentation: ChatGPT (OpenAI).
+- Visual and interactive sound prototyping: Easel Studio.
+- Visual reference materials informed the design direction but were not directly incorporated into the final game.
 
-This section will be updated as the project develops.
+**Current Project Status**
+
+- Three playable levels with time limits of 10, 20, and 40 seconds.
+- Animated path release, collision detection, sound effects, and three background music variations.
+- Pause, restart, player nickname entry, and local leaderboard features.
+- Visible path letters removed in response to external feedback.
+- Four external participants across two informal playtest rounds.
+- Published first-level countdown verified through developer gameplay.
+
+**Known Limitations**
+
+- Leaderboard data is stored locally in each browser and is not shared across devices.
+- The latest interface and timing changes have not yet undergone a follow-up independent playtest.
+- Further testing across devices and browsers would be useful.
+- Browser sound playback depends on user interaction and device audio settings.

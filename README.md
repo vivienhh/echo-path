@@ -51,7 +51,7 @@ No previous experience with coding or complex games is required.
 
 | Level | Board Size | Number of Paths | Time Limit |
 | --- | --- | --- | --- |
-| Level 01 — First Signal | 5 × 5 | 3 | 5 seconds |
+| Level 01 — First Signal | 5 × 5 | 3 | 10 seconds |
 | Level 02 — Chain Reaction | 7 × 7 | 10 | 20 seconds |
 | Level 03 — Crossed Currents | 9 × 9 | 20 | 40 seconds |
 
@@ -230,7 +230,7 @@ Based on the feedback, I selected a ten-second limit as a more suitable target f
 
 I attempted to implement this change while keeping the other levels at 20 and 40 seconds.
 
-However, the published version still displayed a five-second countdown during the latest check, so the ten-second revision has not yet been confirmed as successfully deployed.
+The revised ten-second countdown is now present in the published game and has been checked during gameplay. Further external testing is needed to evaluate whether the new limit improves first-time usability.
 
 ### Reflection
 
@@ -244,6 +244,19 @@ Additional design decisions, implementation changes, and testing notes are docum
 
 ---
 
+### External Playtest — 31 October 2026
+
+Three additional friends tried ECHO PATH.
+
+One participant found the combination of letters and arrows on the puzzle paths confusing. Two others felt that the original five-second opening countdown was too short.
+
+The participants responded positively to the visual design, gameplay mechanics, difficulty, and overall enjoyment.
+
+Based on this feedback, I removed the visible path letters while preserving the directional arrows and implemented a ten-second introductory limit.
+
+The changes have been checked by the developer in the published game. A new independent playtest is still needed to evaluate their effectiveness.
+
+---
 ## 7. Development Process
 
 The project was developed through several iterations:
@@ -279,8 +292,8 @@ The Git commit history and `PROCESS.md` document the development process.
 ## 9. Known Limitations
 
 - Leaderboard records are stored locally in each browser using localStorage. They are not shared between devices.
-- The published introductory level still has a five-second time limit. The proposed ten-second revision requires successful deployment and verification.
-- Only one informal external playtest has been documented.
+- The introductory level now has a ten-second limit. Follow-up testing with unfamiliar players would help evaluate this change.
+- Four participants provided informal feedback across two playtest rounds. The revised interface has not yet been independently retested.
 - Further testing with unfamiliar players and different devices would help evaluate usability.
 - Audio playback depends on browser support and user interaction.
 

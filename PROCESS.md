@@ -480,7 +480,7 @@ However, this evaluation reflects my own experience. Independent user testing is
 - Iterate based on player feedback.
 - Complete the README and final submission checks.
 
-### 2026-10-31 — Audio Integration and Sound Balance
+### 31 October 2026 — Audio Integration and Sound Balance
 
 **Design Goal**
 

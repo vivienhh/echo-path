@@ -549,6 +549,36 @@ The playtest helped me reconsider the balance between immediate challenge and ac
 
 Verify that the intended ten-second countdown is working in the final published version, then conduct a follow-up playtest.
 
+### 1 November 2026 — User-Centred Gameplay Refinement
+
+**Context**
+
+After receiving feedback from the first external participant, I invited three additional friends to try ECHO PATH on 31 October.
+
+The new feedback revealed two recurring usability concerns: unclear visual cues on the paths and insufficient orientation time in the introductory level.
+
+**Design Decisions**
+
+1. Simplify the visual language of the paths by removing their visible letter labels while preserving their directional arrows.
+2. Use a ten-second time limit for Level 01 instead of five seconds.
+3. Retain the overall colour palette, interactive mechanics, sound effects, and difficulty progression because participants responded positively to these elements.
+
+**Rationale**
+
+The letters are internal path identifiers, but new players may interpret them as part of the puzzle rules. Removing them should reduce unnecessary visual information and make directional arrows more prominent.
+
+The introductory countdown should give first-time players enough time to understand the rules and act before requiring faster decisions.
+
+**Implementation Status**
+
+These are the decisions arising from the second external playtest. The removal of visible path letters and final verification of the ten-second countdown are the next implementation tasks.
+
+The final public version will be tested after these changes. No unverified implementation is claimed as complete.
+
+**AI Assistance**
+
+ChatGPT assisted with organising the feedback, distinguishing usability observations from design decisions, and documenting the planned iteration. The design direction was selected based on participant feedback.
+
 ## 4. User Testing
 
 ### External Playtest 01 — 30 October 2026
@@ -561,7 +591,7 @@ Verify that the intended ten-second countdown is working in the final published 
 
 **Participant suggestion:** Increase the first level's time limit by approximately five seconds.
 
-**Design decision — 31 October 2026:** Increased Level 01 from 5 to 10 seconds and updated the on-screen instructions. Levels 02 and 03 remain at 20 and 40 seconds.
+**Design decision — 31 October 2026:** Selected a ten-second introductory limit and attempted to update the implementation. Final published gameplay verification is required. Levels 02 and 03 retain their 20- and 40-second limits.
 
 **Reflection:** My familiarity with the puzzle may have led me to underestimate the time first-time players need to orient themselves.
 
@@ -571,6 +601,62 @@ Verify that the intended ten-second countdown is working in the final published 
 
 **Published-Version Verification:** A ten-second opening limit was selected and implementation was attempted, but the public website still showed five seconds during the latest check. Deployment remains unverified.
 
+### External Playtest 02 — 31 October 2026
+
+**Participants**
+
+Three additional friends tried ECHO PATH and provided informal feedback. Together with the earlier playtest on 30 October, four external participants have now provided feedback.
+
+**Method**
+
+Informal gameplay sessions followed by participant comments about the interface, controls, time limits, and overall experience.
+
+**Observation 1 — Directional Clarity**
+
+One participant did not initially understand the game rules and found the combination of letters and arrows on the light paths confusing.
+
+The participant's difficulty suggested that the letters were not communicating useful information and might compete with the directional arrows.
+
+**Design Response**
+
+Remove the visible letter labels from the light paths and retain the arrows as the primary movement-direction cues.
+
+Internal path identifiers can remain in the program to support collision detection, sound, and game-state management.
+
+**Observation 2 — Introductory Time Limit**
+
+Two other participants reported that the first-level countdown was too short. They felt that the level could end before they had enough time to understand the interaction.
+
+This feedback was consistent with the earlier external playtest, which also identified the five-second introductory countdown as a usability problem.
+
+**Design Response**
+
+Set the intended Level 01 limit to ten seconds. Keep Levels 02 and 03 at 20 and 40 seconds to retain progression in difficulty.
+
+The final timer must be checked in the published game.
+
+**Positive Feedback**
+
+Participants expressed positive opinions about the overall colour design, interaction mechanics, difficulty, and enjoyment of the game.
+
+These aspects will be retained rather than redesigned unnecessarily.
+
+**Reflection**
+
+The external testing showed that first-time users may interpret visual elements differently from the designer.
+
+In particular, letters that are meaningful inside the program do not necessarily help players understand the interaction.
+
+The repeated feedback about the first-level timer also demonstrated that the introductory experience needs to prioritise comprehension before speed.
+
+I therefore chose to simplify the visible controls and extend the opening time allowance while preserving the game's core mechanics.
+
+**Limitations and Next Steps**
+
+These were informal qualitative playtests, not controlled usability experiments. No numerical usability or satisfaction scores were collected.
+
+The changes need to be implemented and verified in the published game. A further short playtest would help determine whether the revised interface is easier for new players.
+
 ## 5. AI Tool Use
 
 ChatGPT was used to discuss the game concept, plan the development process, and provide initial HTML and JavaScript code examples.
@@ -579,7 +665,7 @@ ChatGPT was used to discuss the game concept, plan the development process, and 
 
 **Suggestion modified:** I changed the initially proposed dark-blue visual direction to a custom five-colour palette based on my selected visual references.
 
-Easel Studio is planned for visual and audio development but has not yet been used to produce assets for the project.
+Easel Studio was used for visual and audio prototyping. Selected elements were adapted and integrated into the browser game.
 
 Further AI suggestions accepted, modified, or rejected will be documented as development continues.
 
@@ -605,7 +691,7 @@ The first prototype used a separate SEND PULSE confirmation button and did not m
 
 These revisions were based on my evaluation of the prototype against the intended user experience.
 
-The Easel-generated code has not yet been integrated into the main project.
+Selected Easel Studio visual and audio code was adapted and integrated into the main project.
 
 
 ### AI Assistance for the Time Attack System

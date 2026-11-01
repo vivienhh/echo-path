@@ -598,7 +598,7 @@ Remove the visible letter labels and retain the arrows as the primary indicators
 
 **Local Verification**
 
-The revised visual presentation was checked in the local game preview and accepted. The removal of visible letters was confirmed. Final verification on the public website is still required.
+The revised visual presentation was checked in the local game preview and accepted. The removal of visible letters was confirmed. The updated public GitHub Pages game was subsequently checked, and the removal of visible letters was confirmed.
 
 **Reflection**
 
@@ -607,6 +607,49 @@ The letters were useful as internal program identifiers but were not necessary f
 **AI Assistance**
 
 ChatGPT assisted with locating and modifying the path-label rendering code and preparing this documentation. The change was based on feedback from an external participant.
+
+### 1 November 2026 — Published Directional Cue Refinement
+
+**Background**
+
+During External Playtest 02, one participant was confused by the letters and directional arrows appearing together on the light paths.
+
+**Design Change**
+
+I removed the visible letter labels from the puzzle paths so that the arrows would become the main directional cues.
+
+The internal path identifiers were retained in the program for game-state management, collision detection, and sound feedback.
+
+**Implementation and Debugging**
+
+- Removed the Canvas code responsible for drawing path letters.
+- Preserved the existing arrows, path colours, animation, and puzzle mechanics.
+- Applied the revision to the local game prototype.
+- Initially found that the public website still displayed the old version.
+- Checked and synchronized the published index.html and the local prototype.
+- Published the corrected game through GitHub.
+
+**Verification**
+
+I tested the revised game locally and confirmed that the visible letters were removed.
+
+After correcting the publication issue, I checked the public GitHub Pages website and confirmed that the updated visual design appeared.
+
+This was developer verification, not a new independent user test.
+
+**Reflection**
+
+The letters were useful as internal identifiers but were unnecessary for the player.
+
+Removing redundant visual information helps emphasize the movement arrows and may reduce confusion for first-time players.
+
+The next step is to verify the introductory countdown and evaluate the revised interface with another player.
+
+**AI Tool Use**
+
+ChatGPT assisted with identifying the Canvas label-rendering code, debugging the publication process, and documenting the design iteration.
+
+The decision to remove the labels was based on external user feedback.
 
 ## 4. User Testing
 
@@ -685,6 +728,18 @@ I therefore chose to simplify the visible controls and extend the opening time a
 These were informal qualitative playtests, not controlled usability experiments. No numerical usability or satisfaction scores were collected.
 
 The changes need to be implemented and verified in the published game. A further short playtest would help determine whether the revised interface is easier for new players.
+
+### Playtest 02 — Implementation Follow-up (1 November 2026)
+
+The proposed removal of visible path letters has now been implemented and verified in the public game.
+
+Directional arrows remain visible, while internal path identifiers continue to support the puzzle logic.
+
+The revision responds directly to feedback from one participant in the second external playtest.
+
+A follow-up test with an unfamiliar participant would help determine whether the revised directional cues are easier to understand.
+
+The separate introductory time-limit issue remains subject to final gameplay verification.
 
 ## 5. AI Tool Use
 

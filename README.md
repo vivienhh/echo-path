@@ -10,6 +10,13 @@ SD5913 · Assignment 3: An Interactive Experience (2026)
 
 ---
 
+
+<!-- ECHO_PATH_SCREENSHOTS_V1 -->
+
+![ECHO PATH final Level 02 gameplay](assets/screenshots/final-level-02.jpg)
+
+*ECHO PATH — Final gameplay showing luminous paths, movement arrows and collision-based puzzles.*
+
 ## 1. Project Overview
 
 ECHO PATH is a small browser-based puzzle game that combines spatial problem-solving, glowing visual effects, and interactive sound.
@@ -64,6 +71,29 @@ The three levels gradually introduce more paths and more complicated spatial rel
 - **RESTART FULL RUN:** Restart the three-level experience.
 - **EXIT TO MENU:** Leave the current run.
 - **SOUND ON/OFF:** Enable or disable game audio.
+
+---
+
+
+### Gameplay Gallery
+
+**Welcome and Player Entry**
+
+![Final welcome screen](assets/screenshots/final-welcome.jpg)
+
+**Level 03 — Crossed Currents**
+
+![Final Level 03 gameplay](assets/screenshots/final-level-03.jpg)
+
+**Completion Animation**
+
+![Glowing level completion animation](assets/screenshots/final-success.jpg)
+
+**Final Results and Leaderboard**
+
+![Three-level results and local leaderboard](assets/screenshots/final-results.jpg)
+
+*These screenshots show the final version after visual refinement and user-feedback-driven changes.*
 
 ---
 

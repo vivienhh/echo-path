@@ -679,6 +679,55 @@ This change responds to qualitative feedback. Its effectiveness has not yet been
 
 ChatGPT assisted with checking the timing configuration and documenting the design iteration. The decision to increase the opening time was based on external feedback.
 
+
+### Visual Development Evidence — Prototype to Final
+
+<!-- ECHO_PATH_VISUAL_EVIDENCE_V1 -->
+
+The following screenshots document selected stages of the visual and interaction design process. Earlier screenshots are historical records, not representations of the final published game.
+
+
+**Stage 1 — Basic Interaction Prototype**
+
+![Early grid and directional path prototype](assets/screenshots/early-prototype.jpg)
+
+The initial experiment used simple coloured tiles to explore grid-based movement and directional interaction.
+
+
+**Stage 2 — Visual Exploration**
+
+![Early Easel Studio visual exploration](assets/screenshots/early-visual-study.jpg)
+
+I explored a more expressive neon interface using glowing paths, spatial grids, and decorative orbital elements.
+
+
+**Stage 3 — Early Five-Second Time Limit**
+
+![Early time-up feedback screen](assets/screenshots/early-time-up.jpg)
+
+This screenshot documents the earlier five-second opening challenge. External playtest feedback later indicated that it left insufficient time for some new players to understand the interface.
+
+
+**Stage 4 — Refined Three-Level Gameplay**
+
+![Refined Level 02 gameplay](assets/screenshots/final-level-02.jpg)
+
+![Refined Level 03 gameplay](assets/screenshots/final-level-03.jpg)
+
+The final interface uses continuous luminous paths, clearer directional arrows without visible letter labels, longer paths, and three levels of increasing complexity.
+
+**Stage 5 — Revised Onboarding and Completion Feedback**
+
+![Updated onboarding screen](assets/screenshots/final-welcome.jpg)
+
+![Final completion animation](assets/screenshots/final-success.jpg)
+
+The revised onboarding screen communicates the intended 10-, 20-, and 40-second limits. Completion animations provide immediate visual feedback for successful play.
+
+**Reflection**
+
+These comparisons show how the experience evolved from a basic click-based puzzle into a more expressive visual and musical interaction. User feedback informed the removal of redundant path letters and the extension of the introductory time limit.
+
 ## 4. User Testing
 
 ### External Playtest 01 — 30 October 2026

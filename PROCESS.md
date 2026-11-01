@@ -687,6 +687,14 @@ ChatGPT assisted with checking the timing configuration and documenting the desi
 The following screenshots document selected stages of the visual and interaction design process. Earlier screenshots are historical records, not representations of the final published game.
 
 
+**Stage 0 — Initial Welcome Screen**
+
+![Initial ECHO PATH welcome screen](assets/screenshots/early-home.jpg)
+
+The earliest welcome screen introduced the project title, a simple colour palette, and a clear Start Game button.
+
+At this stage, the experience focused on establishing a basic entry point rather than a complete three-level game.
+
 **Stage 1 — Basic Interaction Prototype**
 
 ![Early grid and directional path prototype](assets/screenshots/early-prototype.jpg)

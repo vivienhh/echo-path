@@ -2985,21 +2985,7 @@ dialog p {
 
     ctx.restore();
 
-    // Path ID remains readable even with twenty coloured paths.
-    if (state.gridSize > 5) {
-      const cx = (a.x + b.x) / 2 + d[0] * shift;
-      const cy = (a.y + b.y) / 2 + d[1] * shift;
-      ctx.save();
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.font = `bold ${Math.max(10, unit * 0.19)}px Arial`;
-      ctx.shadowColor = "#000";
-      ctx.shadowBlur = 5;
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillText(path.id, cx - d[1] * unit * 0.34, cy + d[0] * unit * 0.34);
-      ctx.restore();
-    }
-
+    // Path letters hidden to emphasize directional arrows.
     // Moving energy bead
     if (!reduced) {
       const bead = (t * 0.00065) % 1;

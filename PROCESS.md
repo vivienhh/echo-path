@@ -579,6 +579,35 @@ The final public version will be tested after these changes. No unverified imple
 
 ChatGPT assisted with organising the feedback, distinguishing usability observations from design decisions, and documenting the planned iteration. The design direction was selected based on participant feedback.
 
+### 1 November 2026 — Visual Direction Cue Simplification
+
+**Problem Identified**
+
+During the second external playtest, a participant found the combination of letters and directional arrows on the paths confusing.
+
+**Design Decision**
+
+Remove the visible letter labels and retain the arrows as the primary indicators of movement direction.
+
+**Implementation**
+
+- Removed the rendering of path letters from the game board.
+- Preserved the internal path identifiers used by the program.
+- Kept the existing directional arrows and path colours.
+- Applied the change to the main game and GitHub Pages entry file.
+
+**Local Verification**
+
+The revised visual presentation was checked in the local game preview and accepted. The removal of visible letters was confirmed. Final verification on the public website is still required.
+
+**Reflection**
+
+The letters were useful as internal program identifiers but were not necessary for players to understand the puzzle. Removing them simplifies the interface and reduces potential confusion without changing the central interaction.
+
+**AI Assistance**
+
+ChatGPT assisted with locating and modifying the path-label rendering code and preparing this documentation. The change was based on feedback from an external participant.
+
 ## 4. User Testing
 
 ### External Playtest 01 — 30 October 2026

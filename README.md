@@ -85,9 +85,9 @@ The three levels gradually introduce more paths and more complicated spatial rel
 
 ![Final Level 03 gameplay](assets/screenshots/final-level-03.jpg)
 
-**Completion Animation**
+**Level Completion Feedback**
 
-![Glowing level completion animation](assets/screenshots/final-success.jpg)
+![Final level completion prompt](assets/screenshots/final-success.jpg)
 
 **Final Results and Leaderboard**
 

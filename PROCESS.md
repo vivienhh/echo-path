@@ -720,7 +720,7 @@ The final interface uses continuous luminous paths, clearer directional arrows w
 
 ![Updated onboarding screen](assets/screenshots/final-welcome.jpg)
 
-![Final completion animation](assets/screenshots/final-success.jpg)
+![Final level completion prompt](assets/screenshots/final-success.jpg)
 
 The revised onboarding screen communicates the intended 10-, 20-, and 40-second limits. Completion animations provide immediate visual feedback for successful play.
 

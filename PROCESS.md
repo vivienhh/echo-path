@@ -537,7 +537,7 @@ The other levels remain designed around 20-second and 40-second limits.
 
 The first publication attempt still showed a five-second countdown. I subsequently corrected the published game and confirmed the ten-second countdown during gameplay.
 
-The ten-second revision is now implemented and developer-verified in the public game. A follow-up independent usability test remains an opportunity for further evaluation.
+The ten-second revision is now implemented and developer-verified in the public game. A participant subsequently tested the latest published version and confirmed that the revised introductory experience worked as intended.
 
 **Reflection**
 
@@ -547,7 +547,7 @@ The playtest helped me reconsider the balance between immediate challenge and ac
 
 **Next Step**
 
-The published countdown was subsequently verified at ten seconds. A follow-up independent playtest would help evaluate its usability.
+The ten-second countdown was verified on the published site. A participant subsequently retested the revised introduction and confirmed that it worked as intended.
 
 ### 1 November 2026 — User-Centred Gameplay Refinement
 
@@ -573,7 +573,7 @@ The introductory countdown should give first-time players enough time to underst
 
 Both changes arising from the second external playtest have now been implemented: visible path letters were removed, and Level 01 was extended to ten seconds.
 
-Both changes were subsequently checked in the public game by the developer. Their effect on new players has not yet been independently retested.
+Both changes were subsequently checked in the public game by the developer. A participant later retested the latest published version and confirmed that the revised experience worked as intended.
 
 **AI Assistance**
 
@@ -673,7 +673,7 @@ The published first-level countdown was checked during gameplay and confirmed to
 
 Increasing the introductory time limit gives new players more opportunity to understand the interaction before the more complex challenges.
 
-This change responds to qualitative feedback. Its effectiveness has not yet been evaluated through a follow-up independent user test.
+This change responds to qualitative feedback. A participant subsequently confirmed that the revised introduction worked as intended during an informal follow-up.
 
 **AI Assistance**
 
@@ -754,7 +754,7 @@ These comparisons show how the experience evolved from a basic click-based puzzl
 
 **AI assistance:** ChatGPT helped interpret the feedback, prepare the code changes, and document the iteration.
 
-**Limitation:** This was one informal external playtest. The new 10-second limit still requires follow-up validation.
+**Limitation:** This was one informal external playtest. The revised introduction was subsequently checked by a participant, although broader usability evidence remains limited.
 
 **Published-Version Verification:** The first deployment attempt still showed five seconds. This was subsequently corrected, and the ten-second countdown was confirmed during developer gameplay on the public website.
 
@@ -812,7 +812,7 @@ I therefore chose to simplify the visible controls and extend the opening time a
 
 These were informal qualitative playtests, not controlled usability experiments. No numerical usability or satisfaction scores were collected.
 
-Both changes were subsequently implemented and verified in the published game. A further independent playtest would help evaluate whether the revised interface is easier for new players.
+Both changes were subsequently implemented and verified in the published game. A participant later tried the revised version and confirmed that the experience worked as intended. Broader testing would still be useful.
 
 ### Playtest 02 — Implementation Follow-up (1 November 2026)
 
@@ -822,9 +822,17 @@ Directional arrows remain visible, while internal path identifiers continue to s
 
 The revision responds directly to feedback from one participant in the second external playtest.
 
-A follow-up test with an unfamiliar participant would help determine whether the revised directional cues are easier to understand.
+The latest version received informal participant follow-up. The specific effect of removing path letters was not measured separately.
 
 The introductory time limit has now been updated to ten seconds and verified in the published game.
+
+### Follow-up Check — 1 November 2026
+
+A participant who had previously provided feedback tried the latest published version after the ten-second introductory limit and arrow-only paths were implemented.
+
+The participant confirmed that the revised introductory experience worked as intended.
+
+This was an informal qualitative follow-up, not a controlled comparison. The specific usability effect of removing path letters was not measured separately.
 
 ## 5. AI Tool Use
 
@@ -950,7 +958,7 @@ The ten-second timing change was initially unverified. The published game was su
 - Background music playback and audio balance were resolved through implementation and developer listening tests.
 - Earlier publication inconsistencies were corrected.
 
-These implementation issues are resolved. However, the revised interface has not yet undergone an additional independent playtest.
+These implementation issues are resolved. A participant subsequently retested the latest published version. This was informal feedback rather than a controlled usability study.
 
 **Current Project Status**
 
@@ -964,6 +972,6 @@ These implementation issues are resolved. However, the revised interface has not
 **Known Limitations**
 
 - Leaderboard data is stored locally in each browser and is not shared across devices.
-- The latest interface and timing changes have not yet undergone a follow-up independent playtest.
+- The latest published version received an informal participant follow-up; further systematic testing across players and devices remains limited.
 - Further testing across devices and browsers would be useful.
 - Browser sound playback depends on user interaction and device audio settings.

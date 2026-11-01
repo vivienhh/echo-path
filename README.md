@@ -260,7 +260,7 @@ Based on the feedback, I selected a ten-second limit as a more suitable target f
 
 I attempted to implement this change while keeping the other levels at 20 and 40 seconds.
 
-The revised ten-second countdown is now present in the published game and has been checked during gameplay. Further external testing is needed to evaluate whether the new limit improves first-time usability.
+The revised ten-second countdown is now present in the published game and has been checked during gameplay. A participant subsequently retested the published introduction and confirmed that it worked as intended.
 
 ### Reflection
 
@@ -284,7 +284,7 @@ The participants responded positively to the visual design, gameplay mechanics, 
 
 Based on this feedback, I removed the visible path letters while preserving the directional arrows and implemented a ten-second introductory limit.
 
-The changes have been checked by the developer in the published game. A new independent playtest is still needed to evaluate their effectiveness.
+The changes have been checked by the developer in the published game. A participant subsequently tested the latest published version and confirmed that the revised experience worked as intended.
 
 ---
 ## 7. Development Process
@@ -323,7 +323,7 @@ The Git commit history and `PROCESS.md` document the development process.
 
 - Leaderboard records are stored locally in each browser using localStorage. They are not shared between devices.
 - The introductory level now has a ten-second limit. Follow-up testing with unfamiliar players would help evaluate this change.
-- Four participants provided informal feedback across two playtest rounds. The revised interface has not yet been independently retested.
+- Four participants provided informal feedback across two playtest rounds. A participant subsequently checked the latest published version and confirmed that the revised experience worked as intended.
 - Further testing with unfamiliar players and different devices would help evaluate usability.
 - Audio playback depends on browser support and user interaction.
 
